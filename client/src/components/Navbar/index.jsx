@@ -53,7 +53,7 @@ const Navbar = () => {
 
   const isToday = dayjs(userData.lastDownloadDate).isSame(dayjs(), "day");
   const isPremium = userData?.plan === "premium";
-  const dailyDownloadLimit = isPremium ? 50 : 10;
+  const dailyDownloadLimit = isPremium ? Infinity : 50;
   const usedDownloads = isToday ? userData.dailyDownloadCount : 0;
   const remainingDownloads = dailyDownloadLimit - usedDownloads;
 

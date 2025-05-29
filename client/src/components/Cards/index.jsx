@@ -58,6 +58,10 @@ export default function Cards() {
     };
 
     const handleAddToFavourites = ({ imageID, imageURL, favourite, license }) => {
+        if (!userData.userID) {
+            return window.toastify("Please login to continue", "warning")
+        }
+
         const newFav = {
             userID: userData.userID,
             imageID,
@@ -69,14 +73,14 @@ export default function Cards() {
         axios.post(`${import.meta.env.VITE_HOST}/frontend/favourites/add`, newFav)
             .then((res) => {
                 const { data } = res
-                // const updatedImages = images.map(img => img.imageID === imageID ? { ...img, favourite: !img.favourite } : img)
-                // setImages(updatedImages)
+
                 const wasFav = favourites.some(fav => fav.imageID === imageID);
                 if (wasFav) {
                     setFavourites(prev => prev.filter(fav => fav.imageID !== imageID));
                 } else {
                     setFavourites(prev => [...prev, { imageID }]);
                 }
+
                 window.toastify(data.message, "success")
             })
             .catch((err) => {

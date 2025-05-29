@@ -10,12 +10,12 @@
 }
 
 @font-face {
-    font-family: Roboto;
-    src: url("../src/assets/fonts/Inter.ttf");
+    font-family: Poppins;
+    src: url("../src/assets/fonts/Poppins.ttf");
 }
 
 * {
-    font-family: 'Roboto';
+    font-family: 'Poppins', sans-serif;
 }
 
 .slick-arrow {

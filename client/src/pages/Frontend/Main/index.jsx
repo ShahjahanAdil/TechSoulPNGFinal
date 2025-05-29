@@ -101,6 +101,10 @@ export default function Main() {
     };
 
     const handleAddToFavourites = ({ imageID, imageURL, favourite, license }) => {
+        if (!userData.userID) {
+            return window.toastify("Please login to continue", "warning")
+        }
+
         const newFav = {
             userID: userData.userID,
             imageID,

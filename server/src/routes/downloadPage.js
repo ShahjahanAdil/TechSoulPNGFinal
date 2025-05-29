@@ -51,6 +51,8 @@ router.post("/image/download/:imageID", async (req, res) => {
         const imageID = req.params.imageID
         const imageURL = req.query.imageURL
 
+        if (!userID) return
+
         if (!user) {
             return res.status(404).json({ message: "User not found." })
         }
@@ -64,7 +66,7 @@ router.post("/image/download/:imageID", async (req, res) => {
         }
 
         const isPremium = user.plan === "premium"
-        const dailyLimit = isPremium ? 50 : 10
+        const dailyLimit = isPremium ? Infinity : 50
 
         if (user.dailyDownloadCount >= dailyLimit) {
             return res.status(403).json({ message: "Daily download limit reached." })
@@ -80,7 +82,7 @@ router.post("/image/download/:imageID", async (req, res) => {
 
         await downloadsModel.create({ userID, imageID, imageURL })
 
-        return res.status(200).json({ message: "Image downloaded.", remainingDownloads: dailyLimit - user.dailyDownloadCount, dailyDownloadCount: user.dailyDownloadCount });
+        return res.status(200).json({ message: "Image downloaded!", remainingDownloads: isPremium ? "Unlimited" : dailyLimit - user.dailyDownloadCount, dailyDownloadCount: user.dailyDownloadCount });
 
     } catch (error) {
         console.error("Download error:", error);
