@@ -413,7 +413,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeTyp
                                     backgroundImage: `url(${pngImg})`,
                                     backgroundSize: "300%",
                                 }}
-
                             >
                                 <img
                                     src={`${import.meta.env.VITE_HOST}${similarImg.imageURL}`}

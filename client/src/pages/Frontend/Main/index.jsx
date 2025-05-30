@@ -7,9 +7,10 @@ import Loader from "../../../components/Loader";
 import crownIcon from "../../../assets/images/crown.png";
 import Search from "../../../components/Search";
 import { FaHeart } from "react-icons/fa";
-import axios from "axios";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { MdOutlineFileDownload } from "react-icons/md";
+import dayjs from "dayjs";
+import axios from "axios";
 
 export default function Main() {
 
@@ -17,7 +18,7 @@ export default function Main() {
     const searchParams = new URLSearchParams(window.location.search);
     const searchText = searchParams.get("s");
 
-    const { userData, dispatch } = useAuthContext();
+    const { userData, dispatch, isGuest, guestData } = useAuthContext();
     const [images, setImages] = useState([]);
     const [page, setPage] = useState(1);
     const [totalImagePages, setTotalImagePages] = useState(1);
@@ -133,57 +134,81 @@ export default function Main() {
 
     const handleShortDownload = async (img) => {
         try {
-            if (!userData.userID) {
-                return window.toastify("Please login to continue downloading!", "info")
-            }
+            const guestDataKey = "guestData";
+            const todayStr = dayjs().format("YYYY-MM-DD");
 
-            const isFreeUser = userData.plan === "free";
             const isFreeImage = img.license === "free";
+            const isFreeUser = userData?.plan === "free";
 
-            if (isFreeUser && !isFreeImage) {
-                return window.toastify("Upgrade to premium to download this image!", "error");
+            setShortDownloadLoading(true);
+            setDownloadingImageID(img.imageID);
+
+            if (isGuest) {
+                let updatedGuestData = { ...guestData };
+
+                if (updatedGuestData.lastDownloadDate !== todayStr) {
+                    updatedGuestData.dailyDownloadsCount = 0;
+                    updatedGuestData.lastDownloadDate = todayStr;
+                }
+
+                if (updatedGuestData.dailyDownloadsCount >= 10) {
+                    return window.toastify("Guest daily download limit (10) reached. Please login for more.", "error");
+                }
+
+                updatedGuestData.dailyDownloadsCount += 1;
+
+                localStorage.setItem(guestDataKey, JSON.stringify(updatedGuestData));
+                dispatch({ type: "SET_GUEST", payload: { guestData: updatedGuestData } });
+
+                window.toastify("Image Downloaded!", "success");
             }
+            else {
+                if (!userData?.userID) {
+                    return window.toastify("Please login to continue downloading!", "info");
+                }
 
-            setShortDownloadLoading(true)
-            setDownloadingImageID(img.imageID)
+                if (isFreeUser && !isFreeImage) {
+                    return window.toastify("Upgrade to premium to download this image!", "error");
+                }
 
-            const res = await axios.post(`${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${img.imageURL}`, {
-                userID: userData.userID,
-            });
+                const res = await axios.post(
+                    `${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${encodeURIComponent(img.imageURL)}`,
+                    { userID: userData.userID }
+                );
 
-            const { status, data } = res;
-
-            if (status === 200) {
-                window.toastify(data.message, "success");
+                if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
 
                 dispatch({
                     type: "SET_PROFILE",
-                    payload: { user: { ...userData, dailyDownloadCount: data.dailyDownloadCount, } },
+                    payload: {
+                        user: {
+                            ...userData,
+                            dailyDownloadCount: res.data.dailyDownloadCount,
+                        },
+                    },
                 });
 
-                const response = await fetch(
-                    `${import.meta.env.VITE_HOST}${img.imageURL}`,
-                    { mode: "cors" }
-                );
-
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-
-                const link = document.createElement("a");
-                link.href = blobUrl;
-                link.download = img.title || "download.png";
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-
-                URL.revokeObjectURL(blobUrl);
+                window.toastify(res.data.message, "success");
             }
+
+            const response = await fetch(`${import.meta.env.VITE_HOST}${img.imageURL}`, { mode: "cors" });
+
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.download = img.title || "download.png";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            URL.revokeObjectURL(blobUrl);
         } catch (err) {
             window.toastify(err.response?.data?.message || "Download failed", "error");
             console.error("Download failed:", err);
         } finally {
-            setShortDownloadLoading(false)
-            setDownloadingImageID("")
+            setShortDownloadLoading(false);
+            setDownloadingImageID("");
         }
     };
 

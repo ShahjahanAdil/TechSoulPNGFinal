@@ -35,7 +35,7 @@ export default function Section3() {
   return (
     <>
       <div className="mainContainer">
-        <div className=" mx-auto px-4 py-10 space-y-12">
+        <div className="mx-auto px-4 py-10 space-y-12">
           {/* Popular Collections */}
           <div>
             <h3 className="mb-2">Popular collections to inspire you</h3>

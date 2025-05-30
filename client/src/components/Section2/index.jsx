@@ -28,7 +28,7 @@ export default function Section2() {
     <>
       <div className="mainContainer">
         <div className="flex justify-between items-start mt-5">
-          <h2 className="!text-[24px] sm:!text-[30px] font-bold md:mb-6">
+          <h2 className="px-4 !text-[24px] sm:!text-[30px] font-bold md:mb-3">
             Festival Featured images and collections
           </h2>
 
@@ -39,7 +39,7 @@ export default function Section2() {
             Explore images <AiOutlineArrowRight />
           </button>
         </div>
-
+        
         <p className="text-gray-500 ps-5 sm:text-[13px]">
           The festival is coming. These popular holiday collections are perfect
           for sharing and designing.
@@ -49,9 +49,8 @@ export default function Section2() {
             {images.map((img, index) => (
               <div
                 key={index}
-                className={`rounded-xl overflow-hidden shadow-sm ${
-                  index % 3 === 0 ? "bg-[#F5F6F5]" : "bg-[#F5E9D7]"
-                }`}
+                className={`rounded-xl overflow-hidden shadow-sm ${index % 3 === 0 ? "bg-[#F5F6F5]" : "bg-[#F5E9D7]"
+                  }`}
               >
                 <div className="overflow-hidden">
                   <img
