@@ -65,9 +65,10 @@ export default function Downloads() {
             {/* <h5 className="my-4 p-[20px] md:text-center ">My Downloads</h5> */}
             <h5 className="flex items-center gap-2 !text-[#55AF7C] font-semibold mb-8"><LuDownload /> My Downloads</h5>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                {downloads.map(download => {
+                {downloads.map((download, i) => {
                     return (
                         <div
+                            key={i}
                             style={{ backgroundImage: `url(${pngImg})` }}
                             className="relative group cursor-pointer flex items-center justify-center p-1 h-[120px] sm:h-[140px] md:h-[170px]  rounded-[12px]"
                             onClick={() => navigate(`/image/${download.imageID}`)}

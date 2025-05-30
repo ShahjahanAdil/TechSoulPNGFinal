@@ -9,16 +9,16 @@ import flag18 from "../../assets/images/fbg6.jpg";
 import crownIcon from "../../assets/images/crown.png";
 import { FaCrown, FaHeart } from "react-icons/fa";
 import { MdOutlineFileDownload } from "react-icons/md";
-import { BsInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircleFill, BsTextareaResize } from "react-icons/bs";
 import { HiOutlineDownload } from "react-icons/hi";
 import pngImg from "../../assets/images/bgPNGFinal.jpg";
 import ButtonLoader from "../ButtonLoader";
 import axios from "axios";
 import { useAuthContext } from "../../contexts/AuthContext";
 
-const Dcards = ({ imageDets, setImageDets, similarImages, setSimilarImages, dimensions, handleDownload, downloadLoading, }) => {
+const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeType, resizeVal, setResizeVal, handleDownload, downloadLoading, }) => {
 
-    const { userData, dispatch } = useAuthContext()
+    const { userData, dispatch, guestData, isGuest } = useAuthContext()
     const [favourites, setFavourites] = useState([]);
     const [shortDownloadLoading, setShortDownloadLoading] = useState(false)
     const [downloadingImageID, setDownloadingImageID] = useState("")
@@ -42,6 +42,10 @@ const Dcards = ({ imageDets, setImageDets, similarImages, setSimilarImages, dime
     };
 
     const handleAddToFavourites = ({ imageID, imageURL, favourite, license }) => {
+        if (!userData.userID) {
+            return window.toastify("Please login to continue", "warning")
+        }
+
         const newFav = {
             userID: userData.userID,
             imageID,
@@ -230,10 +234,49 @@ const Dcards = ({ imageDets, setImageDets, similarImages, setSimilarImages, dime
                             </p>
                         </div>
 
+                        <div className="mb-2 sm:mb-4">
+                            <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
+
+                            <div className="flex mt-4">
+                                {['width', 'height'].map((type, i) => {
+                                    return (
+                                        <button key={i} className={`flex-1 px-2 py-2 sm:py-3 capitalize
+                                            ${resizeType === type ? 'bg-[#4EAA76] !text-white' : 'bg-gray-200 !text-[#333]'}
+                                            ${type === 'width' ? 'rounded-tl-[8px] rounded-bl-[8px]' : 'rounded-tr-[8px] rounded-br-[8px]'}
+                                            `}
+                                            onClick={() => setResizeType(type)}
+                                        >
+                                            {type}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+
+                            <div className="relative mt-4">
+                                <input
+                                    type="number" name="resize" id="resize" min="50" value={resizeVal ? resizeVal : ''} placeholder="Enter a resize value of 50 or above"
+                                    className="w-full p-2 sm:p-3 rounded-[8px] !text-[12px] sm:!text-[16px]"
+                                    onChange={e => setResizeVal(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (['e', 'E', '+', '-'].includes(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                <button
+                                    className="absolute right-0 top-0 h-full px-4 bg-[#4EAA76] !text-white !text-[12px] sm:!text-[16px] font-bold rounded-tr-[8px] rounded-br-[8px] hover:bg-[#7EC19B]"
+                                    disabled={downloadLoading}
+                                    onClick={() => handleDownload(true)}
+                                >
+                                    Resize
+                                </button>
+                            </div>
+                        </div>
+
                         <button
                             className="flex items-center gap-3 justify-center !text-[16px] sm:!text-[20px] font-bold bg-[#4EAA76] text-white !px-1 !py-3 sm:!py-5 rounded-lg w-full hover:bg-[#4eaa76ba] cursor-pointer transition !mb-5"
                             disabled={downloadLoading}
-                            onClick={handleDownload}
+                            onClick={() => handleDownload(false)}
                         >
                             <HiOutlineDownload className="!text-[20px] sm:!text-[30px]" />
                             {!downloadLoading ? (
