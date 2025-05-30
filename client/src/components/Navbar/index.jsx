@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import logooo from "../../assets/images/logo.png";
 import crown from "../../assets/images/crown.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHeart, FaSearch, FaUser } from "react-icons/fa";
 import { PiHeadphonesFill } from "react-icons/pi";
 import { LuDownload } from "react-icons/lu";
 import userIcon from "../../assets/images/user.png";
-import { TbWorld } from "react-icons/tb";
+// import { TbWorld } from "react-icons/tb";
+import { GrLanguage } from "react-icons/gr";
+import { FaUserPlus, FaX } from "react-icons/fa6";
+import { MdOutlineExplore } from "react-icons/md";
+import "./navbar.css";
+
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MdMenu } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa6";
 
 import dayjs from "dayjs";
 
 export default function Navbar() {
   const { userData, handleLogout } = useAuthContext();
-  
+
   const { logout } = useAuth0();
-  // const [menuOpen, setMenuOpen] = useState(false);
-  // const [hoverShow, setHoverShow] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
-
-  // const { pathname } = useLocation();
 
   const isToday = dayjs(userData.lastDownloadDate).isSame(dayjs(), "day");
   const isPremium = userData?.plan === "premium";
@@ -39,33 +42,38 @@ export default function Navbar() {
   const handleSearch = () => {
     navigate(`/images?s=${searchText}`);
   };
-  
+
   return (
-    <>
-      <section className="flex items-center justify-between flex-wrap gap-4 px-4 py-2">
+    <div className="relative">
+      <section className="flex items-center justify-between flex-wrap px-4 py-2">
         {/* logo */}
 
-        <div className="flex flex-1 gap-10 items-center">
+        <div className="flex flex-1 gap-4 lg:gap-10 items-center">
           <div className="logo">
-          <img
-            src={logooo}
-            alt="logo"
-            className="sm:w-[150px] w-[150px] cursor-pointer"
-            onClick={() => navigate("/")}
-          />
-        </div>
-        <div className="search flex w-full max-w-[800px] justify-center">
-          <div className="!w-[100%]">
-            <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
-              <div className="relative group inline-block">
-                <button className=" px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white  flex gap-1 items-center  rounded-l-md text-base">
-                  Categories{" "}
-                  <IoIosArrowDown className="transition-transform duration-300 group-hover:rotate-180" />
-                </button>
-                <div className="absolute top-[130%] hidden group-hover:block bg-white border z-9 border-gray-200 w-45 rounded-[5px]">
-                  <ul className="flex flex-col items-start text-[12px] z-[99999999]">
-                    {["PNG", "JPG", "WEBP", "Backgrounds", "Illustrations"].map(
-                      (item, i) => {
+            <img
+              src={logooo}
+              alt="logo"
+              className="sm:w-[150px] w-[150px] cursor-pointer"
+              onClick={() => navigate("/")}
+            />
+          </div>
+          <div className="search flex w-full max-w-[800px] justify-center">
+            <div className="!w-[100%]">
+              <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
+                <div className="relative group inline-block">
+                  <button className=" px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white  flex gap-1 items-center  rounded-l-md text-base">
+                    Categories{" "}
+                    <IoIosArrowDown className="transition-transform duration-300 group-hover:rotate-180" />
+                  </button>
+                  <div className="absolute top-[130%] hidden group-hover:block bg-white border z-9 border-gray-200 w-45 rounded-[5px]">
+                    <ul className="flex flex-col items-start text-[12px] z-[99999999]">
+                      {[
+                        "PNG",
+                        "JPG",
+                        "WEBP",
+                        "Backgrounds",
+                        "Illustrations",
+                      ].map((item, i) => {
                         return (
                           <li
                             key={i}
@@ -79,40 +87,44 @@ export default function Navbar() {
                             {item}
                           </li>
                         );
-                      }
-                    )}
-                  </ul>
+                      })}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <input
-                type="text"
-                placeholder="Copyright images waiting for you to discover"
-                className="w-full bg-white  !text-[12px] sm:text-[12px] !border-none !p-3 text-sm md:text-base"
-                onChange={(e) =>
-                  setSearchText(e.target.value.toLocaleLowerCase())
-                }
-                onKeyDown={(e) =>
-                  e.key.toLocaleLowerCase() === "enter" && handleSearch()
-                }
-              />
+                <input
+                  type="text"
+                  placeholder="Copyright images waiting for you to discover"
+                  className="w-full bg-white  !text-[12px] sm:text-[12px] !border-none !p-3 text-sm md:text-base"
+                  onChange={(e) =>
+                    setSearchText(e.target.value.toLocaleLowerCase())
+                  }
+                  onKeyDown={(e) =>
+                    e.key.toLocaleLowerCase() === "enter" && handleSearch()
+                  }
+                />
 
-              <button
-                className="bg-[#6FD38E] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
-                onClick={handleSearch}
-              >
-                <FaSearch className="!text-[10px]" />{" "}
-                <span className="!hidden sm:!block !text-[12px]">Search</span>
-              </button>
+                <button
+                  className="bg-[#6FD38E] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                  onClick={handleSearch}
+                >
+                  <FaSearch className="!text-[10px]" />{" "}
+                  <span className="!hidden sm:!block !text-[12px]">Search</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        </div>
 
-        <div className="buttons flex  items-center gap-4">
+        <div className="nav-buttons flex items-center gap-4">
+          <div className="flex items-center pl-4 border-l-2  border-gray-300">
+            <button className="!text-[12px] hover:!text-[#71C194]">
+              Explore
+            </button>
+          </div>
           <div className="relative group inline-block text-left">
             {/* Language */}
             <button className="flex items-center gap-2 !text-[12px]">
-              <TbWorld className="!text-[18px]" /> Eng
+              <GrLanguage className="!text-[18px]" /> Eng
               <IoIosArrowDown className="transition-transform duration-300 group-hover:rotate-180" />
             </button>
 
@@ -155,10 +167,12 @@ export default function Navbar() {
               </ul>
             </div>
           </div>
+        </div>
 
+        <div className="flex gap-3 ml-4 items-center">
           {/* Login Profile */}
           {userData.userID ? (
-            <div className="w-[30px] h-[30px] login relative group cursor-pointer hidden xl:block">
+            <div className="nav-profile w-[30px] h-[30px] login relative group cursor-pointer">
               <img
                 src={userIcon}
                 alt={userData.username}
@@ -174,261 +188,276 @@ export default function Navbar() {
                   </button>
                 </div>
                 {/* Profile Content */}
-                <div className="relative flex flex-col items-center ">
+                <div className="flex w-full justify-around bg-[#f3f3f37e] p-5 rounded-[12px] mt-10">
                   <div
-                    className="absolute z-10 top-[40px] right-[0px] cursor-pointer shadow-xl w-[34px] h-[34px] flex justify-center items-center bg-white !p-1.5 rounded-[50px] "
-                    onClick={() => navigate("/dashboard/subscriptions")}
-                  >
-                    {userData.plan === "premium" ? (
-                      <svg
-                        className="_tea4l2"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="28"
-                        height="23"
-                        aria-hidden="true"
-                        viewBox="0 0 28 23"
-                      >
-                        <defs>
-                          <linearGradient
-                            id="isc2z30a"
-                            x1="50%"
-                            x2="50%"
-                            y1="11.131%"
-                            y2="57.082%"
-                          >
-                            <stop offset="0%" stopColor="#FFD700"></stop>
-                            <stop offset="100%" stopColor="#FFC300"></stop>
-                          </linearGradient>
-                          <linearGradient
-                            id="isc2z30c"
-                            x1="90.916%"
-                            x2="5.301%"
-                            y1="61.059%"
-                            y2="59.126%"
-                          >
-                            <stop offset="0%" stopColor="#FFD700"></stop>
-                            <stop offset="100%" stopColor="#FFB800"></stop>
-                          </linearGradient>
-                          <linearGradient
-                            id="isc2z30e"
-                            x1="100%"
-                            x2="22.218%"
-                            y1="27.905%"
-                            y2="95.888%"
-                          >
-                            <stop offset="0%" stopColor="#FFD700"></stop>
-                            <stop offset="100%" stopColor="#FFC300"></stop>
-                          </linearGradient>
-                        </defs>
-                        <path
-                          id="isc2z30b"
-                          d="M25.455 3.662 22.47 18.458c-.116.35-6.731 1.579-9.755 1.579-2.808 0-9.639-1.23-9.756-1.579L0 3.662l7.948 5.016L12.715 0l4.826 8.678z"
-                        ></path>
-                        <g fill="none" fillRule="evenodd">
-                          <path
-                            fill="url(#isc2z30a)"
-                            fillRule="nonzero"
-                            d="M9.301 3.906 14 15.866H3.733l4.7-11.96a.467.467 0 0 1 .868 0"
-                            transform="rotate(-20 8.867 9.333)"
-                          ></path>
-                          <path
-                            fill="url(#isc2z30a)"
-                            fillRule="nonzero"
-                            d="m19.568 3.906 4.699 11.96H14l4.699-11.96a.467.467 0 0 1 .869 0"
-                            transform="scale(-1 1)rotate(-20 0 117.844)"
-                          ></path>
-                          <g transform="translate(1.281 1.389)">
-                            <mask id="isc2z30d" fill="#fff">
-                              <use href="#isc2z30b"></use>
-                            </mask>
-                            <use
-                              fill="url(#isc2z30c)"
-                              fillRule="nonzero"
-                              href="#isc2z30b"
-                            ></use>
-                            <path
-                              stroke="#FFF8DC"
-                              strokeLinejoin="round"
-                              strokeWidth=".933"
-                              d="m23.712 14.935-.305.084a41.3 41.3 0 0 1-10.29 1.435l-.328.003v-.002q-5.422-.03-10.617-1.438l-.305-.084"
-                              mask="url(#isc2z30d)"
-                              opacity=".504"
-                            ></path>
-                          </g>
-                          <ellipse
-                            cx="1.909"
-                            cy="5.682"
-                            fill="url(#isc2z30e)"
-                            fillRule="nonzero"
-                            rx="1.909"
-                            ry="1.894"
-                          ></ellipse>
-                          <ellipse
-                            cx="14"
-                            cy="1.894"
-                            fill="url(#isc2z30e)"
-                            fillRule="nonzero"
-                            rx="1.909"
-                            ry="1.894"
-                          ></ellipse>
-                          <ellipse
-                            cx="26.091"
-                            cy="5.682"
-                            fill="url(#isc2z30e)"
-                            fillRule="nonzero"
-                            rx="1.909"
-                            ry="1.894"
-                          ></ellipse>
-                          <path
-                            fill="#FFF8DC"
-                            fillRule="nonzero"
-                            d="M14.626 15.48a.7.7 0 0 1-1.224.051l-.028-.051-2.1-4.2a.7.7 0 0 1 1.226-.674l.026.048L14 13.602l1.474-2.948a.7.7 0 0 1 .889-.336l.05.023a.7.7 0 0 1 .336.889l-.023.05z"
-                            opacity=".7"
-                          ></path>
-                        </g>
-                      </svg>
-                    ) : (
-                      <svg
-                        className="_tea4l2"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="28"
-                        height="23"
-                        aria-hidden="true"
-                        viewBox="0 0 28 23"
-                      >
-                        <defs>
-                          <linearGradient
-                            id="isc2z30a"
-                            x1="50%"
-                            x2="50%"
-                            y1="11.131%"
-                            y2="57.082%"
-                          >
-                            <stop offset="0%" stopColor="#C7C7C7"></stop>
-                            <stop offset="100%" stopColor="#9C9C9C"></stop>
-                          </linearGradient>
-                          <linearGradient
-                            id="isc2z30c"
-                            x1="90.916%"
-                            x2="5.301%"
-                            y1="61.059%"
-                            y2="59.126%"
-                          >
-                            <stop offset="0%" stopColor="#D2D2D2"></stop>
-                            <stop offset="100%" stopColor="#C4C4C4"></stop>
-                          </linearGradient>
-                          <linearGradient
-                            id="isc2z30e"
-                            x1="100%"
-                            x2="22.218%"
-                            y1="27.905%"
-                            y2="95.888%"
-                          >
-                            <stop offset="0%" stopColor="#E8E8E8"></stop>
-                            <stop offset="100%" stopColor="#CFCFCF"></stop>
-                          </linearGradient>
-                        </defs>
-                        <path
-                          id="isc2z30b"
-                          d="M25.455 3.662 22.47 18.458c-.116.35-6.731 1.579-9.755 1.579-2.808 0-9.639-1.23-9.756-1.579L0 3.662l7.948 5.016L12.715 0l4.826 8.678z"
-                        ></path>
-                        <g fill="none" fillRule="evenodd">
-                          <path
-                            fill="url(#isc2z30a)"
-                            fillRule="nonzero"
-                            d="M9.301 3.906 14 15.866H3.733l4.7-11.96a.467.467 0 0 1 .868 0"
-                            transform="rotate(-20 8.867 9.333)"
-                          ></path>
-                          <path
-                            fill="url(#isc2z30a)"
-                            fillRule="nonzero"
-                            d="m19.568 3.906 4.699 11.96H14l4.699-11.96a.467.467 0 0 1 .869 0"
-                            transform="scale(-1 1)rotate(-20 0 117.844)"
-                          ></path>
-                          <g transform="translate(1.281 1.389)">
-                            <mask id="isc2z30d" fill="#fff">
-                              <use href="#isc2z30b"></use>
-                            </mask>
-                            <use
-                              fill="url(#isc2z30c)"
-                              fillRule="nonzero"
-                              href="#isc2z30b"
-                            ></use>
-                            <path
-                              stroke="#FFF"
-                              strokeLinejoin="round"
-                              strokeWidth=".933"
-                              d="m23.712 14.935-.305.084a41.3 41.3 0 0 1-10.29 1.435l-.328.003v-.002q-5.422-.03-10.617-1.438l-.305-.084"
-                              mask="url(#isc2z30d)"
-                              opacity=".504"
-                            ></path>
-                          </g>
-                          <ellipse
-                            cx="1.909"
-                            cy="5.682"
-                            fill="url(#isc2z30e)"
-                            fillRule="nonzero"
-                            rx="1.909"
-                            ry="1.894"
-                          ></ellipse>
-                          <ellipse
-                            cx="14"
-                            cy="1.894"
-                            fill="url(#isc2z30e)"
-                            fillRule="nonzero"
-                            rx="1.909"
-                            ry="1.894"
-                          ></ellipse>
-                          <ellipse
-                            cx="26.091"
-                            cy="5.682"
-                            fill="url(#isc2z30e)"
-                            fillRule="nonzero"
-                            rx="1.909"
-                            ry="1.894"
-                          ></ellipse>
-                          <path
-                            fill="#FFF"
-                            fillRule="nonzero"
-                            d="M14.626 15.48a.7.7 0 0 1-1.224.051l-.028-.051-2.1-4.2a.7.7 0 0 1 1.226-.674l.026.048L14 13.602l1.474-2.948a.7.7 0 0 1 .889-.336l.05.023a.7.7 0 0 1 .336.889l-.023.05z"
-                            opacity=".7"
-                          ></path>
-                        </g>
-                      </svg>
-                    )}
-                  </div>
-                  <div
-                    className={`relative w-[72px] h-[72px] flex items-center justify-center border-2 ${
-                      userData.plan === "premium"
-                        ? "border-[#ffe895]"
-                        : "border-[#efefef]"
-                    } !p-3 rounded-[50px] overflow-hidden`}
+                    className={`relative w-[72px] h-[72px] flex items-center justify-center border-2 bg-white
+                      ${
+                        userData.plan === "premium"
+                          ? "border-[#ffe895]"
+                          : "border-[#efefef]"
+                      } !p-3 rounded-[50px]`}
                   >
                     <img src={userIcon} alt="" />
-                  </div>
-                  <div className="!mt-5 flex justify-center items-center gap-1.5">
-                    <p>{userData?.username}</p>
-                    <img src={userIcon} alt="" className="w-[15px]" />
-                  </div>
-                  <div className="!mt-1 mb-3">
-                    <p>ID: {userData.userID}</p>
-                  </div>
-                  <div
-                    className={`!mt-1 flex items-center bg-[#E8E8E8] rounded-full ${
-                      userData.plan === "free"
-                        ? "bg-[#E8E8E8]"
-                        : "bg-linear-to-b from-[#FAD961] to-[#F76B1C] !text-[#fff]"
-                    }`}
-                  >
-                    {" "}
-                    <span
-                      className={`!py-[8px] !text-[12px] sm:!text-[14px] font-bold capitalize !px-[16px]`}
+
+                    <div
+                      className="absolute z-99 top-[60%] -right-3 cursor-pointer shadow-xl w-[34px] h-[34px] flex justify-center items-center bg-white !p-1.5 rounded-[50px] "
+                      onClick={() => navigate("/dashboard/subscriptions")}
                     >
-                      <span className="!text-[12px] sm:!text-[14px]">
-                        {userData.plan}
+                      {userData.plan === "premium" ? (
+                        <svg
+                          className="_tea4l2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="28"
+                          height="23"
+                          aria-hidden="true"
+                          viewBox="0 0 28 23"
+                        >
+                          <defs>
+                            <linearGradient
+                              id="isc2z30a"
+                              x1="50%"
+                              x2="50%"
+                              y1="11.131%"
+                              y2="57.082%"
+                            >
+                              <stop offset="0%" stopColor="#FFD700"></stop>
+                              <stop offset="100%" stopColor="#FFC300"></stop>
+                            </linearGradient>
+                            <linearGradient
+                              id="isc2z30c"
+                              x1="90.916%"
+                              x2="5.301%"
+                              y1="61.059%"
+                              y2="59.126%"
+                            >
+                              <stop offset="0%" stopColor="#FFD700"></stop>
+                              <stop offset="100%" stopColor="#FFB800"></stop>
+                            </linearGradient>
+                            <linearGradient
+                              id="isc2z30e"
+                              x1="100%"
+                              x2="22.218%"
+                              y1="27.905%"
+                              y2="95.888%"
+                            >
+                              <stop offset="0%" stopColor="#FFD700"></stop>
+                              <stop offset="100%" stopColor="#FFC300"></stop>
+                            </linearGradient>
+                          </defs>
+                          <path
+                            id="isc2z30b"
+                            d="M25.455 3.662 22.47 18.458c-.116.35-6.731 1.579-9.755 1.579-2.808 0-9.639-1.23-9.756-1.579L0 3.662l7.948 5.016L12.715 0l4.826 8.678z"
+                          ></path>
+                          <g fill="none" fillRule="evenodd">
+                            <path
+                              fill="url(#isc2z30a)"
+                              fillRule="nonzero"
+                              d="M9.301 3.906 14 15.866H3.733l4.7-11.96a.467.467 0 0 1 .868 0"
+                              transform="rotate(-20 8.867 9.333)"
+                            ></path>
+                            <path
+                              fill="url(#isc2z30a)"
+                              fillRule="nonzero"
+                              d="m19.568 3.906 4.699 11.96H14l4.699-11.96a.467.467 0 0 1 .869 0"
+                              transform="scale(-1 1)rotate(-20 0 117.844)"
+                            ></path>
+                            <g transform="translate(1.281 1.389)">
+                              <mask id="isc2z30d" fill="#fff">
+                                <use href="#isc2z30b"></use>
+                              </mask>
+                              <use
+                                fill="url(#isc2z30c)"
+                                fillRule="nonzero"
+                                href="#isc2z30b"
+                              ></use>
+                              <path
+                                stroke="#FFF8DC"
+                                strokeLinejoin="round"
+                                strokeWidth=".933"
+                                d="m23.712 14.935-.305.084a41.3 41.3 0 0 1-10.29 1.435l-.328.003v-.002q-5.422-.03-10.617-1.438l-.305-.084"
+                                mask="url(#isc2z30d)"
+                                opacity=".504"
+                              ></path>
+                            </g>
+                            <ellipse
+                              cx="1.909"
+                              cy="5.682"
+                              fill="url(#isc2z30e)"
+                              fillRule="nonzero"
+                              rx="1.909"
+                              ry="1.894"
+                            ></ellipse>
+                            <ellipse
+                              cx="14"
+                              cy="1.894"
+                              fill="url(#isc2z30e)"
+                              fillRule="nonzero"
+                              rx="1.909"
+                              ry="1.894"
+                            ></ellipse>
+                            <ellipse
+                              cx="26.091"
+                              cy="5.682"
+                              fill="url(#isc2z30e)"
+                              fillRule="nonzero"
+                              rx="1.909"
+                              ry="1.894"
+                            ></ellipse>
+                            <path
+                              fill="#FFF8DC"
+                              fillRule="nonzero"
+                              d="M14.626 15.48a.7.7 0 0 1-1.224.051l-.028-.051-2.1-4.2a.7.7 0 0 1 1.226-.674l.026.048L14 13.602l1.474-2.948a.7.7 0 0 1 .889-.336l.05.023a.7.7 0 0 1 .336.889l-.023.05z"
+                              opacity=".7"
+                            ></path>
+                          </g>
+                        </svg>
+                      ) : (
+                        <svg
+                          className="_tea4l2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="28"
+                          height="23"
+                          aria-hidden="true"
+                          viewBox="0 0 28 23"
+                        >
+                          <defs>
+                            <linearGradient
+                              id="isc2z30a"
+                              x1="50%"
+                              x2="50%"
+                              y1="11.131%"
+                              y2="57.082%"
+                            >
+                              <stop offset="0%" stopColor="#C7C7C7"></stop>
+                              <stop offset="100%" stopColor="#9C9C9C"></stop>
+                            </linearGradient>
+                            <linearGradient
+                              id="isc2z30c"
+                              x1="90.916%"
+                              x2="5.301%"
+                              y1="61.059%"
+                              y2="59.126%"
+                            >
+                              <stop offset="0%" stopColor="#D2D2D2"></stop>
+                              <stop offset="100%" stopColor="#C4C4C4"></stop>
+                            </linearGradient>
+                            <linearGradient
+                              id="isc2z30e"
+                              x1="100%"
+                              x2="22.218%"
+                              y1="27.905%"
+                              y2="95.888%"
+                            >
+                              <stop offset="0%" stopColor="#E8E8E8"></stop>
+                              <stop offset="100%" stopColor="#CFCFCF"></stop>
+                            </linearGradient>
+                          </defs>
+                          <path
+                            id="isc2z30b"
+                            d="M25.455 3.662 22.47 18.458c-.116.35-6.731 1.579-9.755 1.579-2.808 0-9.639-1.23-9.756-1.579L0 3.662l7.948 5.016L12.715 0l4.826 8.678z"
+                          ></path>
+                          <g fill="none" fillRule="evenodd">
+                            <path
+                              fill="url(#isc2z30a)"
+                              fillRule="nonzero"
+                              d="M9.301 3.906 14 15.866H3.733l4.7-11.96a.467.467 0 0 1 .868 0"
+                              transform="rotate(-20 8.867 9.333)"
+                            ></path>
+                            <path
+                              fill="url(#isc2z30a)"
+                              fillRule="nonzero"
+                              d="m19.568 3.906 4.699 11.96H14l4.699-11.96a.467.467 0 0 1 .869 0"
+                              transform="scale(-1 1)rotate(-20 0 117.844)"
+                            ></path>
+                            <g transform="translate(1.281 1.389)">
+                              <mask id="isc2z30d" fill="#fff">
+                                <use href="#isc2z30b"></use>
+                              </mask>
+                              <use
+                                fill="url(#isc2z30c)"
+                                fillRule="nonzero"
+                                href="#isc2z30b"
+                              ></use>
+                              <path
+                                stroke="#FFF"
+                                strokeLinejoin="round"
+                                strokeWidth=".933"
+                                d="m23.712 14.935-.305.084a41.3 41.3 0 0 1-10.29 1.435l-.328.003v-.002q-5.422-.03-10.617-1.438l-.305-.084"
+                                mask="url(#isc2z30d)"
+                                opacity=".504"
+                              ></path>
+                            </g>
+                            <ellipse
+                              cx="1.909"
+                              cy="5.682"
+                              fill="url(#isc2z30e)"
+                              fillRule="nonzero"
+                              rx="1.909"
+                              ry="1.894"
+                            ></ellipse>
+                            <ellipse
+                              cx="14"
+                              cy="1.894"
+                              fill="url(#isc2z30e)"
+                              fillRule="nonzero"
+                              rx="1.909"
+                              ry="1.894"
+                            ></ellipse>
+                            <ellipse
+                              cx="26.091"
+                              cy="5.682"
+                              fill="url(#isc2z30e)"
+                              fillRule="nonzero"
+                              rx="1.909"
+                              ry="1.894"
+                            ></ellipse>
+                            <path
+                              fill="#FFF"
+                              fillRule="nonzero"
+                              d="M14.626 15.48a.7.7 0 0 1-1.224.051l-.028-.051-2.1-4.2a.7.7 0 0 1 1.226-.674l.026.048L14 13.602l1.474-2.948a.7.7 0 0 1 .889-.336l.05.023a.7.7 0 0 1 .336.889l-.023.05z"
+                              opacity=".7"
+                            ></path>
+                          </g>
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-start">
+                    <div className="flex flex-col justify-center">
+                      <div className="!mt-5 flex justify-center items-center gap-1.5">
+                        <p className="!text-[14px]">
+                          <span className="!text-[14px] font-bold">
+                            Username:
+                          </span>{" "}
+                          {userData?.username}
+                        </p>
+                        {/* <img src={userIcon} alt="" className="w-[15px]" /> */}
+                      </div>
+                      <div className="!mt-1 mb-3">
+                        <p className="!text-[14px]">
+                          <span className="!text-[14px] font-bold">ID:</span>{" "}
+                          {userData.userID}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      className={`!mt-1 flex justify-center items-center bg-[#E8E8E8] rounded-full ${
+                        userData.plan === "free"
+                          ? "bg-[#E8E8E8]"
+                          : "bg-linear-to-b from-[#FAD961] to-[#F76B1C] !text-[#fff]"
+                      }`}
+                    >
+                      {" "}
+                      <span
+                        className={`!py-[5px] !text-[12px] sm:!text-[14px]  capitalize !px-[14px]`}
+                      >
+                        <span className="!text-[12px] sm:!text-[14px]">
+                          {userData.plan}
+                        </span>{" "}
+                        user
                       </span>{" "}
-                      user
-                    </span>{" "}
+                    </div>
                   </div>
                 </div>
 
@@ -556,7 +585,7 @@ export default function Navbar() {
               </div>
             </div>
           ) : (
-            <>
+            <div className="auth-btns flex gap-2">
               <button
                 className="flex items-center gap-2 hover:bg-[#71C194] px-3 py-1 text-[#333] !text-[12px] hover:text-white rounded cursor-pointer"
                 onClick={() => navigate("/auth/login")}
@@ -569,14 +598,15 @@ export default function Navbar() {
               >
                 SignUp
               </button>
-            </>
+            </div>
           )}
 
-          <div className="flex flex-col items-center cursor-pointer">
-            <MdMenu />
-            <span className="!text-[12px]">Menu</span>
+          <div
+            className="menu-icon flex flex-col items-center cursor-pointer border border-gray-300 p-2 rounded-[8px]"
+            onClick={() => setMenuOpen(true)}
+          >
+            <MdMenu size={18} />
           </div>
-          
         </div>
       </section>
 
@@ -964,11 +994,68 @@ export default function Navbar() {
           <button className="flex items-center sm:rounded-[8px] !text-[14px] rounded cursor-pointer">
             Pricing
           </button>
-          <button className="!text-[14px] sm:rounded-[8px]">
-            Freebies
-          </button>
+          <button className="!text-[14px] sm:rounded-[8px]">Freebies</button>
         </div>
       </section>
-    </>
+
+      <section
+        className={`fixed top-0 left-0 z-999 bg-[#efefef] h-screen w-full sm:w-[400px] transition-all duration-300 ease-in-out ${
+          menuOpen ? "toggle-menu-active" : "toggle-menu"
+        }`}
+      >
+        <div className="flex flex-col gap-3 p-8">
+          <div className="flex items-center justify-between pb-3">
+            <span className="font-semibold">Menu</span>
+            <button onClick={() => setMenuOpen(false)}>
+              <FaX />
+            </button>
+          </div>
+          <ul className="flex flex-col gap-4">
+            <li className="flex items-center gap-2 !text-[14px] cursor-pointer hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+              {" "}
+              <FaRegUser className="!text-[16px]" />
+              Login
+            </li>
+            <li className="flex items-center gap-2 !text-[14px] cursor-pointer hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+              {" "}
+              <FaUserPlus className="!text-[16px]" />
+              SignUp
+            </li>
+            <li className="flex items-center gap-2 !text-[14px] cursor-pointer hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+              {" "}
+              <MdOutlineExplore className="!text-[16px]" />
+              Explore
+            </li>
+            <li className="flex items-center gap-2 !text-[14px] cursor-pointer hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+              {" "}
+              <GrLanguage className="!text-[16px]" />
+              English
+            </li>
+          </ul>
+
+          <div className="w-full border-gray-300 border-t-2"></div>
+          <div>
+            <ul className="flex flex-col gap-4">
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                {" "}
+                PNG
+              </li>
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                JPG
+              </li>
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                WEBP
+              </li>
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                Backgrounds
+              </li>
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                Illustrations
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
