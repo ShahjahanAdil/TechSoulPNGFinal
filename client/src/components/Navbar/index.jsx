@@ -10,18 +10,20 @@ import userIcon from "../../assets/images/user.png";
 import { TbWorld } from "react-icons/tb";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
+import { MdMenu } from "react-icons/md";
+
 import dayjs from "dayjs";
 
 export default function Navbar() {
   const { userData, handleLogout } = useAuthContext();
   
   const { logout } = useAuth0();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hoverShow, setHoverShow] = useState(false);
+  // const [menuOpen, setMenuOpen] = useState(false);
+  // const [hoverShow, setHoverShow] = useState(false);
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
 
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   const isToday = dayjs(userData.lastDownloadDate).isSame(dayjs(), "day");
   const isPremium = userData?.plan === "premium";
@@ -38,12 +40,13 @@ export default function Navbar() {
     navigate(`/images?s=${searchText}`);
   };
   
-  console.log(userData);
   return (
     <>
       <section className="flex items-center justify-between flex-wrap gap-4 px-4 py-2">
         {/* logo */}
-        <div className="logo">
+
+        <div className="flex flex-1 gap-10 items-center">
+          <div className="logo">
           <img
             src={logooo}
             alt="logo"
@@ -51,7 +54,7 @@ export default function Navbar() {
             onClick={() => navigate("/")}
           />
         </div>
-        <div className="search flex flex-1 justify-center">
+        <div className="search flex w-full max-w-[800px] justify-center">
           <div className="!w-[100%]">
             <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
               <div className="relative group inline-block">
@@ -84,7 +87,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Copyright images waiting for you to discover"
-                className="w-full bg-white  !text-[12px] sm:text-[12px] !border-none !p-1 text-sm md:text-base"
+                className="w-full bg-white  !text-[12px] sm:text-[12px] !border-none !p-3 text-sm md:text-base"
                 onChange={(e) =>
                   setSearchText(e.target.value.toLocaleLowerCase())
                 }
@@ -94,7 +97,7 @@ export default function Navbar() {
               />
 
               <button
-                className="bg-[#6FD38E] text-white py-2 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                className="bg-[#6FD38E] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
                 onClick={handleSearch}
               >
                 <FaSearch className="!text-[10px]" />{" "}
@@ -103,8 +106,9 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+        </div>
 
-        <div className="buttons flex justify-evenly items-center gap-2">
+        <div className="buttons flex  items-center gap-4">
           <div className="relative group inline-block text-left">
             {/* Language */}
             <button className="flex items-center gap-2 !text-[12px]">
@@ -567,15 +571,21 @@ export default function Navbar() {
               </button>
             </>
           )}
+
+          <div className="flex flex-col items-center cursor-pointer">
+            <MdMenu />
+            <span className="!text-[12px]">Menu</span>
+          </div>
+          
         </div>
       </section>
 
       <section className="px-5 py-3 bg-[#fefefe] flex justify-between items-center ">
         <div className="menu">
-          <div className="!flex gap-5 sm:!gap-3 justify-start">
-            <div className="relative group !text-[12px]">
-              <span className="cursor-pointer">PNG</span>
-              <div className="absolute top-3 left-0 hidden rounded-[10px]  group-hover:block w-[350px] p-5 mt-3 bg-white shadow-sm ">
+          <div className="!flex gap-5 sm:!gap-3 justify-start items-center">
+            <div className="relative group">
+              <span className="cursor-pointer !text-[14px]">PNG</span>
+              <div className="absolute top-3 left-0 hidden rounded-[10px]  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg ">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 rounded-10px text-sm !rounded-4xl  text-gray-700">
                   <ul>
                     <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
@@ -649,7 +659,7 @@ export default function Navbar() {
               </div>
             </div>
             <div className="relative group">
-              <span className="cursor-pointer">JPG</span>
+              <span className="cursor-pointer !text-[14px]">JPG</span>
               <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
@@ -724,7 +734,7 @@ export default function Navbar() {
               </div>
             </div>
             <div className="relative group">
-              <span className="cursor-pointer">WEBP</span>
+              <span className="cursor-pointer !text-[14px]">WEBP</span>
               <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
@@ -799,7 +809,7 @@ export default function Navbar() {
               </div>
             </div>
             <div className="relative group">
-              <span className="cursor-pointer">Backgrounds</span>
+              <span className="cursor-pointer !text-[14px]">Backgrounds</span>
               <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
@@ -874,7 +884,7 @@ export default function Navbar() {
               </div>
             </div>
             <div className="relative group">
-              <span className="cursor-pointer">Illustrations</span>
+              <span className="cursor-pointer !text-[14px]">Illustrations</span>
               <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
