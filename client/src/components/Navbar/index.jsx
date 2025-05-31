@@ -65,7 +65,7 @@ export default function Navbar() {
                     Categories{" "}
                     <IoIosArrowDown className="transition-transform duration-300 group-hover:rotate-180" />
                   </button>
-                  <div className="absolute top-[130%] hidden group-hover:block bg-white border z-9 border-gray-200 w-45 rounded-[5px]">
+                  <div className="absolute top-[130%] opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 delay-150 bg-white border z-9 border-gray-200 w-45 rounded-[5px]">
                     <ul className="flex flex-col items-start text-[12px] z-[99999999]">
                       {[
                         "PNG",
@@ -170,6 +170,17 @@ export default function Navbar() {
         </div>
 
         <div className="flex gap-3 ml-4 items-center">
+          <div className="free-btns">
+            <ul className="flex  gap-4">
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                {" "}
+                Pricing
+              </li>
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                Freebies
+              </li>
+            </ul>
+          </div>
           {/* Login Profile */}
           {userData.userID ? (
             <div className="nav-profile w-[30px] h-[30px] login relative group cursor-pointer">
@@ -994,8 +1005,7 @@ export default function Navbar() {
         <div className="search-bar flex w-full justify-center">
           <div className="!w-[100%]">
             <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
-              <div className="relative group inline-block">
-              </div>
+              <div className="relative group inline-block"></div>
               <input
                 type="text"
                 placeholder="Copyright images waiting for you to discover"
@@ -1084,7 +1094,7 @@ export default function Navbar() {
             </ul>
           </div>
           <div className="w-full border-gray-300 border-t-2"></div>
-          <div>
+          <div className="free-nav-btns">
             <ul className="flex flex-col gap-4">
               <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
                 {" "}

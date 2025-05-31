@@ -3,12 +3,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./CardSlider.css";
-import card1 from "../../assets/images/emoji.jpg";
-import card2 from "../../assets/images/car.avif";
-import card3 from "../../assets/images/flower.jpg";
+import card1 from "../../assets/images/pakflag.png";
+import card2 from "../../assets/images/f3.png";
+import card3 from "../../assets/images/dummy.jpg";
 import card4 from "../../assets/images/eid.jpg";
-import card5 from "../../assets/images/card.jpg";
-import card6 from "../../assets/images/fd.jpg";
+import card5 from "../../assets/images/travel.jpg";
+import card6 from "../../assets/images/fathers day.jpg";
 
 const images = [
   { src: card1, label: "PNG Images" },
@@ -101,12 +101,12 @@ function CardsSlider() {
 
   return (
     <>
-      <div className="relative px-8">
+      <div className="relative py-10 px-8">
         <Slider {...settings}>
           {images.map((img, index) => (
             <div key={index} className="px-4">
               <div
-                className="relative h-64 bg-cover bg-center bg-no-repeat rounded-md transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-lg cursor-pointer group"
+                className="relative h-52 bg-cover  bg-center bg-no-repeat rounded-md transform transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-lg cursor-pointer group"
                 style={{ backgroundImage: `url(${img.src})` }}
               >
                 <div className="absolute inset-0 bg-[#00000088] opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
