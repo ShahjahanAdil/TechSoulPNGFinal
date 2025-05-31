@@ -610,7 +610,7 @@ export default function Navbar() {
         </div>
       </section>
 
-      <section className="px-5 py-3 bg-[#fefefe] flex justify-between items-center ">
+      <section className="nav-bottom px-5 py-3 bg-[#fefefe] flex justify-between items-center ">
         <div className="menu">
           <div className="!flex gap-5 sm:!gap-3 justify-start items-center">
             <div className="relative group">
@@ -990,6 +990,35 @@ export default function Navbar() {
             </div>
           </div>
         </div>
+
+        <div className="search-bar flex w-full justify-center">
+          <div className="!w-[100%]">
+            <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
+              <div className="relative group inline-block">
+              </div>
+              <input
+                type="text"
+                placeholder="Copyright images waiting for you to discover"
+                className="w-full bg-white  !text-[12px] sm:text-[12px] !border-none !p-3 text-sm md:text-base"
+                onChange={(e) =>
+                  setSearchText(e.target.value.toLocaleLowerCase())
+                }
+                onKeyDown={(e) =>
+                  e.key.toLocaleLowerCase() === "enter" && handleSearch()
+                }
+              />
+
+              <button
+                className="bg-[#6FD38E] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                onClick={handleSearch}
+              >
+                <FaSearch className="!text-[10px]" />{" "}
+                <span className="!hidden sm:!block !text-[12px]">Search</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="left-menu flex items-center gap-3 justify-center">
           <button className="flex items-center sm:rounded-[8px] !text-[14px] rounded cursor-pointer">
             Pricing
@@ -1051,6 +1080,18 @@ export default function Navbar() {
               </li>
               <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
                 Illustrations
+              </li>
+            </ul>
+          </div>
+          <div className="w-full border-gray-300 border-t-2"></div>
+          <div>
+            <ul className="flex flex-col gap-4">
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                {" "}
+                Pricing
+              </li>
+              <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200">
+                Freebies
               </li>
             </ul>
           </div>

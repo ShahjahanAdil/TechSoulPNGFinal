@@ -20,6 +20,16 @@
         display: flex;
     }
 
+    .search-bar{
+        display: none;
+    }
+
+
+    .nav-bottom{
+        box-shadow: rgba(134, 134, 134, 0.1) 0px 2px 2px 0px;
+    }
+
+
     @media screen and (max-width: 1024px) {
         .menu-icon {
             display: block;
@@ -30,6 +40,22 @@
         }
 
         .auth-btns {
+            display: none;
+        }
+
+        .menu{
+            display: none;
+        }
+
+        .left-menu{
+            display: none;
+        }
+
+        .search-bar{
+            display: block;
+        }
+
+        .search{
             display: none;
         }
     }
