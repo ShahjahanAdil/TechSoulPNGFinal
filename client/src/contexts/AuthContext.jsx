@@ -107,6 +107,7 @@ export default function AuthContextProvider({ children }) {
         dispatch({ type: "SET_LOGGED_OUT" })
         localStorage.removeItem("pngjwt")
         navigate("/")
+        setLoading(true)
     }
 
     return (
