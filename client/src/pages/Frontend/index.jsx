@@ -7,6 +7,7 @@ import Main from "./Main";
 import About from "./About/index";
 import ContactPage from "./ContactPage/index";
 import Footer from "../../components/Footer";
+import Reviews from "./Reviews";
 
 export default function Frontend() {
   return (
@@ -17,6 +18,7 @@ export default function Frontend() {
         <Route path="home" element={<Home />} />
         <Route path="/image/:imageID" element={<DownloadPage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/reviews" element={<Reviews />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/images" element={<Main />} />
         <Route path="/images/:category" element={<Main />} />
