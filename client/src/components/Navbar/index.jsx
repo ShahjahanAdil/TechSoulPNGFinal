@@ -626,7 +626,7 @@ export default function Navbar() {
           <div className="!flex gap-5 sm:!gap-3 justify-start items-center">
             <div className="relative group">
               <span className="cursor-pointer !text-[14px]">PNG</span>
-              <div className="absolute top-3 left-0 hidden rounded-[10px]  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg ">
+              <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg ">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 rounded-10px text-sm !rounded-4xl  text-gray-700">
                   <ul>
                     <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
@@ -701,7 +701,7 @@ export default function Navbar() {
             </div>
             <div className="relative group">
               <span className="cursor-pointer !text-[14px]">JPG</span>
-              <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
+              <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
                     <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
@@ -776,7 +776,7 @@ export default function Navbar() {
             </div>
             <div className="relative group">
               <span className="cursor-pointer !text-[14px]">WEBP</span>
-              <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
+              <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
                     <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
@@ -851,7 +851,7 @@ export default function Navbar() {
             </div>
             <div className="relative group">
               <span className="cursor-pointer !text-[14px]">Backgrounds</span>
-              <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
+              <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
                     <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
@@ -926,7 +926,7 @@ export default function Navbar() {
             </div>
             <div className="relative group">
               <span className="cursor-pointer !text-[14px]">Illustrations</span>
-              <div className="absolute top-3 left-0 hidden rounded-[10px] group-hover:block w-[400px] p-5 mt-3 bg-white shadow-sm z-50">
+              <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-5 mt-3 bg-white shadow-lg">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
                   <ul>
                     <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">

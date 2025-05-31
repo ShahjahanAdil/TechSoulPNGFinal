@@ -31,9 +31,12 @@ import card30 from '../../assets/images/rev10.jpg'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Slider2() {
+
+  const navigate = useNavigate();
     const settings = {
         dots: false,
         infinite: true,
@@ -84,14 +87,14 @@ export default function Slider2() {
             <img
               src={card}
               alt="review"
-              className="w-[60px] h-[60px] rounded-[15px] object-cover"
+              className="w-[75px] h-[75px] rounded-[12px] object-cover"
             />
           </div>
         </div>
       ))}
     </Slider>
     <div className='text-center'>
-      <button className='bg-[#4EAA76] font-semibold text-white px-6 py-2 rounded-[7px]'>
+      <button className='bg-[#4EAA76] font-semibold text-white px-6 py-2 rounded-[7px]' onClick={()=>navigate("/reviews")}>
         Veiw All
       </button>
     </div>
