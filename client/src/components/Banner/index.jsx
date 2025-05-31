@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import Search from "../Search";
+// import Search from "../Search";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function Banner() {
@@ -40,14 +40,14 @@ export default function Banner() {
       <p className="text-sm md:text-lg text-gray-500 font-medium mt-2">
         Royalty Free Latest PNG Images, JPG, WEBP, Backgrounds, Illustrations
       </p>
-      <Search />
+      {/* <Search /> */}
 
       <div className="mt-5 mb-5 text-gray-600">
         <ul className="flex flex-wrap justify-center gap-2 cursor-pointer">
           {categories.map((cat, i) => (
             <li
               key={i}
-              className="bg-[#ececec] text-[10px] sm:text-[12px] flex items-center py-1 px-3 capitalize rounded-[20px] gap-2 whitespace-nowrap transition-all duration-150 ease-linear hover:bg-[#dfdfdf]"
+              className="bg-[#ececec] text-[10px] sm:text-[12px] flex items-center py-1 px-3 capitalize rounded-[8px] gap-2 whitespace-nowrap transition-all duration-150 ease-linear hover:bg-[#dfdfdf]"
               onClick={()=>navigate(`/images/${cat.category.toLowerCase()}`)}
             >
               <RiSearchLine /> {cat.category}
