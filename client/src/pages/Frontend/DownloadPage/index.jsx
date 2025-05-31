@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import Dcards from "../../../components/Dcards";
 import Loader from "../../../components/Loader";
 import { useAuthContext } from "../../../contexts/AuthContext";
-import Search from "../../../components/Search";
+// import Search from "../../../components/Search";
 import pica from "pica";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -19,6 +19,7 @@ export default function DownloadPage() {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [resizeType, setResizeType] = useState("width")
     const [resizeVal, setResizeVal] = useState(null)
+    const [downloadFormat, setDownloadFormat] = useState("png");
     const [loading, setLoading] = useState(true);
     const [downloadLoading, setDownloadLoading] = useState(false);
 
@@ -346,13 +347,15 @@ export default function DownloadPage() {
                         const url = URL.createObjectURL(blob)
                         const link = document.createElement("a")
                         link.href = url
-                        link.download = `${imageDets.title || "download"}.${imageDets.type}`
+                        link.download = `${imageDets.title || "download"}.${downloadFormat}`
+                        // link.download = `${imageDets.title || "download"}.${imageDets.type}`
                         document.body.appendChild(link)
                         link.click()
                         link.remove()
                         URL.revokeObjectURL(url)
                         setDownloadLoading(false)
-                    }, `image/${imageDets.type}`, 0.9)
+                    }, `image/${downloadFormat}`, 0.9)
+                    // }, `image/${imageDets.type}`, 0.9)
                 } else {
                     srcCanvas.toBlob(blob => {
                         if (!blob) {
@@ -362,13 +365,15 @@ export default function DownloadPage() {
                         const url = URL.createObjectURL(blob)
                         const link = document.createElement("a")
                         link.href = url
-                        link.download = `${imageDets.title || "download"}.${imageDets.type}`
+                        link.download = `${imageDets.title || "download"}.${downloadFormat}`
+                        // link.download = `${imageDets.title || "download"}.${imageDets.type}`
                         document.body.appendChild(link)
                         link.click()
                         link.remove()
                         URL.revokeObjectURL(url)
                         setDownloadLoading(false)
-                    }, `image/${imageDets.type}`, 0.9)
+                    }, `image/${downloadFormat}`, 0.9)
+                    // }, `image/${imageDets.type}`, 0.9)
                 }
             }
 
@@ -388,8 +393,9 @@ export default function DownloadPage() {
 
     return (
         <>
-            <Search />
-            <Dcards imageDets={imageDets} setImageDets={setImageDets} similarImages={similarImages} setSimilarImages={setSimilarImages} dimensions={dimensions} resizeType={resizeType} setResizeType={setResizeType} resizeVal={resizeVal} setResizeVal={setResizeVal} handleDownload={handleDownload} downloadLoading={downloadLoading} />
+            {/* <Search /> */}
+            <Dcards
+                imageDets={imageDets} setImageDets={setImageDets} similarImages={similarImages} setSimilarImages={setSimilarImages} dimensions={dimensions} resizeType={resizeType} setResizeType={setResizeType} resizeVal={resizeVal} setResizeVal={setResizeVal} downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} handleDownload={handleDownload} downloadLoading={downloadLoading} />
         </>
     );
 }

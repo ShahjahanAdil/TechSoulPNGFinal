@@ -17,7 +17,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import dayjs from "dayjs";
 import axios from "axios";
 
-const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeType, resizeVal, setResizeVal, handleDownload, downloadLoading, }) => {
+const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeType, resizeVal, setResizeVal, downloadFormat, setDownloadFormat, handleDownload, downloadLoading, }) => {
 
     const { userData, dispatch, guestData, isGuest } = useAuthContext()
     const [favourites, setFavourites] = useState([]);
@@ -315,42 +315,62 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeTyp
                             </p>
                         </div>
 
-                        <div className="mb-2 sm:mb-4">
-                            <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
+                        <div className="flex justify-between gap-8">
+                            <div className="flex-1 mb-2 sm:mb-4">
+                                <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
 
-                            <div className="flex mt-4">
-                                {['width', 'height'].map((type, i) => {
-                                    return (
-                                        <button key={i} className={`flex-1 px-2 py-2 sm:py-3 capitalize
+                                <div className="flex mt-2">
+                                    {['width', 'height'].map((type, i) => {
+                                        return (
+                                            <button key={i} className={`flex-1 !py-1 sm:!py-2 capitalize !text-[14px]
                                             ${resizeType === type ? 'bg-[#4EAA76] !text-white' : 'bg-gray-200 !text-[#333]'}
                                             ${type === 'width' ? 'rounded-tl-[8px] rounded-bl-[8px]' : 'rounded-tr-[8px] rounded-br-[8px]'}
                                             `}
-                                            onClick={() => setResizeType(type)}
+                                                onClick={() => setResizeType(type)}
+                                            >
+                                                {type}
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+
+                                <div className="relative mt-4">
+                                    <input
+                                        type="number" name="resize" id="resize" min="50" value={resizeVal ? resizeVal : ''} placeholder="Enter a resize value of 50 or above"
+                                        className="w-full !p-3 sm:p-3 rounded-[8px] !text-[12px]"
+                                        onChange={e => setResizeVal(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (['e', 'E', '+', '-'].includes(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        className="absolute right-0 top-0 h-full px-3 bg-[#4EAA76] !text-white !text-[12px] sm:!text-[14px] rounded-tr-[8px] rounded-br-[8px] hover:bg-[#7EC19B]"
+                                        disabled={downloadLoading}
+                                        onClick={() => handleDownload(true)}
+                                    >
+                                        Resize
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="flex-1">
+                                <p className="font-bold !text-[#333] mb-2">Select Format</p>
+                                <div className="flex gap-2">
+                                    {["png", "jpeg", "webp"].map((type) => (
+                                        <button
+                                            key={type}
+                                            className={`flex-1 px-4 py-2 rounded-lg text-sm uppercase ${downloadFormat === type
+                                                ? "bg-[#4EAA76] text-white"
+                                                : "bg-gray-200 text-[#333]"
+                                                }`}
+                                            onClick={() => setDownloadFormat(type)}
                                         >
                                             {type}
                                         </button>
-                                    )
-                                })}
-                            </div>
-
-                            <div className="relative mt-4">
-                                <input
-                                    type="number" name="resize" id="resize" min="50" value={resizeVal ? resizeVal : ''} placeholder="Enter a resize value of 50 or above"
-                                    className="w-full p-2 sm:p-3 rounded-[8px] !text-[12px] sm:!text-[16px]"
-                                    onChange={e => setResizeVal(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (['e', 'E', '+', '-'].includes(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                                <button
-                                    className="absolute right-0 top-0 h-full px-4 bg-[#4EAA76] !text-white !text-[12px] sm:!text-[16px] font-bold rounded-tr-[8px] rounded-br-[8px] hover:bg-[#7EC19B]"
-                                    disabled={downloadLoading}
-                                    onClick={() => handleDownload(true)}
-                                >
-                                    Resize
-                                </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
