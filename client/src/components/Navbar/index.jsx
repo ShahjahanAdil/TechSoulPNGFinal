@@ -62,7 +62,7 @@ export default function Navbar() {
           </div>
           <div className="search flex w-full max-w-[800px] justify-center">
             <div className="!w-[100%]">
-              <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
+              <div className="flex items-center justify-center border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
                 <div className="relative group inline-block">
                   <button className=" px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white  flex gap-1 items-center  rounded-l-md text-base">
                     Categories{" "}
@@ -107,7 +107,7 @@ export default function Navbar() {
                 />
 
                 <button
-                  className="bg-[#6FD38E] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                  className="bg-[#666] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
                   onClick={handleSearch}
                 >
                   <FaSearch className="!text-[10px]" />{" "}
