@@ -23,12 +23,12 @@ export default function Downloads() {
 
     const fetchDownloads = () => {
         setLoading(true)
-        axios.get(`${import.meta.env.VITE_HOST}/dashboard/downloads?userID=${userData.userID}&&?page=${page}`)
+        axios.get(`${import.meta.env.VITE_HOST}/dashboard/downloads?userID=${userData.userID}&page=${page}`)
             .then(res => {
                 const { status, data } = res
                 if (status === 200) {
                     setDownloads(data.userDownloads)
-                    setTotalPages(data.totalDownloads / 20)
+                    setTotalPages(Math.ceil(data.totalDownloads / 20))
                 }
             })
             .catch(err => {

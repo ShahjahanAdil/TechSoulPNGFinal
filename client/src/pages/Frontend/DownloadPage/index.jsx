@@ -3,7 +3,6 @@ import { useLocation, useParams } from "react-router-dom";
 import Dcards from "../../../components/Dcards";
 import Loader from "../../../components/Loader";
 import { useAuthContext } from "../../../contexts/AuthContext";
-// import Search from "../../../components/Search";
 import pica from "pica";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -19,7 +18,8 @@ export default function DownloadPage() {
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [resizeType, setResizeType] = useState("width")
     const [resizeVal, setResizeVal] = useState(null)
-    const [downloadFormat, setDownloadFormat] = useState("png");
+    const [downloadFormat, setDownloadFormat] = useState("");
+    const [withBackground, setWithBackground] = useState(true);
     const [loading, setLoading] = useState(true);
     const [downloadLoading, setDownloadLoading] = useState(false);
 
@@ -30,6 +30,7 @@ export default function DownloadPage() {
     useEffect(() => {
         if (imageDets.imageID) {
             fetchSimilarImages()
+            setDownloadFormat(imageDets.type === 'jpeg' ? 'jpg' : imageDets.type)
         }
     }, [imageDets, pathname])
 
@@ -254,42 +255,175 @@ export default function DownloadPage() {
     //     }
     // };
 
-    const handleDownload = async (isResized = false) => {
+    // const handleDownload = async (isResized = false) => {
+    //     if (isResized && (!resizeVal || Number(resizeVal) < 50)) {
+    //         return window.toastify("Enter a resize value of 50 or above.", "warning")
+    //     }
+
+    //     try {
+    //         if (isGuest) {
+    //             const guestDataKey = "guestData"
+    //             const todayStr = dayjs().format("YYYY-MM-DD")
+
+    //             const updatedGuestData = { ...guestData }
+
+    //             if (updatedGuestData.lastDownloadDate !== todayStr) {
+    //                 updatedGuestData.dailyDownloadsCount = 0
+    //                 updatedGuestData.lastDownloadDate = todayStr
+    //             }
+
+    //             if (updatedGuestData.dailyDownloadsCount >= 10) {
+    //                 return window.toastify("Guest daily download limit (10) reached. Please login for more.", "error")
+    //             }
+
+    //             updatedGuestData.dailyDownloadsCount += 1
+
+    //             localStorage.setItem(guestDataKey, JSON.stringify(updatedGuestData))
+    //             dispatch({ type: "SET_GUEST", payload: { guestData: updatedGuestData } })
+
+    //             window.toastify("Image Downloaded!", "success")
+    //         } else {
+    //             if (userData.plan === "free" && imageDets.license !== "free") {
+    //                 return window.toastify("Upgrade to premium to download this image.", "error")
+    //             }
+
+    //             setDownloadLoading(true)
+
+    //             const res = await axios.post(
+    //                 `${import.meta.env.VITE_HOST}/frontend/image/download/${imageID}?imageURL=${encodeURIComponent(imageDets.imageURL)}`,
+    //                 { userID: userData.userID }
+    //             )
+
+    //             if (res.status !== 200) throw new Error(res.data?.message || "Download failed")
+
+    //             dispatch({
+    //                 type: "SET_PROFILE",
+    //                 payload: {
+    //                     user: {
+    //                         ...userData,
+    //                         dailyDownloadCount: res.data.dailyDownloadCount,
+    //                     },
+    //                 },
+    //             })
+
+    //             window.toastify(res.data.message, "success")
+    //         }
+
+    //         const img = new Image()
+    //         img.crossOrigin = "anonymous"
+    //         img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`
+
+    //         img.onload = async () => {
+    //             let width = img.naturalWidth
+    //             let height = img.naturalHeight
+
+    //             if (isResized) {
+    //                 if (resizeType === "width") {
+    //                     width = Number(resizeVal)
+    //                     height = Math.round((img.naturalHeight / img.naturalWidth) * width)
+    //                 } else {
+    //                     height = Number(resizeVal)
+    //                     width = Math.round((img.naturalWidth / img.naturalHeight) * height)
+    //                 }
+    //             }
+
+    //             const srcCanvas = document.createElement("canvas")
+    //             srcCanvas.width = img.naturalWidth
+    //             srcCanvas.height = img.naturalHeight
+    //             srcCanvas.getContext("2d").drawImage(img, 0, 0)
+
+    //             if (isResized) {
+    //                 const destCanvas = document.createElement("canvas")
+    //                 destCanvas.width = width
+    //                 destCanvas.height = height
+
+    //                 const picaInstance = pica()
+    //                 await picaInstance.resize(srcCanvas, destCanvas)
+
+    //                 destCanvas.toBlob(blob => {
+    //                     if (!blob) {
+    //                         window.toastify("Failed to generate image.", "error")
+    //                         return
+    //                     }
+    //                     const url = URL.createObjectURL(blob)
+    //                     const link = document.createElement("a")
+    //                     link.href = url
+    //                     link.download = `${imageDets.title || "download"}.${downloadFormat}`
+    //                     document.body.appendChild(link)
+    //                     link.click()
+    //                     link.remove()
+    //                     URL.revokeObjectURL(url)
+    //                     setDownloadLoading(false)
+    //                 }, `image/${downloadFormat}`, 0.9)
+    //             } else {
+    //                 srcCanvas.toBlob(blob => {
+    //                     if (!blob) {
+    //                         window.toastify("Failed to generate image.", "error")
+    //                         return
+    //                     }
+    //                     const url = URL.createObjectURL(blob)
+    //                     const link = document.createElement("a")
+    //                     link.href = url
+    //                     link.download = `${imageDets.title || "download"}.${downloadFormat}`
+    //                     document.body.appendChild(link)
+    //                     link.click()
+    //                     link.remove()
+    //                     URL.revokeObjectURL(url)
+    //                     setDownloadLoading(false)
+    //                 }, `image/${downloadFormat}`, 0.9)
+    //             }
+    //         }
+
+    //         img.onerror = () => {
+    //             window.toastify("Failed to load image.", "error")
+    //             setDownloadLoading(false)
+    //         }
+    //     } catch (err) {
+    //         window.toastify(err.response?.data?.message || err.message || "Download failed", "error")
+    //         setDownloadLoading(false)
+    //     }
+    // }
+
+    const handleDownload = async (isResized = false, webpWithBackground = false) => {
+        if (isResized && (!resizeVal || Number(resizeVal) < 50)) {
+            return window.toastify("Enter a resize value of 50 or above.", "warning");
+        }
+
         try {
             if (isGuest) {
-                const guestDataKey = "guestData"
-                const todayStr = dayjs().format("YYYY-MM-DD")
+                const guestDataKey = "guestData";
+                const todayStr = dayjs().format("YYYY-MM-DD");
 
-                const updatedGuestData = { ...guestData }
+                const updatedGuestData = { ...guestData };
 
                 if (updatedGuestData.lastDownloadDate !== todayStr) {
-                    updatedGuestData.dailyDownloadsCount = 0
-                    updatedGuestData.lastDownloadDate = todayStr
+                    updatedGuestData.dailyDownloadsCount = 0;
+                    updatedGuestData.lastDownloadDate = todayStr;
                 }
 
                 if (updatedGuestData.dailyDownloadsCount >= 10) {
-                    return window.toastify("Guest daily download limit (10) reached. Please login for more.", "error")
+                    return window.toastify("Guest daily download limit (10) reached. Please login for more.", "error");
                 }
 
-                updatedGuestData.dailyDownloadsCount += 1
+                updatedGuestData.dailyDownloadsCount += 1;
 
-                localStorage.setItem(guestDataKey, JSON.stringify(updatedGuestData))
-                dispatch({ type: "SET_GUEST", payload: { guestData: updatedGuestData } })
+                localStorage.setItem(guestDataKey, JSON.stringify(updatedGuestData));
+                dispatch({ type: "SET_GUEST", payload: { guestData: updatedGuestData } });
 
-                window.toastify("Image Downloaded!", "success")
+                window.toastify("Image Downloaded!", "success");
             } else {
                 if (userData.plan === "free" && imageDets.license !== "free") {
-                    return window.toastify("Upgrade to premium to download this image.", "error")
+                    return window.toastify("Upgrade to premium to download this image.", "error");
                 }
 
-                setDownloadLoading(true)
+                setDownloadLoading(true);
 
                 const res = await axios.post(
                     `${import.meta.env.VITE_HOST}/frontend/image/download/${imageID}?imageURL=${encodeURIComponent(imageDets.imageURL)}`,
                     { userID: userData.userID }
-                )
+                );
 
-                if (res.status !== 200) throw new Error(res.data?.message || "Download failed")
+                if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
 
                 dispatch({
                     type: "SET_PROFILE",
@@ -299,93 +433,88 @@ export default function DownloadPage() {
                             dailyDownloadCount: res.data.dailyDownloadCount,
                         },
                     },
-                })
+                });
 
-                window.toastify(res.data.message, "success")
+                window.toastify(res.data.message, "success");
             }
 
-            if (isResized && (!resizeVal || Number(resizeVal) < 50)) {
-                return window.toastify("Enter a resize value of 50 or above.", "error")
-            }
-
-            const img = new Image()
-            img.crossOrigin = "anonymous"
-            img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`;
 
             img.onload = async () => {
-                let width = img.naturalWidth
-                let height = img.naturalHeight
+                let width = img.naturalWidth;
+                let height = img.naturalHeight;
+
+                if (downloadFormat === "webp") {
+                    width = Math.round(width * 0.9);
+                    height = Math.round(height * 0.9);
+                }
 
                 if (isResized) {
                     if (resizeType === "width") {
-                        width = Number(resizeVal)
-                        height = Math.round((img.naturalHeight / img.naturalWidth) * width)
+                        width = Number(resizeVal);
+                        height = Math.round((img.naturalHeight / img.naturalWidth) * width);
                     } else {
-                        height = Number(resizeVal)
-                        width = Math.round((img.naturalWidth / img.naturalHeight) * height)
+                        height = Number(resizeVal);
+                        width = Math.round((img.naturalWidth / img.naturalHeight) * height);
                     }
                 }
 
-                const srcCanvas = document.createElement("canvas")
-                srcCanvas.width = img.naturalWidth
-                srcCanvas.height = img.naturalHeight
-                srcCanvas.getContext("2d").drawImage(img, 0, 0)
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
 
-                if (isResized) {
-                    const destCanvas = document.createElement("canvas")
-                    destCanvas.width = width
-                    destCanvas.height = height
+                const picaInstance = pica();
+                const tempCanvas = document.createElement("canvas");
+                tempCanvas.width = img.naturalWidth;
+                tempCanvas.height = img.naturalHeight;
+                const tempCtx = tempCanvas.getContext("2d");
 
-                    const picaInstance = pica()
-                    await picaInstance.resize(srcCanvas, destCanvas)
+                // if (downloadFormat === "jpg" || downloadFormat === "jpeg") {
+                //     tempCtx.fillStyle = "#ffffff";
+                //     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                // }
 
-                    destCanvas.toBlob(blob => {
-                        if (!blob) {
-                            window.toastify("Failed to generate image.", "error")
-                            return
-                        }
-                        const url = URL.createObjectURL(blob)
-                        const link = document.createElement("a")
-                        link.href = url
-                        link.download = `${imageDets.title || "download"}.${downloadFormat}`
-                        // link.download = `${imageDets.title || "download"}.${imageDets.type}`
-                        document.body.appendChild(link)
-                        link.click()
-                        link.remove()
-                        URL.revokeObjectURL(url)
-                        setDownloadLoading(false)
-                    }, `image/${downloadFormat}`, 0.9)
-                    // }, `image/${imageDets.type}`, 0.9)
-                } else {
-                    srcCanvas.toBlob(blob => {
-                        if (!blob) {
-                            window.toastify("Failed to generate image.", "error")
-                            return
-                        }
-                        const url = URL.createObjectURL(blob)
-                        const link = document.createElement("a")
-                        link.href = url
-                        link.download = `${imageDets.title || "download"}.${downloadFormat}`
-                        // link.download = `${imageDets.title || "download"}.${imageDets.type}`
-                        document.body.appendChild(link)
-                        link.click()
-                        link.remove()
-                        URL.revokeObjectURL(url)
-                        setDownloadLoading(false)
-                    }, `image/${downloadFormat}`, 0.9)
-                    // }, `image/${imageDets.type}`, 0.9)
+                // if (downloadFormat === "webp" && webpWithBackground) {
+                //     tempCtx.fillStyle = "#ffffff";
+                //     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+                // }
+
+                if (downloadFormat === "jpg" || downloadFormat === "jpeg" || (downloadFormat === "webp" && webpWithBackground)) {
+                    tempCtx.fillStyle = "#ffffff";
+                    tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
                 }
-            }
+
+                tempCtx.drawImage(img, 0, 0);
+
+                await picaInstance.resize(tempCanvas, canvas);
+
+                canvas.toBlob(blob => {
+                    if (!blob) {
+                        return window.toastify("Failed to generate image.", "error");
+                    }
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = `${imageDets.title || "download"}.${downloadFormat}`;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    URL.revokeObjectURL(url);
+                    setDownloadLoading(false);
+                }, `image/${downloadFormat}`, 0.9);
+            };
 
             img.onerror = () => {
-                window.toastify("Failed to load image.", "error")
-                setDownloadLoading(false)
-            }
+                window.toastify("Failed to load image.", "error");
+                setDownloadLoading(false);
+            };
         } catch (err) {
-            window.toastify(err.response?.data?.message || err.message || "Download failed", "error")
-            setDownloadLoading(false)
+            window.toastify(err.response?.data?.message || err.message || "Download failed", "error");
+            setDownloadLoading(false);
         }
-    }
+    };
 
     if (loading) {
         return <Loader />;
@@ -393,9 +522,7 @@ export default function DownloadPage() {
 
     return (
         <>
-            {/* <Search /> */}
-            <Dcards
-                imageDets={imageDets} setImageDets={setImageDets} similarImages={similarImages} setSimilarImages={setSimilarImages} dimensions={dimensions} resizeType={resizeType} setResizeType={setResizeType} resizeVal={resizeVal} setResizeVal={setResizeVal} downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} handleDownload={handleDownload} downloadLoading={downloadLoading} />
+            <Dcards imageDets={imageDets} setImageDets={setImageDets} similarImages={similarImages} setSimilarImages={setSimilarImages} dimensions={dimensions} resizeType={resizeType} setResizeType={setResizeType} resizeVal={resizeVal} setResizeVal={setResizeVal} downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} withBackground={withBackground} setWithBackground={setWithBackground} handleDownload={handleDownload} downloadLoading={downloadLoading} />
         </>
     );
 }
