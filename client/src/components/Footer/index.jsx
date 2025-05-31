@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   FaFacebookF,
   FaTwitter,
@@ -8,8 +9,11 @@ import {
 import logo from "../../assets/images/logo.png";
 import "./Footer.css";
 import bankCard from "../../assets/images/bankcards.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+
+  const navigate = useNavigate();
   return (
     <>
       <section className="footer bg-[#FAFAFB] py-6 px-7 border-b-2 border-[#efefef] flex flex-col justify-between gap-5 lg:flex-row">
@@ -29,38 +33,38 @@ const Footer = () => {
 
             {/* Social Icons */}
             <div className="social-icons flex gap-3 mt-4">
-              <a
-                href="https://facebook.com"
+              <Link
+                to="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#1877F2] text-white w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition"
               >
                 <FaFacebookF size={18} />
-              </a>
-              <a
-                href="https://twitter.com"
+              </Link>
+              <Link
+                to="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-white text-[#1DA1F2] w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition"
               >
                 <FaTwitter size={18} />
-              </a>
-              <a
-                href="https://pinterest.com"
+              </Link>
+              <Link
+                to="https://pinterest.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#E60023] text-white w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition"
               >
                 <FaPinterestP size={18} />
-              </a>
-              <a
-                href="https://instagram.com"
+              </Link>
+              <Link
+                to="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white w-9 h-9 flex items-center justify-center rounded-full hover:scale-110 transition"
               >
                 <FaInstagram size={18} />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -73,52 +77,52 @@ const Footer = () => {
               <h6 className="font-bold uppercase !text-[16px]">PNGTREE.COM</h6>
               <ul className=" mt-2">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/about"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Popular Searches
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Update
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     New Background
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     AI Image Generator
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     AI Remove Background
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -130,20 +134,20 @@ const Footer = () => {
               <h4 className="font-bold uppercase !text-[16px]">PLANS</h4>
               <ul className=" mt-2">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/dashboard/subscriptions"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Basic Plan
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/dashboard/subscriptions"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Premium Plan
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -151,20 +155,20 @@ const Footer = () => {
               <h4 className="font-bold uppercase !text-[16px]">HELP</h4>
               <ul className="">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/contact"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Help Center
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/contact"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -176,60 +180,61 @@ const Footer = () => {
               <h4 className="font-bold uppercase !text-[16px]">LEGAL</h4>
               <ul className="!mt-2 flex flex-col gap-[10px]">
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Term of Service
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
+                    onClick={()=>navigate("/privacy")}
                   >
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Copyrights
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Cookies Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     License Terms
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Refund Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#"
+                  <Link
+                    to="/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Intellectual Property Policy
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

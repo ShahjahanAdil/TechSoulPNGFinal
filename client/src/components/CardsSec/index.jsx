@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 import crownIcon from "../../assets/images/crown.png";
-import pngBg from "../../assets/images/bgPNGFinal.jpg";
-import ImageCard from "../ImageCard";
 import { useAuthContext } from "../../contexts/AuthContext";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -182,112 +180,114 @@ const CardsSec = () => {
     };
 
     return (
-        <div className="my-5 px-4">
-            {/* Heading and Button */}
-            <div className="flex justify-between items-start mb-6">
-                <h3 className="text-[24px] sm:text-[32px] font-bold">
-                    Explore popular creative Assets
-                </h3>
-                <button
-                    className="flex gap-2 items-center rounded-[12px] font-bold px-[20px] hover:gap-4 transition-all duration-300 text-[#5ABC84]"
-                    onClick={() => navigate("/images")}
-                >
-                    Explore images <AiOutlineArrowRight />
-                </button>
-            </div>
-
-            <div className="flex gap-3">
-                {tabs?.map((cat, i) => {
-                    return (
-                        <button
-                            key={i}
-                            className={`capitalize text-[14px] sm:text-[18px] pb-1 rounded-sm transition-all duration-150 ease-in-out cursor-pointer font-bold text-[#333] border-b-[#5ABC84] ${cat === activeTab ? "border-b-4" : "border-none"
-                                }`}
-                            onClick={() => setActiveTab(cat)}
-                        >
-                            {cat}
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* Image Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-5 sm:mt-8">
-                {images.map((img, index) => (
-                    // <ImageCard
-                    //     key={img.imageID}
-                    //     img={img}
-                    //     pngBg={pngBg}
-                    //     crownIcon={crownIcon}
-                    //     favourites={favourites}
-                    //     handleAddToFavourites={handleAddToFavourites}
-                    //     shortDownloadLoading={shortDownloadLoading}
-                    //     downloadingImageID={downloadingImageID}
-                    //     navigate={navigate}
-                    //     handleShortDownload={handleShortDownload}
-                    // />
-                    <div
-                        key={img.imageID}
-                        className={`relative group cursor-pointer rounded-lg shadow-sm overflow-hidden
-                            ${index % 3 !== 0 ? index % 2 !== 0 ? "bg-[#ddf5d7]" : "bg-[#F5E9D7]" : "bg-[#F5F6F5]"}`}
+        <div className="mainContainer">
+            <div className="my-5 px-4">
+                {/* Heading and Button */}
+                <div className="flex justify-between items-start mb-6">
+                    <h2 className="text-[24px] sm:text-[30px] font-bold">
+                        Explore popular creative Assets
+                    </h2>
+                    <button
+                        className="flex gap-2 items-center rounded-[12px] font-bold px-[20px] hover:gap-4 transition-all duration-300 text-[#5ABC84]"
+                        onClick={() => navigate("/images")}
                     >
-                        <img
-                            src={`${import.meta.env.VITE_HOST}${img.imageURL}`}
-                            alt={img.title}
-                            className="w-full h-[150px] sm:h-[200px] object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-[#0000004f] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-between px-2 py-2"
-                            onClick={() => navigate(`/image/${img.imageID}`)}
+                        Explore images <AiOutlineArrowRight />
+                    </button>
+                </div>
+
+                <div className="flex gap-3">
+                    {tabs?.map((cat, i) => {
+                        return (
+                            <button
+                                key={i}
+                                className={`capitalize text-[14px] sm:text-[18px] pb-1 rounded-sm transition-all duration-150 ease-in-out cursor-pointer font-bold text-[#333] border-b-[#5ABC84] ${cat === activeTab ? "border-b-4" : "border-none"
+                                    }`}
+                                onClick={() => setActiveTab(cat)}
+                            >
+                                {cat}
+                            </button>
+                        );
+                    })}
+                </div>
+
+                {/* Image Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-5 sm:mt-8">
+                    {images.map((img, index) => (
+                        // <ImageCard
+                        //     key={img.imageID}
+                        //     img={img}
+                        //     pngBg={pngBg}
+                        //     crownIcon={crownIcon}
+                        //     favourites={favourites}
+                        //     handleAddToFavourites={handleAddToFavourites}
+                        //     shortDownloadLoading={shortDownloadLoading}
+                        //     downloadingImageID={downloadingImageID}
+                        //     navigate={navigate}
+                        //     handleShortDownload={handleShortDownload}
+                        // />
+                        <div
+                            key={img.imageID}
+                            className={`relative group cursor-pointer rounded-lg shadow-sm overflow-hidden
+                            ${index % 3 !== 0 ? index % 2 !== 0 ? "bg-[#ddf5d7]" : "bg-[#F5E9D7]" : "bg-[#F5F6F5]"}`}
                         >
-                            <div className="flex w-full justify-between z-10">
-                                <span className="!flex items-center bg-white !text-[10px] font-bold px-1 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100">
-                                    {img.license === "free" ? (
-                                        "FREE"
-                                    ) : (
-                                        <img
-                                            src={crownIcon}
-                                            alt="crown"
-                                            className="w-[12px] md:w-[20px]"
-                                        />
-                                    )}
-                                </span>
-                                <div className="!flex justify-center items-center gap-2">
-                                    <span className={`bg-white ${favourites.some((fav) => fav.imageID === img.imageID) ? "text-red-500" : "text-gray-500"} !text-[10px] uppercase px-2 py-1.5 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100`}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToFavourites({
-                                                imageID: img.imageID,
-                                                imageURL: img.imageURL,
-                                                favourite: img.favourite,
-                                                license: img.license
-                                            })
-                                        }}
-                                    >
-                                        <FaHeart className="text-[12px]" />
+                            <img
+                                src={`${import.meta.env.VITE_HOST}${img.imageURL}`}
+                                alt={img.title}
+                                className="w-full h-[150px] sm:h-[200px] object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-[#0000004f] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-between px-2 py-2"
+                                onClick={() => navigate(`/image/${img.imageID}`)}
+                            >
+                                <div className="flex w-full justify-between z-10">
+                                    <span className="!flex items-center bg-white !text-[10px] font-bold px-1 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100">
+                                        {img.license === "free" ? (
+                                            "FREE"
+                                        ) : (
+                                            <img
+                                                src={crownIcon}
+                                                alt="crown"
+                                                className="w-[12px] md:w-[20px]"
+                                            />
+                                        )}
                                     </span>
-                                    <span
-                                        className="bg-[#4EAA76] text-white !text-[12px] uppercase px-2 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 !flex items-center gap-1"
-                                        disabled={shortDownloadLoading}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleShortDownload(img);
-                                        }}
-                                    >
-                                        {
-                                            downloadingImageID === img.imageID ?
-                                                <span className="w-5 h-5 border-t-2 rounded-full border-gray-100 animate-spin"></span>
-                                                :
-                                                <>
-                                                    <MdOutlineFileDownload className="text-[14px]" /> {img.type}
-                                                </>
-                                        }
-                                    </span>
+                                    <div className="!flex justify-center items-center gap-2">
+                                        <span className={`bg-white ${favourites.some((fav) => fav.imageID === img.imageID) ? "text-red-500" : "text-gray-500"} !text-[10px] uppercase px-2 py-1.5 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAddToFavourites({
+                                                    imageID: img.imageID,
+                                                    imageURL: img.imageURL,
+                                                    favourite: img.favourite,
+                                                    license: img.license
+                                                })
+                                            }}
+                                        >
+                                            <FaHeart className="text-[12px]" />
+                                        </span>
+                                        <span
+                                            className="bg-[#4EAA76] text-white !text-[12px] uppercase px-2 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 !flex items-center gap-1"
+                                            disabled={shortDownloadLoading}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleShortDownload(img);
+                                            }}
+                                        >
+                                            {
+                                                downloadingImageID === img.imageID ?
+                                                    <span className="w-5 h-5 border-t-2 rounded-full border-gray-100 animate-spin"></span>
+                                                    :
+                                                    <>
+                                                        <MdOutlineFileDownload className="text-[14px]" /> {img.type}
+                                                    </>
+                                            }
+                                        </span>
+                                    </div>
                                 </div>
+                                <p className="!text-white text-xs px-1">{img.title}</p>
                             </div>
-                            <p className="!text-white text-xs px-1">{img.title}</p>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

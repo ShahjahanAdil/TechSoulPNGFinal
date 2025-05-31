@@ -23,12 +23,12 @@ export default function Favourites() {
 
     const fetchFavourites = () => {
         setLoading(true)
-        axios.get(`${import.meta.env.VITE_HOST}/frontend/favourites/get-dashboard?userID=${userData.userID}&&?page=${page}`)
+        axios.get(`${import.meta.env.VITE_HOST}/frontend/favourites/get-dashboard?userID=${userData.userID}&page=${page}`)
             .then(res => {
                 const { status, data } = res
                 if (status === 200) {
                     setFavourites(data.userFavourites)
-                    setTotalPages(data.totalFavourites / 20)
+                    setTotalPages(Math.ceil(data.totalDownloads / 20))
                 }
             })
             .catch(err => {

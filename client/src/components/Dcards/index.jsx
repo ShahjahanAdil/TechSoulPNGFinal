@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import './Dcards.css'
 import { useNavigate } from "react-router-dom";
 import flag13 from "../../assets/images/fbg1.jpg";
 import flag14 from "../../assets/images/fbg2.jpg";
@@ -11,23 +12,36 @@ import { FaCrown, FaHeart } from "react-icons/fa";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { BsInfoCircleFill, BsTextareaResize } from "react-icons/bs";
 import { HiOutlineDownload } from "react-icons/hi";
+import { BsFiletypeAi } from "react-icons/bs";
 import pngImg from "../../assets/images/bgPNGFinal.jpg";
 import ButtonLoader from "../ButtonLoader";
 import { useAuthContext } from "../../contexts/AuthContext";
 import dayjs from "dayjs";
 import axios from "axios";
 
-const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeType, resizeVal, setResizeVal, handleDownload, downloadLoading, }) => {
+const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeType, resizeVal, setResizeVal, downloadFormat, setDownloadFormat, withBackground, setWithBackground, handleDownload, downloadLoading, }) => {
 
     const { userData, dispatch, guestData, isGuest } = useAuthContext()
     const [favourites, setFavourites] = useState([]);
     const [shortDownloadLoading, setShortDownloadLoading] = useState(false)
     const [downloadingImageID, setDownloadingImageID] = useState("")
-    const navigate = useNavigate();
+    const [previewSizeKB, setPreviewSizeKB] = useState(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        fetchFavourites();
-    }, []);
+        if (userData.userID) {
+            fetchFavourites()
+        }
+    }, [userData])
+
+    useEffect(() => {
+        if (downloadFormat === 'webp') {
+            generatePreviewSize(downloadFormat, withBackground);
+        } else {
+            generatePreviewSize(downloadFormat);
+        }
+    }, [downloadFormat, withBackground]);
+
 
     const fetchFavourites = () => {
         axios.get(`${import.meta.env.VITE_HOST}/frontend/favourites/get?userID=${userData.userID}`)
@@ -72,6 +86,46 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeTyp
                 console.error("Frontend POST error", err.message);
             })
     }
+
+    const generatePreviewSize = (format, withBg = false) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`;
+
+        img.onload = async () => {
+            let width = img.naturalWidth;
+            let height = img.naturalHeight;
+
+            if (format === 'webp') {
+                width = Math.round(width * 0.9);
+                height = Math.round(height * 0.9);
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+
+            if ((format === 'jpg' || format === 'jpeg') || (format === 'webp' && withBg)) {
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob(blob => {
+                if (!blob) return;
+
+                const sizeInKB = (blob.size / 1024).toFixed(2);
+                setPreviewSizeKB(sizeInKB);
+            }, `image/${format}`, 0.9);
+        };
+
+        img.onerror = () => {
+            setPreviewSizeKB(null);
+        };
+    };
 
     // const handleShortDownload = async (img) => {
     //     try {
@@ -291,73 +345,151 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeTyp
                             to get license authorization.
                         </p>
 
-                        <div className="!mb-4">
-                            <h6 className="flex gap-2 items-center font-bold !mb-2">
-                                <BsInfoCircleFill /> Image Details
-                            </h6>
-                            <p>
-                                <span className="text-[#666] text-[14px]">Dimensions:</span>
-                                <span className="font-bold indent-1 inline-block text-[#333]">
-                                    {dimensions.width} x {dimensions.height}
-                                </span>
-                            </p>
-                            <p>
-                                <span className="text-[#666] text-[14px]">MIME Type:</span>
-                                <span className="uppercase font-bold indent-1 inline-block text-[#333]">
-                                    {imageDets.type}
-                                </span>
-                            </p>
-                            <p>
-                                <span className="text-[#666] text-[14px]">Category :</span>
-                                <span className="capitalize font-bold indent-1 inline-block text-[#333]">
-                                    {imageDets.category}
-                                </span>
-                            </p>
+                        <div className="flex justify-between items-start gap-5 !mb-4">
+                            <div className="flex-1">
+                                <h6 className="flex gap-2 items-center font-bold !mb-2">
+                                    <BsInfoCircleFill /> Image Details
+                                </h6>
+                                <p>
+                                    <span className="text-[#666] text-[14px]">Dimensions:</span>
+                                    <span className="font-bold indent-1 inline-block text-[#333]">
+                                        {dimensions.width} x {dimensions.height}
+                                    </span>
+                                </p>
+                                <p>
+                                    <span className="text-[#666] text-[14px]">MIME Type:</span>
+                                    <span className="uppercase font-bold indent-1 inline-block text-[#333]">
+                                        {imageDets.type}
+                                    </span>
+                                </p>
+                                <p>
+                                    <span className="text-[#666] text-[14px]">Category :</span>
+                                    <span className="capitalize font-bold indent-1 inline-block text-[#333]">
+                                        {imageDets.category}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div className="preview rounded-[8px]">
+                                <img
+                                    src={`${import.meta.env.VITE_HOST}${imageDets.imageURL}`}
+                                    alt="preview"
+                                    className="w-[150px] h-[150px] p-2 object-contain rounded-[8px]"
+                                    style={downloadFormat === 'png' ? {
+                                        backgroundImage: `url(${pngImg})`,
+                                        backgroundSize: "400%",
+                                    } : downloadFormat === 'webp' ? {
+                                        backgroundImage: `url(${pngImg})`,
+                                        backgroundSize: "400%",
+                                    } : { backgroundColor: "#fff" }}
+                                />
+                            </div>
                         </div>
 
-                        <div className="mb-2 sm:mb-4">
-                            <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
+                        <div className="flex justify-between gap-2 sm:gap-5 md:gap-0 lg:gap-8 flex-col sm:flex-row md:flex-col lg:flex-row">
+                            <div className="flex-1 mb-2 sm:mb-4">
+                                <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
 
-                            <div className="flex mt-4">
-                                {['width', 'height'].map((type, i) => {
-                                    return (
-                                        <button key={i} className={`flex-1 px-2 py-2 sm:py-3 capitalize
+                                <div className="flex mt-2">
+                                    {['width', 'height'].map((type, i) => {
+                                        return (
+                                            <button key={i} className={`flex-1 !py-1 sm:!py-2 capitalize !text-[14px]
                                             ${resizeType === type ? 'bg-[#4EAA76] !text-white' : 'bg-gray-200 !text-[#333]'}
                                             ${type === 'width' ? 'rounded-tl-[8px] rounded-bl-[8px]' : 'rounded-tr-[8px] rounded-br-[8px]'}
                                             `}
-                                            onClick={() => setResizeType(type)}
-                                        >
-                                            {type}
-                                        </button>
-                                    )
-                                })}
+                                                onClick={() => setResizeType(type)}
+                                            >
+                                                {type}
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+
+                                <div className="relative mt-4">
+                                    <input
+                                        type="number" name="resize" id="resize" min="50" value={resizeVal ? resizeVal : ''} placeholder="Min value is 50"
+                                        className="w-full !p-2 sm:!p-3 rounded-[8px] !text-[12px]"
+                                        onChange={e => setResizeVal(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (['e', 'E', '+', '-'].includes(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        className="absolute right-0 top-0 h-full px-3 bg-[#4EAA76] !text-white !text-[12px] sm:!text-[14px] rounded-tr-[8px] rounded-br-[8px] hover:bg-[#7EC19B]"
+                                        disabled={downloadLoading}
+                                        onClick={() => handleDownload(true)}
+                                    >
+                                        Resize
+                                    </button>
+                                </div>
                             </div>
 
-                            <div className="relative mt-4">
-                                <input
-                                    type="number" name="resize" id="resize" min="50" value={resizeVal ? resizeVal : ''} placeholder="Enter a resize value of 50 or above"
-                                    className="w-full p-2 sm:p-3 rounded-[8px] !text-[12px] sm:!text-[16px]"
-                                    onChange={e => setResizeVal(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (['e', 'E', '+', '-'].includes(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                                <button
-                                    className="absolute right-0 top-0 h-full px-4 bg-[#4EAA76] !text-white !text-[12px] sm:!text-[16px] font-bold rounded-tr-[8px] rounded-br-[8px] hover:bg-[#7EC19B]"
-                                    disabled={downloadLoading}
-                                    onClick={() => handleDownload(true)}
-                                >
-                                    Resize
-                                </button>
+                            <div className="flex-1">
+                                <div className="mb-3">
+                                    <p className="flex gap-2 items-center font-bold !text-[#333] mb-2"><BsFiletypeAi /> Select Format</p>
+                                    <div className="flex gap-2">
+                                        {["png", "jpg", "webp"].map((type) => (
+                                            <button
+                                                key={type}
+                                                className={`flex-1 px-4 !py-1 sm:!py-2 rounded-lg text-sm uppercase ${downloadFormat === type
+                                                    ? "bg-[#4EAA76] text-white"
+                                                    : "bg-gray-200 text-[#333]"
+                                                    }`}
+                                                onClick={() => setDownloadFormat(type)}
+                                            >
+                                                {type}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    {
+                                        downloadFormat === 'png' ? (
+                                            <>
+                                                <p className="!text-[14px]">Without background</p>
+                                                <p className="!text-[14px]">Size: {previewSizeKB ? `${previewSizeKB} KB` : 'Calculating...'}</p>
+                                            </>
+                                        ) : downloadFormat === 'jpg' || downloadFormat === 'jpeg' ? (
+                                            <>
+                                                <p className="!text-[14px]">With white background</p>
+                                                <p className="!text-[14px]">Size: {previewSizeKB ? `${previewSizeKB} KB` : 'Calculating...'}</p>
+                                            </>
+                                        ) : downloadFormat === 'webp' ? (
+                                            <>
+                                                <div className="flex gap-1 !text-[14px]">
+                                                    <input
+                                                        type="radio"
+                                                        name="backgroundOption"
+                                                        id="withBackground"
+                                                        checked={withBackground === true}
+                                                        onChange={() => setWithBackground(true)}
+                                                    />
+                                                    <label htmlFor="withBackground" className="!text-[14px] !text-[#666]">With background</label>
+                                                </div>
+                                                <div className="flex gap-1 !text-[14px]">
+                                                    <input
+                                                        type="radio"
+                                                        name="backgroundOption"
+                                                        id="withoutBackground"
+                                                        checked={withBackground === false}
+                                                        onChange={() => setWithBackground(false)}
+                                                    />
+                                                    <label htmlFor="withoutBackground" className="!text-[14px] !text-[#666]">Without background</label>
+                                                </div>
+                                                <p className="!text-[14px]">Size: {previewSizeKB ? `${previewSizeKB} KB` : 'Calculating...'}</p>
+                                            </>
+                                        ) : null
+                                    }
+                                </div>
                             </div>
                         </div>
 
                         <button
-                            className="flex items-center gap-3 justify-center !text-[16px] sm:!text-[20px] font-bold bg-[#4EAA76] text-white !px-1 !py-3 sm:!py-5 rounded-lg w-full hover:bg-[#4eaa76ba] cursor-pointer transition !mb-5"
+                            className="flex items-center gap-3 justify-center !text-[16px] sm:!text-[20px] font-bold bg-[#4EAA76] text-white mt-2 sm:mt-0 !px-1 !py-2 sm:!py-4 rounded-lg w-full hover:bg-[#4eaa76ba] cursor-pointer transition !mb-5"
                             disabled={downloadLoading}
-                            onClick={() => handleDownload(false)}
+                            onClick={() => handleDownload(false, withBackground)}
                         >
                             <HiOutlineDownload className="!text-[20px] sm:!text-[30px]" />
                             {!downloadLoading ? (
