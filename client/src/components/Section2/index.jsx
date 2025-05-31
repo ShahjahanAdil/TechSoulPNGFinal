@@ -28,9 +28,9 @@ export default function Section2() {
     <>
       <div className="mainContainer">
         <div className="flex justify-between items-start mt-5">
-          <h2 className="px-4 !text-[24px] sm:!text-[30px] font-bold md:mb-3">
+          <h3 className="px-4 sm:!text-[32px] font-bold md:mb-3">
             Festival Featured images and collections
-          </h2>
+          </h3>
 
           <button
             className="flex gap-2 items-center rounded-[12px] font-bold px-[20px] hover:gap-4 transition-all duration-300 !text-[#5ABC84]"

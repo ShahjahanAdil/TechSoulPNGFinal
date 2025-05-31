@@ -185,9 +185,9 @@ const CardsSec = () => {
         <div className="my-5 px-4">
             {/* Heading and Button */}
             <div className="flex justify-between items-start mb-6">
-                <h2 className="text-[24px] sm:text-[30px] font-bold">
+                <h3 className="text-[24px] sm:text-[32px] font-bold">
                     Explore popular creative Assets
-                </h2>
+                </h3>
                 <button
                     className="flex gap-2 items-center rounded-[12px] font-bold px-[20px] hover:gap-4 transition-all duration-300 text-[#5ABC84]"
                     onClick={() => navigate("/images")}

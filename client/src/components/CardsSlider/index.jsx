@@ -102,6 +102,9 @@ function CardsSlider() {
   return (
     <>
       <div className="relative py-10 px-8">
+              <div className="py-8">
+                <h3>Trending Now</h3>
+              </div>
         <Slider {...settings}>
           {images.map((img, index) => (
             <div key={index} className="px-4">
