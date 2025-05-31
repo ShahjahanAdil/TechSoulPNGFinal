@@ -29,6 +29,13 @@
         box-shadow: rgba(134, 134, 134, 0.1) 0px 2px 2px 0px;
     }
 
+    .free-btns{
+        display: none;
+    }
+
+    .free-nav-btns{
+        display: none;
+    }
 
     @media screen and (max-width: 1024px) {
         .menu-icon {
@@ -58,4 +65,23 @@
         .search{
             display: none;
         }
+
+        .free-btns{
+            display: block;
+        }
+
+        .free-nav-btns{
+            display: none;
+        }
     }
+
+
+     @media screen and (max-width: 499px) {
+         .free-btns{
+            display: none;
+        }
+
+        .free-nav-btns{
+            display: block;
+        }
+     }
