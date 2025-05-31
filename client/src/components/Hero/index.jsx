@@ -1,5 +1,6 @@
 import React from "react";
 // import SearchBar from './SearchBar';
+import { useNavigate } from "react-router-dom";
 import { ChevronRight, Star } from "lucide-react";
 import image1 from "../../assets/images/bg6.jpg";
 import image2 from "../../assets/images/bg2.jpg";
@@ -8,6 +9,9 @@ import image4 from "../../assets/images/bg4.jpg";
 import "./hero.css";
 
 const Hero = () => {
+
+  const navigate = useNavigate()
+
   return (
     <section className="relative mainContainer min-h-screen py-10  flex items-center justify-center overflow-hidden">
       {/* Background Pattern */}
@@ -48,7 +52,7 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-6 sm:py-3 bg-[#07A34D] text-white rounded-[12px] font-semibold hover:bg-[#5fb179] transition-all hover:scale-105 shadow-lg hover:shadow-xl">
+              <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-6 sm:py-3 bg-[#07A34D] text-white rounded-[12px] font-semibold hover:bg-[#5fb179] transition-all hover:scale-105 shadow-lg hover:shadow-xl" onClick={() => navigate("/images")}>
                 Start Exploring
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>

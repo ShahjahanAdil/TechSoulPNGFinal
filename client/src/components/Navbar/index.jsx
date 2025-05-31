@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHeart, FaSearch, FaUser } from "react-icons/fa";
 import { PiHeadphonesFill } from "react-icons/pi";
-import { LuDownload } from "react-icons/lu";
+import { LuDownload, LuLogOut } from "react-icons/lu";
 import userIcon from "../../assets/images/user.png";
 // import { TbWorld } from "react-icons/tb";
+import { IoLogOutOutline } from "react-icons/io5";
 import { GrLanguage } from "react-icons/gr";
 import { FaUserPlus, FaX } from "react-icons/fa6";
 import { MdOutlineExplore } from "react-icons/md";
@@ -21,11 +22,12 @@ import { FaRegUser } from "react-icons/fa6";
 import dayjs from "dayjs";
 
 export default function Navbar() {
-  const { userData, handleLogout } = useAuthContext();
+  const { userData, handleLogout, setLoading } = useAuthContext();
 
   const { logout } = useAuth0();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   const isToday = dayjs(userData.lastDownloadDate).isSame(dayjs(), "day");
@@ -35,6 +37,7 @@ export default function Navbar() {
   const remainingDownloads = dailyDownloadLimit - usedDownloads;
 
   const logoutFunction = () => {
+    setLoading(true)
     logout();
     handleLogout();
   };
@@ -59,7 +62,7 @@ export default function Navbar() {
           </div>
           <div className="search flex w-full max-w-[800px] justify-center">
             <div className="!w-[100%]">
-              <div className="flex   items-center justify-center  border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
+              <div className="flex items-center justify-center border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
                 <div className="relative group inline-block">
                   <button className=" px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white  flex gap-1 items-center  rounded-l-md text-base">
                     Categories{" "}
@@ -104,7 +107,7 @@ export default function Navbar() {
                 />
 
                 <button
-                  className="bg-[#6FD38E] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                  className="bg-[#666] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
                   onClick={handleSearch}
                 >
                   <FaSearch className="!text-[10px]" />{" "}
@@ -117,7 +120,7 @@ export default function Navbar() {
 
         <div className="nav-buttons flex items-center gap-4">
           <div className="flex items-center pl-4 border-l-2  border-gray-300">
-            <button className="!text-[12px] hover:!text-[#71C194]">
+            <button className="!text-[12px] hover:!text-[#71C194]" onClick={() => navigate("/images")}>
               Explore
             </button>
           </div>
@@ -190,23 +193,21 @@ export default function Navbar() {
                 className="w-full h-full object-contain"
               />
               <div className="absolute invisible group-hover:visible group-hover:opacity-100 group-hover:translate-y-[0px] opacity-50 translate-y-[20px] transition-all duration-200 flex flex-col items-center justify-between min-h-[400px] w-[400px] bg-white rounded-[12px] z-99 right-0 top-[35px] !p-5 shadow-lg">
-                <div className="absolute top-[15px] right-2">
+                {/* <div className="absolute top-[15px] right-2">
                   <button
                     className="!text-[14px] hover:!text-red-500 hover:underline"
                     onClick={logoutFunction}
                   >
                     Logout
                   </button>
-                </div>
+                </div> */}
                 {/* Profile Content */}
-                <div className="flex w-full justify-around bg-[#f3f3f37e] p-5 rounded-[12px] mt-10">
-                  <div
-                    className={`relative w-[72px] h-[72px] flex items-center justify-center border-2 bg-white
-                      ${
-                        userData.plan === "premium"
-                          ? "border-[#ffe895]"
-                          : "border-[#efefef]"
-                      } !p-3 rounded-[50px]`}
+                <div className="flex w-full justify-around px-3 py-4 bg-[#f3f3f3b5] rounded-[12px]">
+                  <div className={`relative w-[72px] h-[72px] flex items-center justify-center border-2 bg-white
+                      ${userData.plan === "premium"
+                      ? "border-[#ffe895]"
+                      : "border-[#efefef]"
+                    } !p-3 rounded-[50px]`}
                   >
                     <img src={userIcon} alt="" />
 
@@ -436,7 +437,7 @@ export default function Navbar() {
 
                   <div className="flex flex-col items-start">
                     <div className="flex flex-col justify-center">
-                      <div className="!mt-5 flex justify-center items-center gap-1.5">
+                      <div className="flex justify-center items-center gap-1.5">
                         <p className="!text-[14px]">
                           <span className="!text-[14px] font-bold">
                             Username:
@@ -453,11 +454,10 @@ export default function Navbar() {
                       </div>
                     </div>
                     <div
-                      className={`!mt-1 flex justify-center items-center bg-[#E8E8E8] rounded-full ${
-                        userData.plan === "free"
-                          ? "bg-[#E8E8E8]"
-                          : "bg-linear-to-b from-[#FAD961] to-[#F76B1C] !text-[#fff]"
-                      }`}
+                      className={`!mt-1 flex justify-center items-center bg-[#E8E8E8] rounded-full ${userData.plan === "free"
+                        ? "bg-[#E8E8E8]"
+                        : "bg-linear-to-b from-[#FAD961] to-[#F76B1C] !text-[#fff]"
+                        }`}
                     >
                       {" "}
                       <span
@@ -473,16 +473,16 @@ export default function Navbar() {
                 </div>
 
                 {/* Download Status */}
-                <div className="flex items-center !py-[20px] gap-10">
+                <div className="flex items-center !py-[15px] gap-10">
                   <div className="flex items-center flex-col">
-                    <p className="!text-[24px] font-bold !text-[#333]">
+                    <p className="!text-[20px] font-bold !text-[#333]">
                       {dailyDownloadLimit}
                     </p>
                     <p className="text-[#999] !text-sm">Daily Downloads</p>
                   </div>
 
                   <div className="flex items-center flex-col">
-                    <p className="!text-[24px] font-bold !text-[#333]">
+                    <p className="!text-[20px] font-bold !text-[#333]">
                       {remainingDownloads}
                     </p>
                     <p className="text-[#999] !text-sm">Remaning Downloads</p>
@@ -494,21 +494,17 @@ export default function Navbar() {
                 <div className="border-t-2 w-full border-[#F7F7F7]"></div>
 
                 {/* Sale banner */}
-                <div
-                  className={`!mt-4 !p-[20px] relative flex flex-col items-center justify-center bg-[#FFFAEC] w-[350px] min-h-[100px] rounded-[12px] shadow-lg ${
-                    userData.plan === "premium" && "hidden"
-                  }`}
-                >
-                  <div className=" absolute top-0 left-0 z-30 flex flex-col justify-center !px-1">
-                    <p className="!text-[14px] !text-white uppercase font-bold">
+                <div className={`!mt-2 !p-[15px] relative flex flex-col items-center justify-center bg-[#FFFAEC] w-[350px] min-h-[100px] rounded-[12px] shadow-lg ${userData.plan === "premium" && "hidden"}`}>
+                  <div className=" absolute top-1 left-1 z-30 flex flex-col justify-center !px-1">
+                    <p className="!text-[12px] !text-white uppercase font-bold">
                       Sale
                     </p>
-                    <p className="!text-[14px] !text-white uppercase font-bold">
+                    <p className="!text-[12px] !text-white uppercase font-bold">
                       80%
                     </p>
                   </div>
                   <div className="absolute top-[20px] right-[20px] -rotate-30">
-                    <img src={crown} alt="" className="w-[50px]" />
+                    <img src={crown} alt="" className="w-[40px]" />
                   </div>
                   <div className="absolute top-0 left-0">
                     <svg
@@ -526,55 +522,75 @@ export default function Navbar() {
                   </div>
 
                   <div className="flex flex-col items-center gap-1 ">
-                    <p className="!text-[14px] !text-[#85713b]">
+                    <p className="!text-[12px] !text-[#85713b]">
                       One Time payment
                     </p>
-                    <p className="!text-[14px] font-medium !text-[#85713b]">
+                    <p className="!text-[12px] font-medium !text-[#85713b]">
                       8,000,000+ curated assets
                     </p>
-                    <p className="!text-[16px] !text-[#4e2d25] font-semibold">
+                    <p className="!text-[14px] !text-[#4e2d25] font-semibold">
                       Unlimited Lifetime Downloads
                     </p>
                   </div>
 
-                  <button className=" !mt-3 bg-linear-65 from-[#f7bc0b] !py-2 to-[#ff9900] w-full !text-[18px] font-bold !text-white">
+                  <button className="!mt-2 bg-linear-65 from-[#f7bc0b] !py-1 rounded-[8px] to-[#ff9900] w-full !text-[16px] font-bold !text-white">
                     Buy Now
                   </button>
                 </div>
 
                 {/* Help center */}
-                <div className="!mt-5 flex justify-evenly w-full">
+                <div className="!mt-5 flex gap-2 w-full">
                   <div
                     className="flex flex-col w-[30%] items-center cursor-pointer"
                     onClick={() => navigate("/dashboard/profile")}
                   >
-                    <div className="flex flex-col items-center justify-center bg-[#edf7fa] hover:bg-[#e0f1f7] transition-all duration-150 ease-linear w-[60px] h-[60px] rounded-[12px]">
-                      {/* <span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="23" aria-hidden="true" viewBox="0 0 22 23" class="_tea4l2"><g fill="none" fillRule="evenodd"><path fill="#83D99B" d="M10.69 11.759c-5.612 0-10.217 4.295-10.687 9.766a.86.86 0 0 0 .866.923h19.64c.503 0 .91-.424.867-.923-.47-5.471-5.074-9.766-10.686-9.766"></path><circle cx="10.69" cy="5.345" r="5.345" fill="#BEEDCC"></circle></g></svg></span> */}
+                    <div className="flex flex-col items-center justify-center bg-[#edf7fa] hover:bg-[#e0f1f7] transition-all duration-150 ease-linear w-[50px] h-[50px] rounded-[12px]">
                       <FaUser className="text-[#83cbd9] text-[20px]" />
                     </div>
-                    <p className="!text-[#333] !py-2 !text-[14px]">
-                      My Profile
+                    <p className="!text-[#333] !text-[14px] mt-2">
+                      Profile
                     </p>
                   </div>
                   <div
                     className="flex flex-col w-[30%] items-center cursor-pointer"
                     onClick={() => navigate("/contact")}
                   >
-                    <div className="flex flex-col items-center justify-center bg-[#fff6dc] hover:bg-[#f8eecf] transition-all duration-150 ease-linear w-[60px] h-[60px] rounded-[12px]">
-                      {/* <span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" aria-hidden="true" viewBox="0 0 22 22" class="_tea4l2"><g fill="none"><path fill="#91C4FF" d="M19.387 12.065c0-.355.12-.71.12-1.065s0-.71-.12-1.065L21.8 8.161c.241-.118.241-.473.12-.71l-2.292-3.784c-.12-.237-.483-.355-.724-.237l-2.775 1.065c-.604-.473-1.207-.828-1.931-1.065L13.836.473c0-.236-.242-.473-.604-.473H8.768c-.242 0-.483.237-.604.473L7.802 3.43c-.724.237-1.327.592-1.93 1.065L3.095 3.43c-.241-.118-.483 0-.724.237L.079 7.452c-.12.236-.12.473.12.71l2.414 1.773c0 .355-.12.71-.12 1.065s0 .71.12 1.065L.2 13.839c-.241.118-.241.473-.12.71l2.292 3.784c.12.237.483.355.724.237l2.775-1.065c.604.473 1.207.828 1.931 1.065l.362 2.957c0 .236.242.473.604.473h4.464c.242 0 .483-.237.604-.473l.362-2.957c.724-.237 1.327-.592 1.93-1.065l2.776 1.065c.241.118.483 0 .724-.237l2.293-3.785c.12-.236.12-.473-.12-.71z"></path><path fill="#C8E3FF" d="M11.06 14.785c-2.172 0-3.86-1.656-3.86-3.785s1.69-3.785 3.861-3.785S14.922 8.871 14.922 11s-1.69 3.785-3.862 3.785"></path></g></svg></span> */}
+                    <div className="flex flex-col items-center justify-center bg-[#fff6dc] hover:bg-[#f8eecf] transition-all duration-150 ease-linear w-[50px] h-[50px] rounded-[12px]">
                       <PiHeadphonesFill className="text-[#f5ca73] text-[20px]" />
                     </div>
-                    <p className="!text-[#333] !py-2 !text-[14px]">
+                    <p className="!text-[#333] !text-[14px] mt-2">
                       Help Center
                     </p>
                   </div>
-                </div>
-                <div className="!mt-5 flex justify-evenly w-full">
                   <div
                     className="flex flex-col w-[30%] items-center cursor-pointer"
                     onClick={() => navigate("/dashboard/downloads")}
                   >
-                    <div className="flex flex-col items-center justify-center bg-[#EDFAF0] hover:bg-[#ddfae4] transition-all duration-150 ease-linear w-[60px] h-[60px] rounded-[12px]">
+                    <div className="flex flex-col items-center justify-center bg-[#EDFAF0] hover:bg-[#ddfae4] transition-all duration-150 ease-linear w-[50px] h-[50px] rounded-[12px]">
+                      <LuDownload className="text-[#83D99B] text-[20px]" />
+                    </div>
+                    <p className="!text-[#333] !text-[14px] mt-2">
+                      Downloads
+                    </p>
+                  </div>
+                  <div
+                    className="flex flex-col w-[30%] items-center cursor-pointer"
+                    onClick={() => navigate("/dashboard/favourites")}
+                  >
+                    <div className="flex flex-col items-center justify-center bg-[#faeded] hover:bg-[#fce3e3] transition-all duration-150 ease-linear w-[50px] h-[50px] rounded-[12px]">
+                      <FaHeart className="text-[#ff9191] text-[20px]" />
+                    </div>
+                    <p className="!text-[#333] !text-[14px] mt-2">
+                      Favourites
+                    </p>
+                  </div>
+                </div>
+                {/* <div className="!mt-2 flex justify-evenly w-full">
+                  <div
+                    className="flex flex-col w-[30%] items-center cursor-pointer"
+                    onClick={() => navigate("/dashboard/downloads")}
+                  >
+                    <div className="flex flex-col items-center justify-center bg-[#EDFAF0] hover:bg-[#ddfae4] transition-all duration-150 ease-linear w-[50px] h-[50px] rounded-[12px]">
                       <LuDownload className="text-[#83D99B] text-[20px]" />
                     </div>
                     <p className="!text-[#333] !py-2 !text-[14px]">
@@ -585,14 +601,14 @@ export default function Navbar() {
                     className="flex flex-col w-[30%] items-center cursor-pointer"
                     onClick={() => navigate("/dashboard/favourites")}
                   >
-                    <div className="flex flex-col items-center justify-center bg-[#faeded] hover:bg-[#fce3e3] transition-all duration-150 ease-linear w-[60px] h-[60px] rounded-[12px]">
+                    <div className="flex flex-col items-center justify-center bg-[#faeded] hover:bg-[#fce3e3] transition-all duration-150 ease-linear w-[50px] h-[50px] rounded-[12px]">
                       <FaHeart className="text-[#ff9191] text-[20px]" />
                     </div>
                     <p className="!text-[#333] !py-2 !text-[14px]">
                       My Favourites
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           ) : (
@@ -611,6 +627,31 @@ export default function Navbar() {
               </button>
             </div>
           )}
+
+          {
+            userData.userID &&
+            <div className="relative">
+              <div
+                className="text-[18px] text-red-500 ml-1 cursor-pointer hover:text-red-400"
+                onMouseEnter={() => setShowPopup(true)}
+                onMouseLeave={() => setShowPopup(false)}
+              >
+                <LuLogOut onClick={logoutFunction} />
+              </div>
+
+              {/* Popup with transitions */}
+              <div
+                className={`absolute top-[115%] right-0 mt-1 bg-white shadow-md rounded-md px-2 py-1 z-10 border border-gray-200
+                transform transition-all duration-200 ease-out
+                ${showPopup ?
+                    'opacity-100 scale-100 translate-y-0' :
+                    'opacity-0 scale-95 translate-y-1'
+                  }`}
+              >
+                <p className="!text-[12px] font-bold !text-red-400">Logout</p>
+              </div>
+            </div>
+          }
 
           <div
             className="menu-icon flex flex-col items-center cursor-pointer border border-gray-300 p-2 rounded-[8px]"
@@ -1038,9 +1079,8 @@ export default function Navbar() {
       </section>
 
       <section
-        className={`fixed top-0 left-0 z-999 bg-[#efefef] h-screen w-full sm:w-[400px] transition-all duration-300 ease-in-out ${
-          menuOpen ? "toggle-menu-active" : "toggle-menu"
-        }`}
+        className={`fixed top-0 left-0 z-999 bg-[#efefef] h-screen w-full sm:w-[400px] transition-all duration-300 ease-in-out ${menuOpen ? "toggle-menu-active" : "toggle-menu"
+          }`}
       >
         <div className="flex flex-col gap-3 p-8">
           <div className="flex items-center justify-between pb-3">
