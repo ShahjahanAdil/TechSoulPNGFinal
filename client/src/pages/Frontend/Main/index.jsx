@@ -16,7 +16,8 @@ export default function Main() {
 
     const { category } = useParams();
     const searchParams = new URLSearchParams(window.location.search);
-    const searchText = searchParams.get("s");
+    const searchText = searchParams.get("s") || '';
+    const filter = searchParams.get("filter") || null;
 
     const { userData, dispatch, isGuest, guestData } = useAuthContext();
     const [images, setImages] = useState([]);
@@ -40,7 +41,7 @@ export default function Main() {
     useEffect(() => {
         fetchImages();
         window.scrollTo(0, 0);
-    }, [page, category, searchText]);
+    }, [page, category, searchText, filter]);
 
     useEffect(() => {
         setPage(1);
@@ -77,12 +78,22 @@ export default function Main() {
     };
 
     const fetchImages = () => {
-        const apiURL = `${import.meta.env.VITE_HOST}/frontend/main/fetch-images?page=${page}` +
-            (category
-                ? `&category=${category}`
-                : searchText
-                    ? `&searchText=${searchText}`
-                    : "");
+        const params = new URLSearchParams();
+        params.set("page", page);
+
+        if (category) {
+            params.set("category", category);
+        }
+
+        if (filter) {
+            params.set("filter", filter);
+        }
+
+        if (searchText) {
+            params.set("searchText", searchText);
+        }
+
+        const apiURL = `${import.meta.env.VITE_HOST}/frontend/main/fetch-images?${params.toString()}`;
 
         setLoading(true);
         axios.get(apiURL)
@@ -100,6 +111,38 @@ export default function Main() {
                 setLoading(false);
             });
     };
+
+    // const fetchImages = () => {
+    //     const apiURL = `${import.meta.env.VITE_HOST}/frontend/main/fetch-images?page=${page}` +
+    //         (category
+    //             ? `&category=${category}`
+    //             : searchText
+    //                 ? `&searchText=${searchText}`
+    //                 : "");
+
+    //     const apiFilterURL = `${import.meta.env.VITE_HOST}/frontend/main/fetch-images?page=${page}` +
+    //         (filter
+    //             ? `&filter=${filter}`
+    //             : filter && searchText
+    //                 ? `&filter=${filter}&searchText=${searchText}`
+    //                 : "");
+
+    //     setLoading(true);
+    //     axios.get(filter ? apiFilterURL : apiURL)
+    //         .then((res) => {
+    //             const { status, data } = res;
+    //             if (status === 200) {
+    //                 setImages(data.imgs);
+    //                 setTotalImagePages(Math.ceil(data?.totalImgs / 25));
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.error("Frontend POST error", err.message);
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    // };
 
     const handleAddToFavourites = ({ imageID, imageURL, favourite, license }) => {
         if (!userData.userID) {

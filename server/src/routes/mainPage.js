@@ -19,14 +19,16 @@ router.get("/main/fetch-categories", async (req, res) => {
 router.get("/main/fetch-images", async (req, res) => {
     try {
         const category = req.query.category;
+        const filter = req.query.filter;
         const searchText = req.query.searchText;
         const page = parseInt(req.query.page) || 1;
         const limit = 25;
         const skip = (page - 1) * limit;
 
-        let searchQuery = {};
+        const searchConditions = [];
+
         if (category) {
-            searchQuery = {
+            searchConditions.push({
                 $or: [
                     { title: { $regex: category, $options: "i" } },
                     { description: { $regex: category, $options: "i" } },
@@ -34,9 +36,21 @@ router.get("/main/fetch-images", async (req, res) => {
                     { subcategory: { $regex: category, $options: "i" } },
                     { tags: { $elemMatch: { $regex: category, $options: "i" } } }
                 ]
-            };
-        } else if (searchText) {
-            searchQuery = {
+            });
+        }
+
+        if (filter) {
+            searchConditions.push({
+                $or: [
+                    { title: { $regex: searchText, $options: "i" } },
+                    { description: { $regex: searchText, $options: "i" } },
+                    { type: { $regex: filter, $options: "i" } }
+                ]
+            });
+        }
+
+        if (searchText) {
+            searchConditions.push({
                 $or: [
                     { title: { $regex: searchText, $options: "i" } },
                     { description: { $regex: searchText, $options: "i" } },
@@ -44,14 +58,12 @@ router.get("/main/fetch-images", async (req, res) => {
                     { subcategory: { $regex: searchText, $options: "i" } },
                     { tags: { $elemMatch: { $regex: searchText, $options: "i" } } }
                 ]
-            };
+            });
         }
 
-        const imgs = await imagesModel.find(searchQuery)
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(limit);
+        const searchQuery = searchConditions.length > 0 ? { $and: searchConditions } : {};
 
+        const imgs = await imagesModel.find(searchQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
         const totalImgs = await imagesModel.countDocuments(searchQuery);
 
         return res.status(200).json({ message: "Images fetched successfully!", imgs, totalImgs });
@@ -59,7 +71,53 @@ router.get("/main/fetch-images", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
     }
-})
+});
+
+// router.get("/main/fetch-images", async (req, res) => {
+//     try {
+//         const category = req.query.category;
+//         const filter = req.query.filter;
+//         const searchText = req.query.searchText;
+//         const page = parseInt(req.query.page) || 1;
+//         const limit = 25;
+//         const skip = (page - 1) * limit;
+
+//         let searchQuery = {};
+//         if (category) {
+//             searchQuery = {
+//                 $or: [
+//                     { title: { $regex: category, $options: "i" } },
+//                     { description: { $regex: category, $options: "i" } },
+//                     { category: { $regex: category, $options: "i" } },
+//                     { subcategory: { $regex: category, $options: "i" } },
+//                     { tags: { $elemMatch: { $regex: category, $options: "i" } } }
+//                 ]
+//             };
+//         } else if (searchText) {
+//             searchQuery = {
+//                 $or: [
+//                     { title: { $regex: searchText, $options: "i" } },
+//                     { description: { $regex: searchText, $options: "i" } },
+//                     { category: { $regex: searchText, $options: "i" } },
+//                     { subcategory: { $regex: searchText, $options: "i" } },
+//                     { tags: { $elemMatch: { $regex: searchText, $options: "i" } } }
+//                 ]
+//             };
+//         }
+
+//         const imgs = await imagesModel.find(searchQuery)
+//             .sort({ createdAt: -1 })
+//             .skip(skip)
+//             .limit(limit);
+
+//         const totalImgs = await imagesModel.countDocuments(searchQuery);
+
+//         return res.status(200).json({ message: "Images fetched successfully!", imgs, totalImgs });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// })
 
 // router.get("/main/fetch-images", async (req, res) => {
 //     try {
