@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Search from "../../../components/Search";
+// import Search from "../../../components/Search";
 import { useNavigate, useParams } from "react-router-dom";
 
 // FAQs grouped by topic
@@ -78,8 +78,11 @@ export default function FAQs() {
         <div className="absolute top-0 left-0 w-30 h-30 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
         <div className="absolute top-0 right-0 w-30 h-30 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse [animation-delay:2s]"></div>
         <div className="absolute -bottom-8 left-20 w-30 h-30 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse [animation-delay:4s]"></div>
-        <div className="relative z-10">
+        {/* <div className="relative z-10">
           <Search />
+        </div> */}
+        <div>
+          <h3 className="!text-[#5fb179]">Frequently Asked Questions</h3>
         </div>
       </div>
 

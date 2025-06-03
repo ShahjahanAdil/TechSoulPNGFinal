@@ -202,7 +202,7 @@ const CardsSlider = () => {
               className="w-full h-full object-cover"
             />
             <div
-              className="absolute top-0 left-0 h-full w-[20%] bg-black/30 backdrop-blur-sm "
+              className="absolute top-0 left-0 h-full w-[20%] bg-[#1414142b] backdrop-blur-[5px] rounded-l-xl"
             />
           </div>
 
@@ -231,8 +231,7 @@ const CardsSlider = () => {
               className="w-full h-full object-cover"
             />
             <div
-              className="absolute top-0 right-0 h-full w-[20%] bg-black/70 backdrop-blur-sm rounded-r-xl"
-              style={{ boxShadow: "0 0 10px 15px rgba(0,0,0,0.7)" }}
+              className="absolute top-0 right-0 h-full w-[20%] bg-[#1414142b] backdrop-blur-[5px] rounded-r-xl"
             />
           </div>
 
