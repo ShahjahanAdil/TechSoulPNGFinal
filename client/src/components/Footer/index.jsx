@@ -84,7 +84,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="#"
+                    to="/popular-searches"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Popular Searches
@@ -119,7 +119,7 @@ const Footer = () => {
                     to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
-                    AI Remove Background
+                    AI Remove
                   </Link>
                 </li>
               </ul>
@@ -154,7 +154,7 @@ const Footer = () => {
               <ul className="">
                 <li>
                   <Link
-                    to="/contact"
+                    to="/help-center"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Help Center
