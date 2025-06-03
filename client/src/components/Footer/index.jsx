@@ -9,11 +9,9 @@ import {
 import logo from "../../assets/images/logo.png";
 import "./Footer.css";
 import bankCard from "../../assets/images/bankcards.jpeg";
-import { useNavigate } from "react-router-dom";
+import { AiOutlineCopyright } from "react-icons/ai";
 
 const Footer = () => {
-
-  const navigate = useNavigate();
   return (
     <>
       <section className="footer bg-[#FAFAFB] py-6 px-7 border-b-2 border-[#efefef] flex flex-col justify-between gap-5 lg:flex-row">
@@ -181,7 +179,7 @@ const Footer = () => {
               <ul className="!mt-2 flex flex-col gap-[10px]">
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/terms"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Term of Service
@@ -189,16 +187,15 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/privacy"
                     className="text-sm text-gray-700 hover:text-green-600"
-                    onClick={()=>navigate("/privacy")}
                   >
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/copyrights"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Copyrights
@@ -206,7 +203,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/cookies"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Cookies Policy
@@ -214,7 +211,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/license"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     License Terms
@@ -222,7 +219,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/refund"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Refund Policy
@@ -230,7 +227,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/privacy"
+                    to="/legal/intellectual-property"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     Intellectual Property Policy
@@ -243,12 +240,12 @@ const Footer = () => {
       </section>
       {/* Bank Card Section */}
       <div className="copy-right !py-3 !px-5 flex flex-wrap flex-col sm:flex-row justify-between items-center gap-4">
-        <div>
-          <span>©️</span>
-          <span className="text-[#666] text-sm">
+        <div className="flex items-center gap-1">
+          <span><AiOutlineCopyright className="text-[#666]" /></span>
+          <span className="!text-[#666] !text-sm">
             2017-2025 Pngtree -All Rights Reserved.
           </span>
-          <span className="text-[#666] text-sm">
+          <span className="!text-[#666] !text-sm">
             Contact Email: info@pngtree.com
           </span>
         </div>

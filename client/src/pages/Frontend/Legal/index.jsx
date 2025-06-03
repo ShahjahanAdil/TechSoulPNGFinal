@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const sections = [
   {
@@ -270,12 +271,17 @@ const sections = [
   },
 ];
 
-const Privacy = () => {
+const Legal = () => {
+  const { legalPage } = useParams();
   const [active, setActive] = useState("terms");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setActive(legalPage);
+  }, [legalPage]);
 
   return (
     <div className="max-w-6xl mx-auto my-16 px-4 md:px-0">
-
       <div className="flex flex-col md:flex-row md:space-x-12">
         {/* Sidebar nav */}
         <nav className="mb-10 md:mb-0 md:w-1/4 border-l border-gray-300 pl-6 sticky top-24 max-h-[80vh] overflow-auto">
@@ -283,7 +289,7 @@ const Privacy = () => {
             {sections.map(({ id, title }) => (
               <li key={id} className="mb-2">
                 <button
-                  onClick={() => setActive(id)}
+                  onClick={() => navigate(`/legal/${id}`)}
                   className={`w-full text-left border-l-4 pl-3 py-1.5 cursor-pointer transition-colors ${
                     active === id
                       ? "border-green-500 text-green-700 font-semibold bg-green-50"
@@ -304,7 +310,9 @@ const Privacy = () => {
             .filter((section) => section.id === active)
             .map(({ id, title, content }) => (
               <section key={id} aria-labelledby={`${id}-heading`}>
-                <h4 className="pb-5" id={`${id}-heading`}>{title}</h4>
+                <h4 className="pb-5" id={`${id}-heading`}>
+                  {title}
+                </h4>
                 {content}
               </section>
             ))}
@@ -314,4 +322,4 @@ const Privacy = () => {
   );
 };
 
-export default Privacy;
+export default Legal;
