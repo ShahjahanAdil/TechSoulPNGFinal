@@ -21,9 +21,10 @@ import dayjs from "dayjs";
 import axios from "axios";
 
 export default function Navbar() {
-    const { userData, handleLogout, setLoading } = useAuthContext();
 
+    const { userData, handleLogout, setLoading } = useAuthContext();
     const { logout } = useAuth0();
+
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchText, setSearchText] = useState("");
     const [searchCategory, setSearchCategory] = useState(null)
@@ -81,7 +82,6 @@ export default function Navbar() {
 
     const handleSearch = () => {
         if (searchText === "") return
-
         const trimmedText = searchText.trim();
 
         if (searchCategory && trimmedText) {
@@ -93,6 +93,14 @@ export default function Navbar() {
         }
 
         setShowSuggestions(false)
+
+        axios.post(`${import.meta.env.VITE_HOST}/frontend/searches/add?searchText=${encodeURIComponent(trimmedText)}`)
+            .then(res => {
+                setShowSuggestions(false)
+            })
+            .catch(err => {
+                console.error("Suggestion fetch error:", err);
+            })
     };
 
     return (

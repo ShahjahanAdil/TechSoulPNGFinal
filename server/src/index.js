@@ -59,6 +59,7 @@ const mainPageRouter = require('./routes/mainPage')
 const profileRouter = require('./routes/profile')
 const myDownloadsRouter = require('./routes/myDownloads')
 const favouritesRouter = require('./routes/favourites')
+const similarSearchesRouter = require('./routes/similarSearches')
 
 app.use('/auth', authRouter)
 app.use('/admin', adminDashboardRouter)
@@ -74,5 +75,6 @@ app.use('/dashboard', profileRouter)
 app.use('/dashboard', myDownloadsRouter)
 app.use('/frontend', favouritesRouter)
 app.use('/frontend', contactRouter)
+app.use('/frontend', similarSearchesRouter)
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
