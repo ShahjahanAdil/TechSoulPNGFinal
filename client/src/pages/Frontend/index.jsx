@@ -11,7 +11,7 @@ import Reviews from "./Reviews";
 import Legal from "./Legal";
 import Help from "./Help";
 import Popular from "./Popular";
-import FAQs from "./FAQS";
+import FAQs from "./FAQs";
 
 export default function Frontend() {
   return (
