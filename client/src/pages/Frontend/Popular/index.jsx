@@ -50,7 +50,7 @@ const Popular = () => {
                             onClick={() => navigate(`/images/${s.search}`)}
                         >
                             {/* Background Decoration */}
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#5FB179] to-[#07a44e] rounded-full opacity-10 transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500"></div>
+                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-[#5FB179] to-[#07a44e] rounded-full opacity-75 transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-500"></div>
 
                             {/* Content */}
                             <div className="flex justify-between items-center relative z-10">
@@ -60,7 +60,7 @@ const Popular = () => {
                                 </h6>
 
                                 {/* Search Count */}
-                                <p className="!text-[14px] text-gray-500">
+                                <p className="!text-[14px] !text-white">
                                     {s.count}
                                 </p>
                             </div>
