@@ -13,7 +13,7 @@ const Hero = () => {
   const navigate = useNavigate()
 
   return (
-    <section className="relative mainContainer min-h-screen py-10  flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[calc(100vh-107.6px)] py-10  flex items-center justify-center overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -52,7 +52,7 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-6 sm:py-3 bg-[#07A34D] text-white rounded-[12px] font-semibold hover:bg-[#5fb179] transition-all hover:scale-105 shadow-lg hover:shadow-xl" onClick={() => navigate("/images")}>
+              <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-6 sm:py-3 bg-[#40ab6e] text-white rounded-[12px] font-semibold hover:bg-[#5fb179] transition-all hover:scale-105 shadow-lg hover:shadow-xl" onClick={() => navigate("/images")}>
                 Start Exploring
                 <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>

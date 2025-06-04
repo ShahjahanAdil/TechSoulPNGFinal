@@ -35,10 +35,10 @@ export default function Section3() {
   return (
     <>
       <div className="mainContainer">
-        <div className="mx-auto px-4 py-10 space-y-12">
+        <div className="mx-auto px-4 pb-10 space-y-12">
           {/* Popular Collections */}
           <div>
-            <h3 className="mb-2">Popular collections to inspire you</h3>
+            <h3 className="!text-[20px] sm:!text-[32px] mb-2">Popular collections to inspire you</h3>
             <p className="mb-6">
               Explore trending themed collections and find the perfect visual.
             </p>
@@ -60,7 +60,7 @@ export default function Section3() {
 
           {/* Design Trends */}
           <div>
-            <h3 className="mb-2">Keep up with design trends</h3>
+            <h3 className="!text-[20px] sm:!text-[32px] mb-2">Keep up with design trends</h3>
             <p className="mb-6">
               Discover the most sought-after and trendy design collections.
             </p>

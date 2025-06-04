@@ -32,8 +32,7 @@ const CardsSec = () => {
 
     const fetchImages = () => {
         setLoading(true);
-        axios
-            .get(
+        axios.get(
                 `${import.meta.env.VITE_HOST
                 }/frontend/fetch-tab-images?category=${activeTab}`
             )
@@ -52,8 +51,7 @@ const CardsSec = () => {
     };
 
     const fetchFavourites = () => {
-        axios
-            .get(
+        axios.get(
                 `${import.meta.env.VITE_HOST}/frontend/favourites/get?userID=${userData.userID
                 }`
             )
@@ -183,12 +181,12 @@ const CardsSec = () => {
         <div className="mainContainer">
             <div className="my-5 px-4">
                 {/* Heading and Button */}
-                <div className="flex justify-between items-start mb-6">
-                    <h2 className="text-[24px] sm:text-[30px] font-bold">
+                <div className="flex justify-between items-start gap-2 mb-3 sm:mb-4">
+                    <h2 className="!text-[20px] sm:!text-[32px] font-bold">
                         Explore popular creative Assets
                     </h2>
                     <button
-                        className="flex gap-2 items-center rounded-[12px] font-bold px-[20px] hover:gap-4 transition-all duration-300 text-[#5ABC84]"
+                        className="hidden sm:flex gap-2 items-center rounded-[12px] font-bold hover:gap-4 transition-all duration-300 text-[#5ABC84]"
                         onClick={() => navigate("/images")}
                     >
                         Explore images <AiOutlineArrowRight />

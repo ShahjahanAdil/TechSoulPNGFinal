@@ -8,7 +8,7 @@ import { TiStarFullOutline } from "react-icons/ti";
 const Testimonials = () => {
   return (
     <div className="bg-green-50 p-8 ">
-      <h2 className="md:text-[35px] text-xl font-bold text-center mb-8">
+      <h2 className="!text-[20px] sm:!text-[32px] font-bold text-center mb-8">
         Find out why pngtree is trusted by users
       </h2>
 
@@ -53,7 +53,7 @@ const Testimonials = () => {
 
         {/* Right Panel */}
         <div className="w-full lg:w-1/2 mt-3">
-          <blockquote className="text-[30px] font-semibold mb-2">
+          <blockquote className="!text-[20px] sm:!text-[32px] font-semibold mb-2">
             “I recommend pngtree to anyone who…”
           </blockquote>
           <p className="text-gray-700 text-sm mb-4">

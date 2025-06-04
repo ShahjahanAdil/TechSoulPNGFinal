@@ -28,25 +28,36 @@ router.get("/main/fetch-images", async (req, res) => {
         const searchConditions = [];
 
         if (category) {
-            searchConditions.push({
-                $or: [
-                    { title: { $regex: category, $options: "i" } },
-                    { description: { $regex: category, $options: "i" } },
-                    { category: { $regex: category, $options: "i" } },
-                    { subcategory: { $regex: category, $options: "i" } },
-                    { tags: { $elemMatch: { $regex: category, $options: "i" } } }
-                ]
-            });
+            if (category.toLowerCase() === 'freebies') {
+                searchConditions.push({
+                    $or: [
+                        { license: { $regex: 'free', $options: "i" } }
+                    ]
+                });
+            }
+            else {
+                searchConditions.push({
+                    $or: [
+                        { title: { $regex: category, $options: "i" } },
+                        { description: { $regex: category, $options: "i" } },
+                        { category: { $regex: category, $options: "i" } },
+                        { subcategory: { $regex: category, $options: "i" } },
+                        { tags: { $elemMatch: { $regex: category, $options: "i" } } }
+                    ]
+                });
+            }
         }
 
         if (filter) {
-            searchConditions.push({
-                $or: [
-                    { title: { $regex: searchText, $options: "i" } },
-                    { description: { $regex: searchText, $options: "i" } },
-                    { type: { $regex: filter, $options: "i" } }
-                ]
-            });
+            const f = filter.toLowerCase();
+
+            if (['png', 'jpg', 'jpeg', 'webp'].includes(f)) {
+                searchConditions.push({ type: { $regex: f, $options: "i" } });
+            } else if (f === 'backgrounds') {
+                searchConditions.push({ type: { $in: [/jpg/i, /webp/i] } });
+            } else if (f === 'illustrations') {
+                searchConditions.push({ type: { $in: [/png/i, /jpg/i] } });
+            }
         }
 
         if (searchText) {

@@ -98,7 +98,7 @@ export default function Contributors() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Left Side */}
         <div className="space-y-6 md:ps-20">
-          <h2 className="md:text-5xl text-2xl font-bold text-gray-800">
+          <h2 className="!text-[20px] sm:!text-[32px] font-bold text-gray-800">
             Contributors around the world
           </h2>
           <p className="text-gray-600 text-sm ">

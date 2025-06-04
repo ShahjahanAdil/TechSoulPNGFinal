@@ -313,24 +313,24 @@ export default function Main() {
             {/* <Search /> */}
             <div className="mainContainer">
                 {/* Heading Secttion */}
-                <section className="!pt-14 !pb-10 !px-2">
+                <section className="pt-12 pb-8 px-2 sm:px-4">
                     <div className="flex items-center gap-2">
                         <a href="#" className="text-[#666] text-sm">
                             Pngtree &gt;
                         </a>{" "}
-                        <span className="text-[#666] text-sm"> PNG Images</span>
+                        <span className="text-[#666] !text-sm capitalize"> {category}</span>
                     </div>
                     <div>
                         <h2 className="text-[20px] sm:text-[26px] lg:text-[32px] font-bold text-[#333] !mb-3">
-                            Free Graphic Design PNG, Vectors and PSD Files
+                            Free Graphic Design PNG, JPG and Image Files
                         </h2>
 
                         <p className="text-base text-[#333]">
-                            Download free graphic design PNG images, vectors and PSD files for
+                            Download free graphic design PNG images, JPG and WEBP images for
                             your design inspiration.
                         </p>
                         <p className="text-base text-[#333]">
-                            PNG, AI, EPS, and PSD format are all available.
+                            PNG, JPG, WEBP, Backgrounds and Illustrastions are all available.
                         </p>
                     </div>
                 </section>
@@ -377,7 +377,7 @@ export default function Main() {
                             {categories.map((cat, index) => (
                                 <button
                                     key={index}
-                                    className="flex items-center justify-center w-fit text-center capitalize truncate px-2 py-1 sm:px-4 sm:py-2 bg-[#eeeeeeae] hover:bg-[#71C194] text-[10px] sm:text-sm text-[#666] hover:text-white font-bold rounded-lg transition-all duration-300"
+                                    className={`flex items-center justify-center w-fit text-center capitalize truncate px-2 py-1 sm:px-4 sm:py-2 hover:!bg-[#71C194] text-[10px] sm:text-sm text-[#666] hover:!text-white font-bold rounded-lg transition-all duration-300 ${cat.category.toLowerCase() === category ? '!bg-[#71C194] !text-[#fff]' : '!bg-[#eeeeeeae]'}`}
                                     onClick={() =>
                                         navigate(`/images/${cat.category.toLowerCase()}`)
                                     }
@@ -391,7 +391,7 @@ export default function Main() {
 
                 {/* Images */}
                 {images.length > 0 ? (
-                    <div className="!my-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-2 sm:px-4 pb-10">
                         {images.map((img) => (
                             <div
                                 key={img.imageID}

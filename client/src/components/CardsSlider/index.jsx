@@ -177,7 +177,7 @@ const CardsSlider = () => {
 
   return (
     <div className="mainContainer w-full bg-white">
-      <h2 className="!text-[32px] font-bold px-4 pt-6 pb-4 ">
+      <h2 className="!text-[20px] sm:!text-[32px] font-bold px-4 pt-6 pb-4 ">
         Top Free Pics This Week
       </h2>
 

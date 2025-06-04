@@ -270,7 +270,7 @@ export default function Images() {
                         {
                             (isSearching ? searchedImages : images)?.length > 0 ?
                                 (isSearching ? searchedImages : images).map(img => {
-                                    const { imageID, imageURL, title, category, license, status, createdAt } = img
+                                    const { imageID, imageURL, title, category, license, status, createdAt, type } = img
                                     return (
                                         <tr key={imageID} className="border-b border-gray-200 hover:bg-gray-50">
                                             <td className="p-4 text-[#333]">
@@ -278,6 +278,7 @@ export default function Images() {
                                             </td>
                                             <td className="p-4 text-[#333] capitalize">{title}</td>
                                             <td className="p-4 text-[#333] capitalize">{category}</td>
+                                            <td className="p-4 text-[#333] lowercase">{type}</td>
                                             <td className="p-4 text-[#333] capitalize">
                                                 <span className={`px-2 rounded-full ${license === 'premium' && 'bg-[#e6d737] text-[#fff] !text-[14px]'}`}>{license}</span>
                                             </td>

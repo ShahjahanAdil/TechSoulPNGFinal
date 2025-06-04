@@ -26,7 +26,7 @@ export default function Stat() {
         ];     
           return (
             <div className="text-center py-12 px-4">
-              <h2 className="md:text-5xl text-2xl  font-bold text-gray-900 mb-10">
+              <h2 className="!text-[20px] sm:!text-[32px] font-bold text-gray-900 mb-10">
                 The largest assets site of PNG images on <br /> the Internet
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">

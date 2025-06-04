@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Search from "../../../components/Search";
-import { IoMdArrowDropright, IoMdArrowForward } from "react-icons/io";
+// import Search from "../../../components/Search";
+import { IoMdArrowForward } from "react-icons/io";
 // import helpBg from "../../../assets/images/help-center.jpg";
 
 const Help = () => {
@@ -198,7 +198,7 @@ const Help = () => {
               in touch with our support team. We're here to help you succeed.
             </p>
 
-            <Search />
+            {/* <Search /> */}
           </div>
         </div>
       </div>
