@@ -93,7 +93,6 @@ export default function Navbar() {
         }
 
         setShowSuggestions(false)
-
         axios.post(`${import.meta.env.VITE_HOST}/frontend/searches/add?searchText=${encodeURIComponent(trimmedText)}`)
             .then(res => {
                 setShowSuggestions(false)

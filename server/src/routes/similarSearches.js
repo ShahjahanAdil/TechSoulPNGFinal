@@ -5,7 +5,7 @@ const searchesModel = require('../models/searches')
 
 router.get("/searches", async (req, res) => {
     try {
-        const searches = await searchesModel.find().sort({ count: -1 })
+        const searches = await searchesModel.find({ count: { $gt: 0 } }).sort({ count: -1 })
 
         return res.status(200).json({ message: "Search fetched successfully!", searches })
     }
