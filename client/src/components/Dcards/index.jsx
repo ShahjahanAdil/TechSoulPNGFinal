@@ -19,7 +19,8 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import dayjs from "dayjs";
 import axios from "axios";
 
-const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeType, resizeVal, setResizeVal, downloadFormat, setDownloadFormat, withBackground, setWithBackground, handleDownload, downloadLoading, }) => {
+// resizeType, setResizeType, resizeVal, setResizeVal,
+const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeight, setResizeWidth, setResizeHeight, downloadFormat, setDownloadFormat, withBackground, setWithBackground, handleDownload, downloadLoading, }) => {
 
     const { userData, dispatch, guestData, isGuest } = useAuthContext()
     const [favourites, setFavourites] = useState([]);
@@ -387,7 +388,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeTyp
                         </div>
 
                         <div className="flex justify-between gap-2 sm:gap-5 md:gap-0 lg:gap-8 flex-col sm:flex-row md:flex-col lg:flex-row">
-                            <div className="flex-1 mb-2 sm:mb-4">
+                            {/* <div className="flex-1 mb-2 sm:mb-4">
                                 <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
 
                                 <div className="flex mt-2">
@@ -424,6 +425,41 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeType, setResizeTyp
                                         Resize
                                     </button>
                                 </div>
+                            </div> */}
+
+                            <div className="flex-1 mb-2 sm:mb-4">
+                                <p className="flex gap-2 items-center font-bold !text-[#333]">
+                                    <BsTextareaResize /> Resize Image
+                                </p>
+
+                                <div className="flex gap-2 mt-2">
+                                    <input
+                                        type="number"
+                                        placeholder="Width (px)"
+                                        className="w-full !p-2 sm:!p-3 rounded-[8px] !text-[12px]"
+                                        value={resizeWidth || ''}
+                                        min={50}
+                                        onChange={(e) => setResizeWidth(e.target.value)}
+                                        onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+                                    />
+                                    <input
+                                        type="number"
+                                        placeholder="Height (px)"
+                                        className="w-full !p-2 sm:!p-3 rounded-[8px] !text-[12px]"
+                                        value={resizeHeight || ''}
+                                        min={50}
+                                        onChange={(e) => setResizeHeight(e.target.value)}
+                                        onKeyDown={(e) => ['e', 'E', '+', '-'].includes(e.key) && e.preventDefault()}
+                                    />
+                                </div>
+
+                                <button
+                                    className="w-full mt-3 bg-[#4EAA76] text-white !text-[12px] sm:!text-[14px] py-2 rounded-[8px] hover:bg-[#7EC19B]"
+                                    disabled={downloadLoading}
+                                    onClick={() => handleDownload(true)}
+                                >
+                                    Resize & Download
+                                </button>
                             </div>
 
                             <div className="flex-1">

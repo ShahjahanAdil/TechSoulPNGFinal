@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
-import logooo from "../../assets/images/logo.png";
-import crown from "../../assets/images/crown.png";
+import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHeart, FaSearch, FaUser } from "react-icons/fa";
 import { PiHeadphonesFill } from "react-icons/pi";
 import { LuArrowRight, LuDownload, LuLogOut } from "react-icons/lu";
-import userIcon from "../../assets/images/user.png";
 import { GrLanguage } from "react-icons/gr";
 import { FaUserPlus, FaX } from "react-icons/fa6";
 import { MdOutlineExplore } from "react-icons/md";
-import "./navbar.css";
+import logooo from "../../assets/images/logo.png";
+import crown from "../../assets/images/crown.png";
+import userIcon from "../../assets/images/user.png";
+import freeBanner from "../../assets/images/free-user-banner1.png";
+import { MdMenu } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa6";
 
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
-import { MdMenu } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa6";
 
 import dayjs from "dayjs";
 import axios from "axios";
@@ -300,16 +301,16 @@ export default function Navbar() {
                             <div className="absolute invisible group-hover:visible group-hover:opacity-100 group-hover:translate-y-[0px] opacity-50 translate-y-[20px] transition-all duration-200 flex flex-col items-center justify-between min-h-[400px] w-[400px] bg-white rounded-[12px] z-99 right-0 top-[35px] !p-5 shadow-lg">
                                 {/* Profile Content */}
                                 <div className="flex w-full justify-around px-3 py-4 bg-[#f3f3f3b5] rounded-[12px]">
-                                    <div className={`relative w-[72px] h-[72px] flex items-center justify-center border-2 bg-white
+                                    <div className={`relative z-1 w-[80px] h-[80px] flex items-center justify-center border-2 bg-white
                       ${userData.plan === "premium"
                                             ? "border-[#ffe895]"
                                             : "border-[#efefef]"
                                         } !p-3 rounded-[50px]`}
                                     >
-                                        <img src={userIcon} alt="" />
+                                        <img src={userIcon} alt="" className="w-[60%]" />
 
                                         <div
-                                            className="absolute z-99 top-[60%] -right-3 cursor-pointer shadow-xl w-[34px] h-[34px] flex justify-center items-center bg-white !p-1.5 rounded-[50px] "
+                                            className="absolute z-99 top-[60%] -right-3 cursor-pointer shadow-xl w-[34px] h-[34px] flex justify-center items-center bg-white p-1.5 rounded-[50px]"
                                             onClick={() => navigate("/dashboard/subscriptions")}
                                         >
                                             {userData.plan === "premium" ? (
@@ -530,6 +531,13 @@ export default function Navbar() {
                                                 </svg>
                                             )}
                                         </div>
+
+                                        {
+                                            userData.plan === 'premium' &&
+                                            <div className="absolute -top-2.5 -left-0.5 rotate-15">
+                                                <img src={freeBanner} alt="plan-tag" className="w-[60px]" />
+                                            </div>
+                                        }
                                     </div>
 
                                     <div className="flex flex-col items-start">
@@ -550,7 +558,7 @@ export default function Navbar() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <div
+                                        {/* <div
                                             className={`!mt-1 flex justify-center items-center bg-[#E8E8E8] rounded-full ${userData.plan === "free"
                                                 ? "bg-[#E8E8E8]"
                                                 : "bg-linear-to-b from-[#FAD961] to-[#F76B1C] !text-[#fff]"
@@ -565,6 +573,13 @@ export default function Navbar() {
                                                 </span>{" "}
                                                 user
                                             </span>{" "}
+                                        </div> */}
+                                        <div className="w-full">
+                                            <button className="flex gap-1 justify-center items-center bg-[#ef4444] w-full p-1 !text-[#fff] !text-[12px] rounded-full hover:bg-red-400"
+                                                onClick={logoutFunction}
+                                            >
+                                                <LuLogOut /> Logout
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -701,7 +716,7 @@ export default function Navbar() {
                         </div>
                     )}
 
-                    {
+                    {/* {
                         userData.userID &&
                         <div className="relative">
                             <div
@@ -712,7 +727,6 @@ export default function Navbar() {
                                 <LuLogOut onClick={logoutFunction} />
                             </div>
 
-                            {/* Popup with transitions */}
                             <div
                                 className={`absolute top-[115%] right-0 mt-1 bg-white shadow-md rounded-md px-2 py-1 z-10 border border-gray-200
                 transform transition-all duration-200 ease-out
@@ -724,7 +738,7 @@ export default function Navbar() {
                                 <p className="!text-[12px] font-bold !text-red-400">Logout</p>
                             </div>
                         </div>
-                    }
+                    } */}
 
                     <div
                         className="menu-icon flex flex-col items-center cursor-pointer border border-gray-300 p-2 rounded-[8px]"
