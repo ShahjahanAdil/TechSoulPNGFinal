@@ -68,12 +68,12 @@ export default function Section3() {
               {designTrends.map((trend, index) => (
                 <div
                   key={index}
-                  className={`${index % 3 !== 0 ? "bg-[#F5E9D7]" : "bg-[#F5F6F5]"} hover:scale-102 bg-contain bg-no-repeat transition-all duration-500 rounded-lg overflow-hidden shadow bg-center relative h-52 sm:h-60`}
+                  className={`${index % 3 !== 0 ? "bg-[#F5E9D7]" : "bg-[#F5F6F5]"} hover:scale-102 bg-contain bg-no-repeat transition-all duration-500 rounded-lg overflow-hidden shadow bg-center relative h-52 sm:h-70 `}
                   style={{ backgroundImage: `url(${trend.src})` }}
                 >
                   <div className="" />
-                  <div className="absolute bottom-3 left-3 z-10">
-                    <p className="font-semibold">{trend.title}</p>
+                  <div className="absolute bottom-1 mt-3 left-3 z-10">
+                    <p className="font-normal !text-black">{trend.title}</p>
                   </div>
                 </div>
               ))}

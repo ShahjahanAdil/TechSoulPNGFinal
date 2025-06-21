@@ -210,7 +210,7 @@ export default function Navbar() {
 
                                 {/* Search Button */}
                                 <button
-                                    className="bg-[#666] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                                    className="bg-[#71C194] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
                                     onClick={handleSearch}
                                 >
                                     <FaSearch className="!text-[10px]" />
@@ -223,7 +223,7 @@ export default function Navbar() {
                 </div>
 
                 <div className="nav-buttons flex items-center gap-4">
-                    <div className="flex items-center pl-4 border-l-2  border-gray-300">
+                    <div className="flex items-center pl-4">
                         <button className="!text-[12px] hover:!text-[#71C194]" onClick={() => navigate("/images")}>
                             Explore
                         </button>
@@ -279,7 +279,7 @@ export default function Navbar() {
                 <div className="flex gap-3 ml-4 items-center">
                     <div className="free-btns">
                         <ul className="flex  gap-4">
-                            <li className="flex items-center gap-2 cursor-pointer !text-[14px] hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200" onClick={() => navigate("/dashboard/subscriptions")}>
+                            <li className="flex items-center gap-2 cursor-pointer !text-[14px]  hover:!text-[#6FD38E] hover:!font-bold transition-all ease-linear duration-200" onClick={() => navigate("/dashboard/subscriptions")}>
                                 {" "}
                                 Pricing
                             </li>
@@ -1206,10 +1206,10 @@ export default function Navbar() {
                 </div>
 
                 <div className="left-menu flex items-center gap-3 sm:gap-5 justify-center">
-                    <button className="flex items-center sm:rounded-[8px] !text-[14px] rounded cursor-pointer" onClick={() => navigate("/dashboard/subscriptions")}>
+                    <button className="flex items-center sm:rounded-[8px] bg-[#71C194] hover:bg-[#71c194c9] hover:text-semibold text-white px-3 py-1.5 !text-[14px] rounded cursor-pointer" onClick={() => navigate("/dashboard/subscriptions")}>
                         Pricing
                     </button>
-                    <button className="!text-[14px] sm:rounded-[8px]" onClick={() => navigate("/images/freebies")}>
+                    <button className="!text-[14px]  bg-[#71C194] hover:bg-[#71c194c9] hover:text-semibold text-white px-3 py-1.5 sm:rounded-[8px]" onClick={() => navigate("/images/freebies")}>
                         Freebies
                     </button>
                 </div>

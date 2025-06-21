@@ -58,13 +58,13 @@ export default function Dashboard() {
             <div className="text-center py-4">
               <p className="text-[16px] text-black font-bold">{userData?.username}</p>
               <p className="text-gray-400 font-semibold">ID: {userData?.userID}</p>
-              <div className="flex justify-center mt-2 mb-3">
+              {/* <div className="flex justify-center mt-2 mb-3">
                 <p className="!text-[#39a166] bg-green-100 px-3 !text-[14px] rounded-full flex items-center  gap-2">
                   Active
                   <span className="animate-pulse w-[8px] rounded-full h-[8px] bg-[#39a166]"></span>
                 </p>
-              </div>
-              {
+              </div> */}
+              {/* {
                 userData.plan === 'free' ?
                   <button className="md:px-[20px] md:py-3 px-[15px] py-2 rounded-full font-bold bg-gradient-to-t from-[#F3574C] via-[#F65A48] to-[#f86055] text-white sm:!text-[14px] !text-[12px] my-2 shadow-lg transform transition-all duration-300 hover:scale-105">
                     Become a Member
@@ -72,7 +72,7 @@ export default function Dashboard() {
                   <button className="md:px-[20px] md:py-3 px-[15px] py-2 rounded-full font-bold bg-linear-to-b from-[#FAD961] to-[#F76B1C] text-white sm:!text-[14px] !text-[12px] my-2 shadow-lg !cursor-default">
                     Premium Account
                   </button>
-              }
+              } */}
             </div>
           </div>
 

@@ -48,14 +48,16 @@ const Background = () => {
             {section.items.map((item, itemIndex) => (
               <div
                 key={itemIndex}
-                className="h-40 rounded-xl shadow-md overflow-hidden relative hover:scale-102 transition-all duration-500 ease-in-out "
+                className="h-40 rounded-xl shadow-md overflow-hidden group relative hover:scale-102 transition-all duration-500 ease-in-out "
               >
                 <img
                   src={item.image}
                   alt={item.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-opacity-50 text-white p-2 " style={{ textShadow: '0 2px 4px rgba(0,0,0,0.9)' }}>
+                 <div className="absolute inset-0 hover:bg-[#0000006e] transition-all duration-500 z-1" />
+
+                <div className="absolute bottom-0 left-0 right-0  text-white p-2 z-2  " style={{ textShadow: '0 2px 4px rgba(0,0,0,0.9)' }}>
                   <div className="text-lg font-bold">{item.name}</div>
                   <div className="text-sm">{item.imageCount} images</div>
                 </div>

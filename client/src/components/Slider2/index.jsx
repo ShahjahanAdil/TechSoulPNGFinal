@@ -40,10 +40,10 @@ export default function Slider2() {
     const settings = {
         dots: false,
         infinite: true,
-        speed: 2000, // <-- smoother animation
+        speed: 2000,
         autoplay: true,
-        autoplaySpeed: 0, // continuous autoplay
-        cssEase: "linear", // makes it smooth and continuous
+        autoplaySpeed: 0, 
+        cssEase: "linear", 
         slidesToShow: 15,
         slidesToScroll: 1,
         responsive: [

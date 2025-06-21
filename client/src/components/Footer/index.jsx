@@ -250,7 +250,7 @@ const Footer = () => {
           </span>
         </div>
         <div className="flex items-center">
-          <img src={bankCard} alt="bankcards" />
+          <img src={bankCard} alt="bankcards" className="w-80"/>
         </div>
       </div>
     </>

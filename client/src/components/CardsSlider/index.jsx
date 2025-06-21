@@ -138,7 +138,7 @@
 
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import './CardSlider.css'
+import './CardSlider.css';
 
 import image1 from "../../assets/images/img-1.jpg";
 import image2 from "../../assets/images/img-2.jpg";
@@ -151,33 +151,37 @@ const images = [
   { id: 1, src: image1, alt: "Mountain landscape with clear sky" },
   { id: 2, src: image2, alt: "Couple in car reading a map" },
   { id: 3, src: image3, alt: "Technology and circuit board close-up" },
-  { id: 4, src: image4, alt: "Developer coding on monitor" },
-  { id: 4, src: image5, alt: "Developer coding on monitor" },
-  { id: 4, src: image6, alt: "Developer coding on monitor" },
+  { id: 4, src: image4, alt: "Travel destination" },
+  { id: 5, src: image5, alt: "Father’s Day celebration" },
+  { id: 6, src: image6, alt: "Creative background" },
 ];
 
 const CardsSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const [slideDirection, setSlideDirection] = useState("");
 
   const goToPrevious = () => {
+    setSlideDirection("left");
     setAnimating(true);
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const goToNext = () => {
+    setSlideDirection("right");
     setAnimating(true);
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const getPreviousIndex = () =>
     currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+
   const getNextIndex = () =>
     currentIndex === images.length - 1 ? 0 : currentIndex + 1;
 
   return (
     <div className="mainContainer w-full bg-white">
-      <h2 className="!text-[20px] sm:!text-[32px] font-bold px-4 pt-6 pb-4 ">
+      <h2 className="!text-[20px] sm:!text-[32px] font-bold px-4 pt-6 pb-4">
         Top Free Pics This Week
       </h2>
 
@@ -186,7 +190,7 @@ const CardsSlider = () => {
           {/* Left Navigation */}
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-10  text-white p-3 rounded-full transition hover:scale-110 group"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 text-white p-3 rounded-full transition-all hover:scale-110 group"
           >
             <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
           </button>
@@ -199,14 +203,15 @@ const CardsSlider = () => {
             <img
               src={images[getPreviousIndex()].src}
               alt={images[getPreviousIndex()].alt}
-              className="w-full h-full object-cover"
+              className={`w-full h-full object-cover absolute top-0 left-0 ${
+                slideDirection === "left" ? "animate-slide-in-left" : ""
+              }`}
+              onAnimationEnd={() => setSlideDirection("")}
             />
-            <div
-              className="absolute top-0 left-0 h-full w-[20%] bg-[#1414142b] backdrop-blur-[5px] rounded-l-xl"
-            />
+            <div className="absolute top-0 left-0 h-full w-[20%] bg-[#1414142b] backdrop-blur-[5px] rounded-l-xl" />
           </div>
 
-          {/* Center Image with custom CSS animation */}
+          {/* Center Image */}
           <div className="w-full md:w-2/4 h-full mx-2 relative rounded-xl overflow-hidden shadow-2xl aspect-[16/9]">
             <img
               key={images[currentIndex].id}
@@ -228,17 +233,18 @@ const CardsSlider = () => {
             <img
               src={images[getNextIndex()].src}
               alt={images[getNextIndex()].alt}
-              className="w-full h-full object-cover"
+              className={`w-full h-full object-cover absolute top-0 left-0 ${
+                slideDirection === "right" ? "animate-slide-in-right" : ""
+              }`}
+              onAnimationEnd={() => setSlideDirection("")}
             />
-            <div
-              className="absolute top-0 right-0 h-full w-[20%] bg-[#1414142b] backdrop-blur-[5px] rounded-r-xl"
-            />
+            <div className="absolute top-0 right-0 h-full w-[20%] bg-[#1414142b] backdrop-blur-[5px] rounded-r-xl" />
           </div>
 
           {/* Right Navigation */}
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 z-10  text-white p-3 rounded-full transition hover:scale-110 group"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 text-white p-3 rounded-full transition hover:scale-110 group"
           >
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -249,4 +255,3 @@ const CardsSlider = () => {
 };
 
 export default CardsSlider;
-
