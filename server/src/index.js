@@ -23,26 +23,27 @@ app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
 })
 
-// const imagesModel = require("./models/images")
+// const authModel = require("./models/auth")
 
-// async function updateImages() {
+// async function updateAuth() {
 //     try {
-//         const updateResult = await imagesModel.updateMany(
+//         const updateResult = await authModel.updateMany(
 //             {},
 //             {
 //                 $set: {
-//                     type: 'png'
+//                     fullname: '',
+//                     job: ''
 //                 }
 //             }
 //         );
-//         console.log(`Successfully updated ${updateResult.modifiedCount} images with new fields.`);
+//         console.log(`Successfully updated ${updateResult.modifiedCount} auth with new fields.`);
 //     } catch (error) {
 //         console.error("Error updating users:", error);
 //     }
 // }
 
 // mongoose.connection.once('open', async () => {
-//     await updateImages();
+//     await updateAuth();
 // });
 
 const authRouter = require('./routes/auth')

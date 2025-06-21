@@ -4,11 +4,13 @@ const { Schema } = mongoose
 const authSchema = new Schema({
     userID: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
+    fullname: { type: String, default: '' },
     email: { type: String, required: true, unique: true },
     password: { type: String },
     status: { type: String },
     role: { type: String },
     plan: { type: String },
+    job: { type: String, default: '' },
     address: { type: String },
     phone: { type: String },
     downloads: { type: Number },

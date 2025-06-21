@@ -7,7 +7,7 @@ const authModel = require('../models/auth')
 router.patch("/profile/update-profile", async (req, res) => {
     try {
         const state = req.body
-        const { userID, username, email, address, phone, oldPassword, newPassword } = state
+        const { userID, username, fullname, email, address, phone, job, oldPassword, newPassword } = state
 
         const user = await authModel.findOne({ userID })
         if (!user) {
@@ -18,9 +18,11 @@ router.patch("/profile/update-profile", async (req, res) => {
             await authModel.findOneAndUpdate({ userID },
                 {
                     username,
+                    fullname,
                     email,
                     address,
-                    phone
+                    phone,
+                    job
                 },
                 { new: true })
         } else {
@@ -32,7 +34,7 @@ router.patch("/profile/update-profile", async (req, res) => {
             const newHashedPassword = await bcrypt.hash(newPassword, 10);
             await authModel.findOneAndUpdate(
                 { userID },
-                { username, email, address, phone, password: newHashedPassword },
+                { username, fullname, email, address, phone, job, password: newHashedPassword },
                 { new: true }
             );
         }
