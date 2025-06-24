@@ -47,6 +47,7 @@ router.get("/similar-images", async (req, res) => {
 router.post("/image/download/:imageID", async (req, res) => {
     try {
         const userID = req.body.userID
+        const downloadType = req.body.downloadType
         const user = await authModel.findOne({ userID })
         const imageID = req.params.imageID
         const imageURL = req.query.imageURL
@@ -80,7 +81,7 @@ router.post("/image/download/:imageID", async (req, res) => {
 
         await user.save()
 
-        await downloadsModel.create({ userID, imageID, imageURL })
+        await downloadsModel.create({ userID, imageID, imageURL, downloadType })
 
         return res.status(200).json({ message: "Image downloaded!", remainingDownloads: isPremium ? "Unlimited" : dailyLimit - user.dailyDownloadCount, dailyDownloadCount: user.dailyDownloadCount });
 

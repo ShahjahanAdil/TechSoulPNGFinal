@@ -243,7 +243,7 @@ export default function DownloadPage() {
 
                 const res = await axios.post(
                     `${import.meta.env.VITE_HOST}/frontend/image/download/${imageID}?imageURL=${encodeURIComponent(imageDets.imageURL)}`,
-                    { userID: userData.userID }
+                    { userID: userData.userID, downloadType: downloadFormat }
                 );
 
                 if (res.status !== 200) throw new Error(res.data?.message || "Download failed");

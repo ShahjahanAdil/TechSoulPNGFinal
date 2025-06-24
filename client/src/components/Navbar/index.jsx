@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./navbar.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaHeart, FaSearch, FaUser } from "react-icons/fa";
 import { PiHeadphonesFill } from "react-icons/pi";
@@ -31,9 +31,10 @@ export default function Navbar() {
     const [searchCategory, setSearchCategory] = useState(null)
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
+    // const [showPopup, setShowPopup] = useState(false);
     const [suggestionLoading, setSuggestionLoading] = useState(false);
     const navigate = useNavigate();
+    const { pathname } = useLocation()
 
     const isToday = dayjs(userData.lastDownloadDate).isSame(dayjs(), "day");
     const isPremium = userData?.plan === "premium";
@@ -80,6 +81,11 @@ export default function Navbar() {
     useEffect(() => {
         handleSearch()
     }, [searchCategory])
+
+    useEffect(() => {
+        setSuggestions([])
+        setShowSuggestions(false)
+    }, [pathname])
 
     const handleSearch = () => {
         if (searchText === "") return
@@ -175,7 +181,7 @@ export default function Navbar() {
                                                                     className="p-2 flex items-center gap-2 cursor-pointer rounded-[8px] hover:bg-gray-100"
                                                                     onClick={() => {
                                                                         navigate(`/image/${item.imageID}`)
-                                                                        setSearchText("")
+                                                                        setSearchText(item.title)
                                                                         setSuggestions([])
                                                                         setShowSuggestions(false)
                                                                     }}

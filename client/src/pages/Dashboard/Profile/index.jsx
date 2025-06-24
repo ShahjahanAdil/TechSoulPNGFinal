@@ -270,7 +270,7 @@ export default function Profile() {
                             </h2>
                             <div className="mb-4">
                                 <label className="block mb-1 font-bold !text-[16px]">
-                                    Username
+                                    <span className="!text-[14px] text-red-500">*</span> Username
                                 </label>
                                 <input
                                     type="text"
@@ -283,7 +283,7 @@ export default function Profile() {
                             </div>
                             <div className="mb-4">
                                 <label className="block mb-1 font-bold !text-[16px]">
-                                    Email
+                                    <span className="!text-[14px] text-red-500">*</span> Email
                                 </label>
                                 <input
                                     type="email"
@@ -298,7 +298,7 @@ export default function Profile() {
                                 <>
                                     <div className="mb-4">
                                         <label className="block mb-1 font-bold !text-[16px]">
-                                            Old Password
+                                            <span className="!text-[14px] text-red-500">*</span> Old Password
                                         </label>
                                         <input
                                             type="password"
@@ -311,7 +311,7 @@ export default function Profile() {
                                     </div>
                                     <div className="mb-2">
                                         <label className="block mb-1 font-bold !text-[16px]">
-                                            New password
+                                            <span className="!text-[14px] text-red-500">*</span> New password
                                         </label>
                                         <input
                                             type="password"

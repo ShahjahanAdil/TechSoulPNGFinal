@@ -12,6 +12,7 @@ import { PiUserGearBold } from "react-icons/pi";
 import { IoCloudUploadSharp } from "react-icons/io5";
 // import { SidebarOpen } from "lucide-react";
 import { RiMenuFold2Line } from "react-icons/ri";
+import { MdOutlineContentCopy } from "react-icons/md";
 import Customers from "./Customers";
 import Authorization from "./Authorization";
 import Favourites from "./Favourites";
@@ -26,11 +27,20 @@ export default function Dashboard() {
 
   const { userData } = useAuthContext()
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
 
   const handleNavigate = (path) => {
     setSidebarOpen(false);
     navigate(`/dashboard/${path}`);
+  };
+
+  const handleCopy = () => {
+    if (userData?.userID) {
+      navigator.clipboard.writeText(userData.userID);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
   };
 
   return (
@@ -57,7 +67,18 @@ export default function Dashboard() {
 
             <div className="text-center py-4">
               <p className="text-[16px] text-black font-bold">{userData?.username}</p>
-              <p className="text-gray-400 font-semibold">ID: {userData?.userID}</p>
+              <p className="relative flex justify-center items-center gap-2 text-gray-600 font-medium">
+                ID: {userData?.userID}
+                <MdOutlineContentCopy className="w-4 h-4 cursor-pointer text-gray-400 hover:text-gray-600 transition-colors duration-200 ease-in-out" onClick={handleCopy} title="Copy ID" />
+
+                {copied && (
+                  <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 px-3 py-1.5 bg-white text-green-600 text-xs font-medium rounded-md shadow-lg ring-1 ring-green-100 transition-all duration-200 ease-out animate-[fadeIn_0.3s_ease-out]">
+                    Copied!
+                    {/* Tooltip arrow */}
+                    <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 transform ring-1 ring-green-100 ring-t-0 ring-l-0"></span>
+                  </span>
+                )}
+              </p>
               {/* <div className="flex justify-center mt-2 mb-3">
                 <p className="!text-[#39a166] bg-green-100 px-3 !text-[14px] rounded-full flex items-center  gap-2">
                   Active

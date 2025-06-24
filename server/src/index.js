@@ -10,8 +10,9 @@ app.use(cors())
 config()
 
 mongoose.connect(process.env.MONGODBURI, { dbName: "techsoulpng" })
-    .then(() => {
+    .then(async () => {
         console.log("MongoDB Connected")
+        // await update()
     })
     .catch((err) => {
         console.error(err)
@@ -23,28 +24,23 @@ app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
 })
 
-// const authModel = require("./models/auth")
+// const downloadsModel = require("./models/downloads")
 
-// async function updateAuth() {
+// async function update() {
 //     try {
-//         const updateResult = await authModel.updateMany(
+//         const updateResult = await downloadsModel.updateMany(
 //             {},
 //             {
 //                 $set: {
-//                     fullname: '',
-//                     job: ''
+//                     downloadType: 'png',
 //                 }
 //             }
 //         );
-//         console.log(`Successfully updated ${updateResult.modifiedCount} auth with new fields.`);
+//         console.log(`Successfully updated ${updateResult.modifiedCount} with new fields.`);
 //     } catch (error) {
 //         console.error("Error updating users:", error);
 //     }
 // }
-
-// mongoose.connection.once('open', async () => {
-//     await updateAuth();
-// });
 
 const authRouter = require('./routes/auth')
 const adminDashboardRouter = require('./routes/adminDashboard')
