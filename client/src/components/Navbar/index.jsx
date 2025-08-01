@@ -7,17 +7,15 @@ import { PiHeadphonesFill } from "react-icons/pi";
 import { LuArrowRight, LuDownload, LuLogOut } from "react-icons/lu";
 import { GrLanguage } from "react-icons/gr";
 import { FaUserPlus, FaX } from "react-icons/fa6";
-import { MdOutlineExplore } from "react-icons/md";
+import { MdKeyboardVoice, MdOutlineExplore } from "react-icons/md";
 import logooo from "../../assets/images/logo.png";
 import crown from "../../assets/images/crown.png";
 import userIcon from "../../assets/images/user.png";
 import freeBanner from "../../assets/images/free-user-banner1.png";
 import { MdMenu } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa6";
-
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
-
 import dayjs from "dayjs";
 import axios from "axios";
 
@@ -31,7 +29,6 @@ export default function Navbar() {
     const [searchCategory, setSearchCategory] = useState(null)
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    // const [showPopup, setShowPopup] = useState(false);
     const [suggestionLoading, setSuggestionLoading] = useState(false);
     const navigate = useNavigate();
     const { pathname } = useLocation()
@@ -162,6 +159,10 @@ export default function Navbar() {
                                         onKeyDown={(e) => e.key.toLowerCase() === "enter" && handleSearch()}
                                     />
 
+                                    <div className="w-8 h-8 flex justify-center items-center absolute top-1/2 right-2 -translate-y-1/2 text-[#666] cursor-pointer rounded-full transition-all duration-100 ease-linear hover:text-[#5ab16d]">
+                                        <MdKeyboardVoice className="text-[20px]" />
+                                    </div>
+
                                     {/* Suggestions Dropdown */}
                                     {searchText && showSuggestions && (
                                         <ul className="absolute left-0 top-full mt-1 w-full z-50 bg-white border border-gray-200 rounded-md shadow-md">
@@ -187,7 +188,7 @@ export default function Navbar() {
                                                                     }}
                                                                 >
                                                                     <img
-                                                                        src={`${import.meta.env.VITE_HOST}${item.imageURL}`}
+                                                                        src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${item.imageURL}`}
                                                                         alt={item.title}
                                                                         className="w-8 h-8 object-cover rounded"
                                                                     />
@@ -230,6 +231,12 @@ export default function Navbar() {
 
                 <div className="nav-buttons flex items-center gap-4">
                     <div className="flex items-center pl-4">
+                        {
+                            userData?.role?.includes("admin") &&
+                            <button className="!text-[12px] hover:!text-[#71C194] mr-4" onClick={() => navigate("/admin/dashboard")}>
+                                Admin
+                            </button>
+                        }
                         <button className="!text-[12px] hover:!text-[#71C194]" onClick={() => navigate("/images")}>
                             Explore
                         </button>

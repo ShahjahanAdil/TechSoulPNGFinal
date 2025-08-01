@@ -44,6 +44,7 @@ app.listen(PORT, () => {
 
 const authRouter = require('./routes/auth')
 const adminDashboardRouter = require('./routes/adminDashboard')
+const adminBlogsRouter = require('./routes/adminBlogs')
 const usersRouter = require('./routes/users')
 const categoriesRouter = require('./routes/categories')
 const uploadRouter = require('./routes/upload')
@@ -57,9 +58,11 @@ const profileRouter = require('./routes/profile')
 const myDownloadsRouter = require('./routes/myDownloads')
 const favouritesRouter = require('./routes/favourites')
 const similarSearchesRouter = require('./routes/similarSearches')
+const frontendBlogsRouter = require('./routes/blogs')
 
 app.use('/auth', authRouter)
 app.use('/admin', adminDashboardRouter)
+app.use('/admin', adminBlogsRouter)
 app.use('/admin', usersRouter)
 app.use('/admin', categoriesRouter)
 app.use('/admin', uploadRouter)
@@ -73,5 +76,5 @@ app.use('/dashboard', myDownloadsRouter)
 app.use('/frontend', favouritesRouter)
 app.use('/frontend', contactRouter)
 app.use('/frontend', similarSearchesRouter)
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/frontend', frontendBlogsRouter)
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));

@@ -136,9 +136,11 @@ const CardsSec = () => {
                     return window.toastify("Upgrade to premium to download this image!", "error");
                 }
 
+                const imageExtension = img.imageURL.split('.').pop().toLowerCase();
+
                 const res = await axios.post(
                     `${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${encodeURIComponent(img.imageURL)}`,
-                    { userID: userData.userID }
+                    { userID: userData.userID, downloadType: imageExtension}
                 );
 
                 if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
@@ -156,7 +158,7 @@ const CardsSec = () => {
                 window.toastify(res.data.message, "success");
             }
 
-            const response = await fetch(`${import.meta.env.VITE_HOST}${img.imageURL}`, { mode: "cors" });
+            const response = await fetch(`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`, { mode: "cors" });
 
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
@@ -229,7 +231,7 @@ const CardsSec = () => {
                             ${index % 3 !== 0 ? index % 2 !== 0 ? "bg-[#ddf5d7]" : "bg-[#F5E9D7]" : "bg-[#F5F6F5]"}`}
                         >
                             <img
-                                src={`${import.meta.env.VITE_HOST}${img.imageURL}`}
+                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`}
                                 alt={img.title}
                                 className="w-full h-[150px] sm:h-[200px] object-contain p-2 transition-transform duration-300 group-hover:scale-105"
                             />

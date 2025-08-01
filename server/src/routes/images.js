@@ -4,6 +4,7 @@ const fs = require("fs")
 const path = require("path")
 
 const imagesModel = require('../models/images')
+const delFromFtp = require("../middlewares/delFromFtp")
 
 router.get("/fetch-images", async (req, res) => {
     try {
@@ -80,11 +81,7 @@ router.delete("/delete-image/:imageID", async (req, res) => {
         }
 
         const fileName = image.imageURL?.split("/").pop();
-        const filePath = path.join(__dirname, "..", "..", "uploads", fileName);
-
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-        }
+        await delFromFtp(fileName);
 
         await imagesModel.findOneAndDelete({ imageID });
 

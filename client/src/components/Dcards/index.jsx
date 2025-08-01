@@ -91,7 +91,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
     const generatePreviewSize = (format, withBg = false) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
-        img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`;
+        img.src = `${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`;
 
         img.onload = async () => {
             let width = img.naturalWidth;
@@ -225,7 +225,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
 
                 const res = await axios.post(
                     `${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${encodeURIComponent(img.imageURL)}`,
-                    { userID: userData.userID }
+                    { userID: userData.userID, downloadType: downloadFormat }
                 );
 
                 if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
@@ -243,7 +243,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                 window.toastify(res.data.message, "success");
             }
 
-            const response = await fetch(`${import.meta.env.VITE_HOST}${img.imageURL}`, { mode: "cors" });
+            const response = await fetch(`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`, { mode: "cors" });
 
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
@@ -311,7 +311,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             {/* Image */}
                             <div className="w-full h-full flex justify-center">
                                 <img
-                                    src={`${import.meta.env.VITE_HOST}${imageDets.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
                                     alt="PNG"
                                     className="object-contain w-full h-full"
                                     onContextMenu={(e) => e.preventDefault()}
@@ -373,7 +373,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
 
                             <div className="preview rounded-[8px]">
                                 <img
-                                    src={`${import.meta.env.VITE_HOST}${imageDets.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
                                     alt="preview"
                                     className="w-[150px] h-[150px] p-2 object-contain rounded-[8px]"
                                     style={downloadFormat === 'png' ? {
@@ -583,7 +583,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 }}
                             >
                                 <img
-                                    src={`${import.meta.env.VITE_HOST}${similarImg.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${similarImg.imageURL}`}
                                     alt={similarImg.title}
                                     className="object-contain w-full h-full"
                                 />

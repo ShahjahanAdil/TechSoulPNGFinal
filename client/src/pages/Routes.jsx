@@ -9,7 +9,7 @@ import ScrollToTop from "../components/ScrollToTop";
 import Dashboard from "./Dashboard";
 
 export default function Index() {
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated } = useAuthContext()
 
   return (
     <>

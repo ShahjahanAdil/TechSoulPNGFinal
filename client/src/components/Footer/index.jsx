@@ -92,6 +92,14 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
+                    to="/blogs"
+                    className="text-sm text-gray-700 hover:text-green-600"
+                  >
+                    Blogs
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
@@ -250,7 +258,7 @@ const Footer = () => {
           </span>
         </div>
         <div className="flex items-center">
-          <img src={bankCard} alt="bankcards" className="w-80"/>
+          <img src={bankCard} alt="bankcards" className="w-80" />
         </div>
       </div>
     </>

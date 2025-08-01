@@ -274,7 +274,7 @@ export default function Images() {
                                     return (
                                         <tr key={imageID} className="border-b border-gray-200 hover:bg-gray-50">
                                             <td className="p-4 text-[#333]">
-                                                <img src={`${import.meta.env.VITE_HOST}${imageURL}`} alt={title} className='w-[40px] h-[40px] rounded-full' />
+                                                <img src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageURL}`} alt={title} className='w-[40px] h-[40px] rounded-full' />
                                             </td>
                                             <td className="p-4 text-[#333] capitalize">{title}</td>
                                             <td className="p-4 text-[#333] capitalize">{category}</td>
@@ -299,7 +299,7 @@ export default function Images() {
                                 })
                                 : (
                                     <tr>
-                                        <td colSpan="7" className='text-center py-4 text-red-400 bg-red-50'>
+                                        <td colSpan="8" className='text-center py-4 text-red-400 bg-red-50'>
                                             No matching images found!
                                         </td>
                                     </tr>

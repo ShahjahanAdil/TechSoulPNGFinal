@@ -115,7 +115,7 @@ export default function AdminDashboard() {
                             recentUploads.map(img => {
                                 return (
                                     <div key={img.imageID} className='flex gap-5 items-center'>
-                                        <img src={`${import.meta.env.VITE_HOST}${img.imageURL}`} alt={img.title} className='w-[50px] h-[50px] rounded-full' />
+                                        <img src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`} alt={img.title} className='w-[50px] h-[50px] rounded-full' />
                                         <div>
                                             <p className='font-bold !text-[#333]'>{img.title}</p>
                                             <p className='!text-[13px] !text-[#888]'>Uploaded on {new Date(img.createdAt).toLocaleDateString()}</p>

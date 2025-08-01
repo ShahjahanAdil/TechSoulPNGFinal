@@ -40,7 +40,8 @@ export default function DownloadPage() {
         if (!imageDets?.imageURL) return;
 
         const img = new Image();
-        img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`;
+        img.crossOrigin = "anonymous";
+        img.src = `${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`;
 
         img.onload = () => {
             setDimensions({
@@ -263,7 +264,7 @@ export default function DownloadPage() {
 
             const img = new Image();
             img.crossOrigin = "anonymous";
-            img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`;
+            img.src = `${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`;
 
             img.onload = async () => {
                 let width = img.naturalWidth;

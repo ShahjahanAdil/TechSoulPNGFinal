@@ -216,7 +216,7 @@ export default function Main() {
 
                 const res = await axios.post(
                     `${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${encodeURIComponent(img.imageURL)}`,
-                    { userID: userData.userID }
+                    { userID: userData.userID, downloadType: img.type }
                 );
 
                 if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
@@ -234,7 +234,7 @@ export default function Main() {
                 window.toastify(res.data.message, "success");
             }
 
-            const response = await fetch(`${import.meta.env.VITE_HOST}${img.imageURL}`, { mode: "cors" });
+            const response = await fetch(`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`, { mode: "cors" });
 
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
@@ -403,7 +403,7 @@ export default function Main() {
                                 onClick={() => navigate(`/image/${img.imageID}`)}
                             >
                                 <img
-                                    src={`${import.meta.env.VITE_HOST}${img.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`}
                                     alt={img.title}
                                     className="w-full h-full object-contain rounded-lg"
                                 />

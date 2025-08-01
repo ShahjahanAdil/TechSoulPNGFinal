@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './admin.css'
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom'
 // import Dashboard from './Dashboard'
 import AdminDashboard from './AdminDashboard'
 import { BsArrowRight } from 'react-icons/bs'
@@ -19,12 +19,16 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useAuthContext } from '../../contexts/AuthContext'
 import Menu from './Menu'
 import { BiSend } from 'react-icons/bi'
+import AdminBlogs from './AdminBlogs'
+import { FaSheetPlastic } from 'react-icons/fa6'
+import AddBlog from './AdminBlogs/AddBlog'
 
 export default function Admin() {
 
     const { user, logout } = useAuth0()
     const { handleLogout } = useAuthContext()
     const [open, setOpen] = useState(false)
+    const navigate = useNavigate()
 
     const logoutFunctions = () => {
         if (!user) {
@@ -44,7 +48,7 @@ export default function Admin() {
         <>
             <div className='flex'>
                 <div className={`sider ${open ? 'sider-open' : 'sider-closed'}`}>
-                    <h6 className={`border-b-2 border-gray-100 !text-[var(--dark)] px-5 py-4 ${open && '!hidden'}`}>PNG Site</h6>
+                    <h6 className={`border-b-2 border-gray-100 !text-[var(--dark)] px-5 py-4 cursor-pointer ${open && '!hidden'}`} onClick={() => navigate('/')}>PNG Site</h6>
 
                     <div className={`flex flex-col flex-1 justify-between p-2 ${open && 'items-center'}`}>
                         <div className={`flex flex-col gap-2 mt-5 ${open && 'mt-15'}`}>
@@ -54,6 +58,7 @@ export default function Admin() {
                             <NavLink to="/admin/menu" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><BiSend /> <span className={`sider-text ${open && '!hidden'}`}>Menu</span></NavLink>
                             <NavLink to="/admin/users" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaUsers /> <span className={`sider-text ${open && '!hidden'}`}>Users</span></NavLink>
                             <NavLink to="/admin/subscriptions" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><IoWallet /> <span className={`sider-text ${open && '!hidden'}`}>Subscriptions</span></NavLink>
+                            <NavLink to="/admin/blogs" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaSheetPlastic /> <span className={`sider-text ${open && '!hidden'}`}>Blogs</span></NavLink>
                         </div>
 
                         <div className='border-t-2 border-gray-100 pt-5'>
@@ -86,6 +91,8 @@ export default function Admin() {
                         <Route path='/menu' element={<Menu />} />
                         <Route path='/users' element={<Users />} />
                         <Route path='/subscriptions' element={<Subscriptions />} />
+                        <Route path='/blogs' element={<AdminBlogs />} />
+                        <Route path='/add-blog' element={<AddBlog />} />
                     </Routes>
                 </div>
             </div>

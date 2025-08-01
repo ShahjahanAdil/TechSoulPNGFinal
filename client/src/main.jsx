@@ -1,7 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Auth0Provider } from '@auth0/auth0-react';
-import '@ant-design/v5-patch-for-react-19';
 import './configs/global.jsx'
 import './index.css'
 import App from './App.jsx'
