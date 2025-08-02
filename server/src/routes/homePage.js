@@ -6,9 +6,21 @@ const categoriesModel = require('../models/categories')
 
 router.get("/home/fetch-categories", async (req, res) => {
     try {
-        const cats = await categoriesModel.find().limit(9)
+        const cats = await categoriesModel.find().limit(7)
 
         return res.status(200).json({ message: "Categories fetched successfully!", cats })
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Internal server error" })
+    }
+})
+
+router.get("/fetch-recent-images", async (req, res) => {
+    try {
+        const imgs = await imagesModel.find().sort({ createdAt: -1 }).limit(30)
+
+        return res.status(200).json({ message: "Images fetched successfully!", imgs })
     }
     catch (error) {
         console.error(error)

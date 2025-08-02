@@ -11,10 +11,14 @@ import Background from "../../../components/Background";
 import Slider2 from "../../../components/Slider2";
 import CardsSec from "../../../components/CardsSec";
 import Hero from "../../../components/Hero";
+import SearchSection from "../../../components/SearchSection";
+import RecentImages from "../../../components/RecentImages";
 
 export default function Home() {
   return (
     <div className="overflow-x-hidden">
+      <SearchSection />
+      <RecentImages />
       <Hero/>
       {/* <Banner /> */}
       <CardsSlider />

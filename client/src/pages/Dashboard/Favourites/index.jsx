@@ -93,7 +93,7 @@ export default function Favourites() {
                                 className="relative group cursor-pointer flex items-center justify-center p-1 h-[120px] sm:h-[140px] md:h-[170px] shadow-md rounded-[12px]"
                                 onClick={() => navigate(`/image/${fav.imageID}`)}
                             >
-                                <img src={`${import.meta.env.VITE_HOST}${fav.imageURL}`} alt="image" className="w-full h-full object-contain" />
+                                <img src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${fav.imageURL}`} alt="image" className="w-full h-full object-contain" />
                                 <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-40 transition-opacity duration-300 rounded-[12px]"></div>
 
                                 <div className="absolute hidden group-hover:flex justify-between top-2 left-0 px-3 w-full transition-all opacity-0 group-hover:opacity-100 duration-300">

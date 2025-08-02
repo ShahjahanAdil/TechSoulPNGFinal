@@ -649,12 +649,10 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                     })}
                 </div>
 
-                <div className="px-2 py-6 space-y-6 mainContainer">
+                {/* <div className="px-2 py-6 space-y-6 mainContainer">
                     <h2 className="text-xl font-semibold">Similar Background</h2>
 
-                    {/* Images Grid with Hover Overlay */}
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {/* Card 1 */}
                         <div className="relative group overflow-hidden rounded">
                             <img
                                 src={flag13}
@@ -682,7 +680,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             </span>
                         </div>
 
-                        {/* Card 2 */}
                         <div className="relative group overflow-hidden rounded">
                             <img
                                 src={flag14}
@@ -708,8 +705,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 Background 2
                             </span>
                         </div>
-
-                        {/* Repeat the pattern for remaining cards */}
 
                         <div className="relative group overflow-hidden rounded">
                             <img
@@ -737,7 +732,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             </span>
                         </div>
 
-                        {/* Card 4 */}
                         <div className="relative group overflow-hidden rounded">
                             <img
                                 src={flag16}
@@ -758,7 +752,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             </span>
                         </div>
 
-                        {/* Card 5 */}
                         <div className="relative group overflow-hidden rounded">
                             <img
                                 src={flag17}
@@ -779,7 +772,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             </span>
                         </div>
 
-                        {/* Card 6 */}
                         <div className="relative group overflow-hidden rounded">
                             <img
                                 src={flag18}
@@ -806,7 +798,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             </span>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     );

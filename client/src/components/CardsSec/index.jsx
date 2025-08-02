@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineArrowRight } from "react-icons/ai";
-
 import crownIcon from "../../assets/images/crown.png";
 import { useAuthContext } from "../../contexts/AuthContext";
 import dayjs from "dayjs";

@@ -18,6 +18,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import dayjs from "dayjs";
 import axios from "axios";
+import SearchBar from "../SearchBar";
 
 export default function Navbar() {
 
@@ -122,11 +123,10 @@ export default function Navbar() {
                         />
                     </div>
 
-                    <div className="search flex w-full max-w-[800px] justify-center">
+                    {/* <div className="search flex w-full max-w-[800px] justify-center">
                         <div className="!w-[100%] relative">
                             <div className="flex items-center justify-center border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
 
-                                {/* Category Dropdown */}
                                 <div className="relative group inline-block">
                                     <button className="px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white flex gap-1 items-center rounded-l-md text-base">
                                         {!searchCategory ? 'Categories' : searchCategory}
@@ -148,7 +148,6 @@ export default function Navbar() {
                                     </div>
                                 </div>
 
-                                {/* Search Input */}
                                 <div className="relative w-full">
                                     <input
                                         type="text"
@@ -163,7 +162,6 @@ export default function Navbar() {
                                         <MdKeyboardVoice className="text-[20px]" />
                                     </div>
 
-                                    {/* Suggestions Dropdown */}
                                     {searchText && showSuggestions && (
                                         <ul className="absolute left-0 top-full mt-1 w-full z-50 bg-white border border-gray-200 rounded-md shadow-md">
                                             {suggestionLoading ? (
@@ -215,7 +213,6 @@ export default function Navbar() {
                                     )}
                                 </div>
 
-                                {/* Search Button */}
                                 <button
                                     className="bg-[#71C194] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
                                     onClick={handleSearch}
@@ -225,7 +222,14 @@ export default function Navbar() {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+
+                    {
+                        pathname == "/" || pathname.includes("/home") ?
+                            ""
+                            :
+                            <SearchBar />
+                    }
 
                 </div>
 
@@ -762,7 +766,7 @@ export default function Navbar() {
                 </div>
             </section>
 
-            <section className="nav-bottom px-5 py-3 bg-[#fefefe] flex justify-between items-center ">
+            <section className="nav-bottom px-5 py-0 bg-[#fefefe] flex justify-between items-center ">
                 <div className="menu">
                     <div className="!flex gap-3 sm:!gap-5 justify-start items-center">
                         <div className="relative group">
@@ -1143,80 +1147,85 @@ export default function Navbar() {
                     </div>
                 </div>
 
-                <div className="search-bar flex w-full justify-center">
-                    <div className="relative w-full">
-                        {/* Search Input & Button */}
-                        <div className="flex items-center border border-gray-200 transition-all duration-200 rounded-md hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
-                            <input
-                                type="text"
-                                value={searchText}
-                                placeholder={`${searchCategory ? searchCategory : ''} Images waiting for you to discover`}
-                                className="w-full bg-white !text-[12px] sm:text-[12px] !border-none !p-3 text-sm md:text-base rounded-l-md"
-                                onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-                                onKeyDown={(e) => e.key.toLowerCase() === "enter" && handleSearch()}
-                            />
+                {
+                    pathname === "/" || pathname.includes("/home") ?
+                        ""
+                        :
+                        <div className="search-bar flex w-full justify-center">
+                            <div className="relative w-full">
+                                {/* Search Input & Button */}
+                                <div className="flex items-center border border-gray-200 transition-all duration-200 rounded-md hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
+                                    <input
+                                        type="text"
+                                        value={searchText}
+                                        placeholder={`${searchCategory ? searchCategory : ''} Images waiting for you to discover`}
+                                        className="w-full bg-white !text-[12px] sm:text-[12px] !border-none !p-3 text-sm md:text-base rounded-l-md"
+                                        onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+                                        onKeyDown={(e) => e.key.toLowerCase() === "enter" && handleSearch()}
+                                    />
 
-                            <button
-                                className="bg-[#666] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
-                                onClick={handleSearch}
-                            >
-                                <FaSearch className="!text-[10px]" />
-                                <span className="!hidden sm:!block !text-[12px]">Search</span>
-                            </button>
-                        </div>
+                                    <button
+                                        className="bg-[#666] text-white py-3 px-3 rounded-r-md flex items-center gap-1 !text-[10px] md:!text-[12px]"
+                                        onClick={handleSearch}
+                                    >
+                                        <FaSearch className="!text-[10px]" />
+                                        <span className="!hidden sm:!block !text-[12px]">Search</span>
+                                    </button>
+                                </div>
 
-                        {/* Suggestions Dropdown */}
-                        {searchText && showSuggestions && (
-                            <ul className="absolute left-0 top-full mt-1 w-full z-50 bg-white border border-gray-200 rounded-md shadow-md">
-                                {suggestionLoading ? (
-                                    <li className="p-2 text-sm text-gray-500">
-                                        <div className="flex justify-center items-center">
-                                            <span className="w-[40px] h-[40px] rounded-full border-t-4 border-gray-400 animate-spin"></span>
-                                        </div>
-                                    </li>
-                                ) : (
-                                    <>
-                                        {suggestions.length > 0 ? (
-                                            <>
-                                                {suggestions.map((item) => (
-                                                    <li
-                                                        key={item._id}
-                                                        className="p-2 flex items-center gap-2 cursor-pointer rounded-[8px] hover:bg-gray-100"
-                                                        onClick={() => {
-                                                            navigate(`/image/${item.imageID}`);
-                                                            setSearchText("");
-                                                            setSuggestions([]);
-                                                            setShowSuggestions(false)
-                                                        }}
-                                                    >
-                                                        <img
-                                                            src={`${import.meta.env.VITE_HOST}${item.imageURL}`}
-                                                            alt={item.title}
-                                                            className="w-8 h-8 object-cover rounded"
-                                                        />
-                                                        <span className="text-sm text-gray-700">{item.title}</span>
-                                                    </li>
-                                                ))}
-                                                <li
-                                                    className="flex gap-1 items-center justify-center p-2 text-center text-sm text-[#5ABC84] cursor-pointer hover:bg-gray-50 font-medium"
-                                                    onClick={() => {
-                                                        navigate(`/images?s=${encodeURIComponent(searchText)}`);
-                                                        setSuggestions([]);
-                                                        setShowSuggestions(false)
-                                                    }}
-                                                >
-                                                    View more results <LuArrowRight />
-                                                </li>
-                                            </>
+                                {/* Suggestions Dropdown */}
+                                {searchText && showSuggestions && (
+                                    <ul className="absolute left-0 top-full mt-1 w-full z-50 bg-white border border-gray-200 rounded-md shadow-md">
+                                        {suggestionLoading ? (
+                                            <li className="p-2 text-sm text-gray-500">
+                                                <div className="flex justify-center items-center">
+                                                    <span className="w-[40px] h-[40px] rounded-full border-t-4 border-gray-400 animate-spin"></span>
+                                                </div>
+                                            </li>
                                         ) : (
-                                            <li className="p-2 text-sm text-red-500">No related results found.</li>
+                                            <>
+                                                {suggestions.length > 0 ? (
+                                                    <>
+                                                        {suggestions.map((item) => (
+                                                            <li
+                                                                key={item._id}
+                                                                className="p-2 flex items-center gap-2 cursor-pointer rounded-[8px] hover:bg-gray-100"
+                                                                onClick={() => {
+                                                                    navigate(`/image/${item.imageID}`);
+                                                                    setSearchText("");
+                                                                    setSuggestions([]);
+                                                                    setShowSuggestions(false)
+                                                                }}
+                                                            >
+                                                                <img
+                                                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${item.imageURL}`}
+                                                                    alt={item.title}
+                                                                    className="w-8 h-8 object-cover rounded"
+                                                                />
+                                                                <span className="text-sm text-gray-700">{item.title}</span>
+                                                            </li>
+                                                        ))}
+                                                        <li
+                                                            className="flex gap-1 items-center justify-center p-2 text-center text-sm text-[#5ABC84] cursor-pointer hover:bg-gray-50 font-medium"
+                                                            onClick={() => {
+                                                                navigate(`/images?s=${encodeURIComponent(searchText)}`);
+                                                                setSuggestions([]);
+                                                                setShowSuggestions(false)
+                                                            }}
+                                                        >
+                                                            View more results <LuArrowRight />
+                                                        </li>
+                                                    </>
+                                                ) : (
+                                                    <li className="p-2 text-sm text-red-500">No related results found.</li>
+                                                )}
+                                            </>
                                         )}
-                                    </>
+                                    </ul>
                                 )}
-                            </ul>
-                        )}
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                }
 
                 <div className="left-menu flex items-center gap-3 sm:gap-5 justify-center">
                     <button className="flex items-center sm:rounded-[8px] bg-[#71C194] hover:bg-[#71c194c9] hover:text-semibold text-white px-3 py-1.5 !text-[14px] rounded cursor-pointer" onClick={() => navigate("/dashboard/subscriptions")}>

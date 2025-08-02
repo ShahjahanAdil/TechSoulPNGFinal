@@ -149,6 +149,22 @@ select:focus {
     box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(120, 120, 128, 0.1) 0px 0px 8px;
 }
 
+.blur-blobs {
+    animation: blur-blobs 3s infinite alternate;
+}
+
+@keyframes blur-blobs {
+    0% {
+        transform: translate(0%, 0%);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translate(10%, -10%);
+        opacity: 1;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .dashboard-sidebar {
         display: block;

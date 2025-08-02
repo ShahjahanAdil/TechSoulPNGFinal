@@ -5,7 +5,6 @@ import pngBg from "../../../assets/images/bgPNGFinal.jpg";
 import errorImg from "../../../assets/images/404.jpg";
 import Loader from "../../../components/Loader";
 import crownIcon from "../../../assets/images/crown.png";
-// import Search from "../../../components/Search";
 import { FaHeart } from "react-icons/fa";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import { MdOutlineFileDownload } from "react-icons/md";
