@@ -3,8 +3,8 @@ import "./contact.css";
 import contactBG from "../../assets/images/contactbg.jpeg";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuSend } from "react-icons/lu";
-import axios from 'axios'
 import ButtonLoader from "../ButtonLoader";
+import axios from 'axios'
 
 const initialState = { topic: "", username: "", email: "", message: "" }
 
@@ -33,7 +33,7 @@ const ContactUs = () => {
         axios.post(`${import.meta.env.VITE_HOST}/frontend/contact/send-mail`, state)
             .then((res) => {
                 const { status, data } = res;
-                if (status === 200) {
+                if (status === 201) {
                     setState(initialState);
                     window.toastify(data.message, "success")
                 }

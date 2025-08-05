@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './Dcards.css'
-import { useNavigate } from "react-router-dom";
-import flag13 from "../../assets/images/fbg1.jpg";
-import flag14 from "../../assets/images/fbg2.jpg";
-import flag15 from "../../assets/images/fbg3.jpg";
-import flag16 from "../../assets/images/fbg4.jpg";
-import flag17 from "../../assets/images/fbg5.jpg";
-import flag18 from "../../assets/images/fbg6.jpg";
+import { useLocation, useNavigate } from "react-router-dom";
 import crownIcon from "../../assets/images/crown.png";
-import { FaCrown, FaHeart } from "react-icons/fa";
+import { FaHeart, FaRegAddressCard } from "react-icons/fa";
 import { MdOutlineFileDownload } from "react-icons/md";
-import { BsInfoCircleFill, BsTextareaResize } from "react-icons/bs";
+import { BsCopy, BsInfoCircleFill, BsShare, BsTextareaResize } from "react-icons/bs";
 import { HiOutlineDownload } from "react-icons/hi";
 import { BsFiletypeAi } from "react-icons/bs";
 import pngImg from "../../assets/images/bgPNGFinal.jpg";
@@ -23,11 +17,19 @@ import axios from "axios";
 const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeight, setResizeWidth, setResizeHeight, downloadFormat, setDownloadFormat, withBackground, setWithBackground, handleDownload, downloadLoading, }) => {
 
     const { userData, dispatch, guestData, isGuest } = useAuthContext()
-    const [favourites, setFavourites] = useState([]);
+    const [favourites, setFavourites] = useState([])
     const [shortDownloadLoading, setShortDownloadLoading] = useState(false)
     const [downloadingImageID, setDownloadingImageID] = useState("")
     const [previewSizeKB, setPreviewSizeKB] = useState(null)
     const navigate = useNavigate()
+
+    const { pathname } = useLocation()
+    const fullLink = `${import.meta.env.VITE_ASURA_DOMAIN}${pathname}`;
+    const [copied, setCopied] = useState(false);
+
+    const containerRef = useRef(null);
+    const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 })
+    const [isZooming, setIsZooming] = useState(false)
 
     useEffect(() => {
         if (userData.userID) {
@@ -43,6 +45,18 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
         }
     }, [downloadFormat, withBackground]);
 
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(fullLink);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        setZoomPosition({ x, y });
+    };
 
     const fetchFavourites = () => {
         axios.get(`${import.meta.env.VITE_HOST}/frontend/favourites/get?userID=${userData.userID}`)
@@ -270,17 +284,19 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-[1280px] w-full">
                     {/* Left Column */}
                     <div>
-                        <p className="font-bold text-[24px] text-[#333] !mb-4">
-                            {imageDets.title} <span className="text-[#666]">Free PNG</span>
+                        <p className="font-bold text-[24px] !text-[#333] !mb-4">
+                            {imageDets.title}
                         </p>
-                        <div
+                        {/* <div
                             className="relative bg-cover bg-center h-[300px] sm:h-[400px] md:h-[500px] rounded-xl !p-5 flex flex-col justify-end"
                             style={{
                                 backgroundImage: `url(${pngImg})`,
                                 backgroundSize: "220%",
                             }}
+                            onMouseMove={handleMouseMove}
+                            onMouseEnter={() => setIsZooming(true)}
+                            onMouseLeave={() => setIsZooming(false)}
                         >
-                            {/* License Tag */}
                             <span
                                 className={`absolute top-1 left-1 sm:top-2 sm:left-2 ${imageDets.license === "free"
                                     ? "bg-[#4EAA76]"
@@ -308,16 +324,91 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 <FaHeart />
                             </span>
 
-                            {/* Image */}
-                            <div className="w-full h-full flex justify-center">
+                            <div className="relative w-full h-full flex justify-center">
                                 <img
                                     src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
                                     alt="PNG"
-                                    className="object-contain w-full h-full"
-                                    onContextMenu={(e) => e.preventDefault()}
+                                    className="object-contain w-full h-full pointer-events-none"
                                 />
+                                <div
+                                    className="absolute inset-0 z-10"
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    onDragStart={(e) => e.preventDefault()}
+                                    onMouseDown={(e) => e.preventDefault()}
+                                ></div>
+                            </div>
+                        </div> */}
+
+                        <div
+                            ref={containerRef}
+                            className="relative !p-3 sm:!p-5 bg-cover bg-center h-[300px] sm:h-[400px] md:h-[500px] rounded-xl flex flex-col justify-end cursor-zoom-in overflow-hidden"
+                            style={{
+                                backgroundImage: `url(${pngImg})`,
+                                backgroundSize: "220%",
+                            }}
+                            onMouseMove={handleMouseMove}
+                            onMouseEnter={() => setIsZooming(true)}
+                            onMouseLeave={() => setIsZooming(false)}
+                        >
+                            {/* License Tag */}
+                            <span className={`absolute top-1 left-1 sm:top-2 sm:left-2 ${imageDets.license === "free"
+                                ? "bg-[#4EAA76]"
+                                : "bg-transparent"
+                                } !text-white !text-xs font-semibold !px-2 !py-1 rounded`}>
+                                {imageDets.license === "free" ? (
+                                    "FREE"
+                                ) : (
+                                    <img src={crownIcon} alt="crown" className="w-[20px] md:w-[30px]" />
+                                )}
+                            </span>
+
+                            {/* Heart Icon */}
+                            <span
+                                className={`absolute top-1 right-1 sm:top-2 sm:right-3 ${favourites.some((fav) => fav.imageID === imageDets.imageID) ? "text-red-500" : "text-gray-500"} !text-[16px] sm:!text-[20px] cursor-pointer transition-all duration-150 ${favourites.some((fav) => fav.imageID === imageDets.imageID) ? 'hover:text-red-400' : 'hover:text-gray-400'}`}
+                                onClick={() =>
+                                    handleAddToFavourites({
+                                        imageID: imageDets.imageID,
+                                        imageURL: imageDets.imageURL,
+                                        favourite: imageDets.favourite,
+                                        license: imageDets.license,
+                                    })
+                                }
+                            >
+                                <FaHeart />
+                            </span>
+
+                            {/* Image & Zoom */}
+                            <div className="relative w-full h-full flex justify-center pointer-events-none">
+                                <img
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
+                                    alt="PNG"
+                                    className="object-contain w-full h-full pointer-events-none"
+                                />
+                                <div
+                                    className="absolute inset-0 z-10"
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    onDragStart={(e) => e.preventDefault()}
+                                    onMouseDown={(e) => e.preventDefault()}
+                                ></div>
+
+                                {/* Zoom Lens */}
+                                {isZooming && (
+                                    <div
+                                        className="absolute w-[250px] h-[250px] border border-white rounded-full z-20 pointer-events-none"
+                                        style={{
+                                            top: `${zoomPosition.y - 130}px`,
+                                            left: `${zoomPosition.x - 130}px`,
+                                            backgroundImage: `url(${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL})`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundSize: "320%",
+                                            backgroundPosition: `${(zoomPosition.x / containerRef.current.offsetWidth) * 100
+                                                }% ${(zoomPosition.y / containerRef.current.offsetHeight) * 100}%`,
+                                        }}
+                                    ></div>
+                                )}
                             </div>
                         </div>
+
                         <figcaption className="text-[14px] !mt-4 text-[#666]">
                             Download {imageDets.description}
                         </figcaption>
@@ -338,13 +429,13 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
 
                     {/* Right Column */}
                     <div className="bg-white !p-1 sm:!p-6 flex flex-col gap-4 h-full">
-                        <p className="text-[#666] !mb-3">
+                        {/* <p className="text-[#666] !mb-3">
                             This image has copyright license and available for commercial use.{" "}
                             <span className="text-[#4e76aa]">
                                 Upgrade to Individual Premium
                             </span>{" "}
                             to get license authorization.
-                        </p>
+                        </p> */}
 
                         <div className="flex justify-between items-start gap-5 !mb-4">
                             <div className="flex-1">
@@ -541,27 +632,25 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             )}
                         </button>
 
-                        <p className="leading-0 text-[14px]">
-                            <span className="text-[#666]">Authorization scope</span>{" "}
-                            <span className="font-bold inline-block indent-2">
-                                Commercial license
-                            </span>
-                        </p>
-                        <p className=" text-[14px]">
-                            <span className="text-[#666]">Authorized object</span>{" "}
-                            <span className="font-bold inline-block indent-2">
-                                <span className="text-[#4EAA76]">Individual</span>{" "}
-                                <span className="indent-1 inline-block text-[#4e76aa]">
-                                    Enterprise
-                                </span>
-                            </span>
-                        </p>
+                        <div className="bg-[#8ed2ac3b] p-4 rounded-[12px]">
+                            <h6 className="flex items-center gap-2 !text-[16px] !text-[#339e61] !font-semibold border-b-2 border-b-[#339e6142] pb-2"><BsShare /> Share</h6>
+                            <p className="py-3">Share this flowerpng.com image with your friends.</p>
+                            <div className="flex justify-between items-center gap-4 mt-4">
+                                {/* <p className="!text-[#339e61]">{import.meta.env.VITE_ASURA_SUBDOMAIN}{pathname}</p>
+                                <button className="flex items-center gap-1 !text-[12px] bg-[#4EAA76] !text-white p-2 rounded-[8px]">Copy <BsCopy /></button> */}
+                                <p className="!text-[#339e61] break-all">{fullLink}</p>
+                                <button
+                                    onClick={handleCopy}
+                                    className="flex items-center gap-1 !text-[12px] bg-[#4EAA76] !text-white p-2 rounded-[8px]"
+                                >
+                                    {copied ? "Copied!" : "Copy"} <BsCopy />
+                                </button>
+                            </div>
+                        </div>
 
-                        <div>
-                            <h6 className="text-[14px] font-bold">Free License</h6>
-                            <p className="text-[#666] text-[14px]">
-                                Crediting the author and the source is required
-                            </p>
+                        <div className="border border-[#339e61]/50 p-4 rounded-[12px]">
+                            <h6 className="flex items-center gap-2 !text-[16px] !text-[#339e61] !font-semibold border-b border-b-[#339e61]/50 pb-2"><FaRegAddressCard /> Licenses</h6>
+                            <p className="pt-3">Non-commercial use, <button className="text-[#4EAA76] hover:underline" onClick={() => navigate("/dmca")}>DMCA Contact Us</button></p>
                         </div>
                     </div>
                 </div>
@@ -648,157 +737,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                         );
                     })}
                 </div>
-
-                {/* <div className="px-2 py-6 space-y-6 mainContainer">
-                    <h2 className="text-xl font-semibold">Similar Background</h2>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <div className="relative group overflow-hidden rounded">
-                            <img
-                                src={flag13}
-                                alt="Background 1"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                            <div className="absolute top-2 left-2 right-2 flex justify-between opacity-0 transform scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out">
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    Free
-                                </span>
-                                <div className="!flex justify-center items-center gap-2">
-                                    <span className="bg-white text-gray-500 !text-[10px] uppercase px-2 py-1.5 r rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100">
-                                        <FaHeart className="text-[12px]" />
-                                    </span>
-                                    <span className="bg-[#4EAA76] text-white !text-[12px] uppercase px-2 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 !flex items-center gap-1">
-                                        <MdOutlineFileDownload className="text-[14px]" />{" "}
-                                        {imageDets.type}
-                                    </span>
-                                </div>
-
-                            </div>
-                            <span className="absolute bottom-2 left-2 text-white text-sm px-2 py-1 rounded shadow transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-out">
-                                Background 1
-                            </span>
-                        </div>
-
-                        <div className="relative group overflow-hidden rounded">
-                            <img
-                                src={flag14}
-                                alt="Background 2"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                            <div className="absolute top-2 left-2 right-2 flex justify-between opacity-0 transform scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out">
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    Free
-                                </span>
-                                <div className="!flex justify-center items-center gap-2">
-                                    <span className="bg-white text-gray-500 !text-[10px] uppercase px-2 py-1.5 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100">
-                                        <FaHeart className="text-[12px]" />
-                                    </span>
-                                    <span className="bg-[#4EAA76] text-white !text-[12px] uppercase px-2 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 !flex items-center gap-1">
-                                        <MdOutlineFileDownload className="text-[14px]" />{" "}
-                                        {imageDets.type}
-                                    </span>
-                                </div>
-                            </div>
-                            <span className="absolute bottom-2 left-2 text-white text-sm px-2 py-1 rounded shadow transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-out">
-                                Background 2
-                            </span>
-                        </div>
-
-                        <div className="relative group overflow-hidden rounded">
-                            <img
-                                src={flag15}
-                                alt="Background 3"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                            <div className="absolute top-2 left-2 right-2 flex justify-between opacity-0 transform scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out">
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    Free
-                                </span>
-                                <div className="!flex justify-center items-center gap-2">
-                                    <span className="bg-white text-gray-500 !text-[10px] uppercase px-2 py-1.5 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100">
-                                        <FaHeart className="text-[12px]" />
-                                    </span>
-                                    <span className="bg-[#4EAA76] text-white !text-[12px] uppercase px-2 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 !flex items-center gap-1">
-                                        <MdOutlineFileDownload className="text-[14px]" />{" "}
-                                        {imageDets.type}
-                                    </span>
-                                </div>
-                            </div>
-                            <span className="absolute bottom-2 left-2 text-white text-sm px-2 py-1 rounded shadow transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-out">
-                                Background 3
-                            </span>
-                        </div>
-
-                        <div className="relative group overflow-hidden rounded">
-                            <img
-                                src={flag16}
-                                alt="Background 4"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                            <div className="absolute top-2 left-2 right-2 flex justify-between opacity-0 transform scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out">
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    <FaCrown className="text-black" />
-                                </span>
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    <FaHeart className="text-red-500" />
-                                </span>
-                            </div>
-                            <span className="absolute bottom-2 left-2 text-white text-sm px-2 py-1 rounded shadow transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-out">
-                                Background 4
-                            </span>
-                        </div>
-
-                        <div className="relative group overflow-hidden rounded">
-                            <img
-                                src={flag17}
-                                alt="Background 5"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                            <div className="absolute top-2 left-2 right-2 flex justify-between opacity-0 transform scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out">
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    Free
-                                </span>
-                                <span className="bg-white !text-[12px] px-2 py-1.5 rounded shadow">
-                                    <FaHeart className="text-red-500" />
-                                </span>
-                            </div>
-                            <span className="absolute bottom-2 left-2 text-white text-sm px-2 py-1 rounded shadow transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-out">
-                                Background 5
-                            </span>
-                        </div>
-
-                        <div className="relative group overflow-hidden rounded">
-                            <img
-                                src={flag18}
-                                alt="Background 6"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                            <div className="absolute top-2 left-2 right-2 flex justify-between opacity-0 transform scale-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out">
-                                <span className="bg-white !text-[12px] px-2 py-1 rounded shadow">
-                                    Free
-                                </span>
-                                <div className="!flex justify-center items-center gap-2">
-                                    <span className="bg-white text-gray-500 !text-[10px] uppercase px-2 py-1.5 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100">
-                                        <FaHeart className="text-[12px]" />
-                                    </span>
-                                    <span className="bg-[#4EAA76] text-white !text-[12px] uppercase px-2 py-1 rounded shadow transform scale-0 opacity-0 transition-all duration-500 ease-out group-hover:scale-100 group-hover:opacity-100 !flex items-center gap-1">
-                                        <MdOutlineFileDownload className="text-[14px]" />{" "}
-                                        {imageDets.type}
-                                    </span>
-                                </div>
-                            </div>
-                            <span className="absolute bottom-2 left-2 text-white text-sm px-2 py-1 rounded shadow transform scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-out">
-                                Background 6
-                            </span>
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </>
     );

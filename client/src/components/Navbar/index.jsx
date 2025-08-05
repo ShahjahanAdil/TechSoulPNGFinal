@@ -245,14 +245,14 @@ export default function Navbar() {
                             Explore
                         </button>
                     </div>
-                    <div className="relative group inline-block text-left">
-                        {/* Language */}
+
+                    {/* Language Selector */}
+                    {/* <div className="relative group inline-block text-left">
                         <button className="flex items-center gap-2 !text-[12px]">
                             <GrLanguage className="!text-[18px]" /> Eng
                             <IoIosArrowDown className="transition-transform duration-300 group-hover:rotate-180" />
                         </button>
 
-                        {/* Dropdown */}
                         <div className="absolute right-0 z-20 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 delay-150 bg-white shadow-lg w-32 mt-2 rounded-md p-3">
                             <div className="flex justify-between border-b pb-2 mb-2 text-[12px] font-medium">
                                 <span className="pb-1 !text-[14px]">Language</span>
@@ -290,7 +290,7 @@ export default function Navbar() {
                                 ))}
                             </ul>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="flex gap-3 ml-4 items-center">
@@ -769,7 +769,7 @@ export default function Navbar() {
             <section className="nav-bottom px-5 py-0 bg-[#fefefe] flex justify-between items-center ">
                 <div className="menu">
                     <div className="!flex gap-3 sm:!gap-5 justify-start items-center">
-                        <div className="relative group">
+                        {/* <div className="relative group">
                             <span className="cursor-pointer !text-[14px]">PNG</span>
                             <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-6 mt-3 bg-white shadow-lg ">
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 rounded-10px text-sm !rounded-4xl  text-gray-700">
@@ -780,9 +780,8 @@ export default function Navbar() {
                                         <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
                                             nswqh
                                         </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
+                                    </ul>
+                                    <ul>
                                         <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
                                             nswqh
                                         </li>
@@ -794,356 +793,21 @@ export default function Navbar() {
                                         <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
                                             nswqh
                                         </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
                                     </ul>
                                     <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
                                         <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
                                             nswqh
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                        </div>
-                        <div className="relative group">
-                            <span className="cursor-pointer !text-[14px]">JPG</span>
-                            <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-6 mt-3 bg-white shadow-lg">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="relative group">
-                            <span className="cursor-pointer !text-[14px]">WEBP</span>
-                            <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-6 mt-3 bg-white shadow-lg">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="relative group">
-                            <span className="cursor-pointer !text-[14px]">Backgrounds</span>
-                            <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-6 mt-3 bg-white shadow-lg">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="relative group">
-                            <span className="cursor-pointer !text-[14px]">Illustrations</span>
-                            <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-6 mt-3 bg-white shadow-lg">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700">
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-1.5">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        </div> */}
+
+                        <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/contact")}>Contact Us</button>
+                        <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/about")}>About Us</button>
+                        <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/legal/privacy")}>Privacy Policy</button>
+                        <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/dmca")}>DMCA</button>
+                        <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/legal/terms")}>Terms Of Service</button>
                     </div>
                 </div>
 

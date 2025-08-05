@@ -10,6 +10,7 @@ import 'react-quill/dist/quill.snow.css'
 import ReactQuill from 'react-quill'
 
 export default function AdminBlogs() {
+    
     const [blogs, setBlogs] = useState([])
     const [loading, setLoading] = useState(true)
     const [openUpdateModal, setOpenUpdateModal] = useState(false)

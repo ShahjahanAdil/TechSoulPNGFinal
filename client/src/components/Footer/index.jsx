@@ -69,10 +69,9 @@ const Footer = () => {
 
         {/* Right Section */}
         <div className="right-foot flex flex-col justify-center gap-10 px-5 sm:flex-row sm:gap-20">
-          {/* PNGTREE Section */}
           <div className="png-tree w-1/2">
             <div className="inner-items">
-              <h6 className="font-bold uppercase !text-[16px]">PNGTREE.COM</h6>
+              <h6 className="font-bold uppercase !text-[16px]">flowerpng.com</h6>
               <ul className=" mt-2">
                 <li>
                   <Link
@@ -103,31 +102,7 @@ const Footer = () => {
                     to="#"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
-                    Update
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="#"
-                    className="text-sm text-gray-700 hover:text-green-600"
-                  >
-                    New Background
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="#"
-                    className="text-sm text-gray-700 hover:text-green-600"
-                  >
-                    AI Image Generator
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="#"
-                    className="text-sm text-gray-700 hover:text-green-600"
-                  >
-                    AI Remove
+                    BG Remover
                   </Link>
                 </li>
               </ul>
@@ -187,10 +162,18 @@ const Footer = () => {
               <ul className="!mt-2 flex flex-col gap-[10px]">
                 <li>
                   <Link
-                    to="/legal/terms"
+                    to="/dmca"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
-                    Term of Service
+                    DMCA
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/legal/terms"
+                    className="text-sm text-gray-700 hover:text-green-600 whitespace-nowrap"
+                  >
+                    Terms of Service
                   </Link>
                 </li>
                 <li>
@@ -211,34 +194,10 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/legal/cookies"
-                    className="text-sm text-gray-700 hover:text-green-600"
-                  >
-                    Cookies Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     to="/legal/license"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     License Terms
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/legal/refund"
-                    className="text-sm text-gray-700 hover:text-green-600"
-                  >
-                    Refund Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/legal/intellectual-property"
-                    className="text-sm text-gray-700 hover:text-green-600"
-                  >
-                    Intellectual Property Policy
                   </Link>
                 </li>
               </ul>
@@ -251,10 +210,10 @@ const Footer = () => {
         <div className="flex items-center gap-1">
           <span><AiOutlineCopyright className="text-[#666]" /></span>
           <span className="!text-[#666] !text-sm">
-            2017-2025 Pngtree -All Rights Reserved.
+            2025 FlowerPNG -All Rights Reserved.
           </span>
           <span className="!text-[#666] !text-sm">
-            Contact Email: info@pngtree.com
+            Contact Email: info@flowerpng.com
           </span>
         </div>
         <div className="flex items-center">

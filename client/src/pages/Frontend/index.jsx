@@ -14,6 +14,7 @@ import Popular from "./Popular";
 import FAQs from "./FAQs";
 import Blogs from "./Blogs";
 import Blog from "./Blogs/Blog";
+import DMCA from "./DMCA";
 
 export default function Frontend() {
   return (
@@ -23,6 +24,7 @@ export default function Frontend() {
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
         <Route path="/image/:imageID" element={<DownloadPage />} />
+        <Route path="/dmca" element={<DMCA />} />
         <Route path="/about" element={<About />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/help-center" element={<Help />} />

@@ -4,15 +4,15 @@ import bg2 from '../../assets/images/gridImage.png';
 
 export default function AboutBanner() {
   return (
-    <>
+    <div className='pt-16 pb-8'>
       {/* Heading */}
-      <div className="text-2xl md:text-5xl text-center py-5 font-bold">
+      <div className="text-2xl md:text-5xl !text-[#4EAA76] text-center py-5 font-bold">
         Love png love design
       </div>
 
       {/* Description Text */}
       <div className=" md:px-[150px] px-[20px] py-5">
-        <p className="text-center">
+        <p className="w-full max-w-[800px] mx-auto text-center mb-10">
           Pngtree has tens of millions of PNG images and other graphic resources for everyone to download.
           Our aim is to build a largest free PNG image platform in the world, serve for all the professional
           designer and people who have design skills. Helping users save time and improving their projects
@@ -53,6 +53,6 @@ export default function AboutBanner() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }

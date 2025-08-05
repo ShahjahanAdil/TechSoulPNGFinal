@@ -179,7 +179,7 @@ const CardsSec = () => {
     };
 
     return (
-        <div className="mainContainer">
+        <div className="mainContainer py-10">
             <div className="my-5 px-4">
                 {/* Heading and Button */}
                 <div className="flex justify-between items-start gap-2 mb-3 sm:mb-4">

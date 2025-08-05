@@ -314,8 +314,8 @@ export default function Main() {
                 {/* Heading Secttion */}
                 <section className="pt-12 pb-8 px-2 sm:px-4">
                     <div className="flex items-center gap-2">
-                        <a href="#" className="text-[#666] text-sm">
-                            Pngtree &gt;
+                        <a href="/" className="text-[#666] text-sm">
+                            FlowerPNG &gt;
                         </a>{" "}
                         <span className="text-[#666] !text-sm capitalize"> {category}</span>
                     </div>
