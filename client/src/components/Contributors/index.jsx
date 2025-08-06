@@ -102,7 +102,7 @@ export default function Contributors() {
             Contributors around the world
           </h2>
           <p className="text-gray-600 text-sm ">
-            Become a pngtree contributor and earn cash uploading your copyrighted images and designs.
+            Become a FlowerPNG contributor and earn cash uploading your copyrighted images and designs.
           </p>
           <p className="md:text-4xl ext-2xl font-bold text-gray-800">
             147,079 <span className="md:!text-2xl !font-medium">contributors</span>

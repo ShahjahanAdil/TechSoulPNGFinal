@@ -462,7 +462,11 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 </p>
                             </div>
 
-                            <div className="preview rounded-[8px]">
+                            <div className="preview rounded-[8px]"
+                                onContextMenu={(e) => e.preventDefault()}
+                                onDragStart={(e) => e.preventDefault()}
+                                onMouseDown={(e) => e.preventDefault()}
+                            >
                                 <img
                                     src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
                                     alt="preview"

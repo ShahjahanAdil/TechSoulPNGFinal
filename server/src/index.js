@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(cors())
 config()
 
-mongoose.connect(process.env.MONGODBURI, { dbName: "techsoulpng" })
+mongoose.connect(process.env.MONGODBURI, { dbName: "techsoulpng", socketTimeoutMS: 60000, connectTimeoutMS: 60000, })
     .then(async () => {
         console.log("MongoDB Connected")
         // await update()

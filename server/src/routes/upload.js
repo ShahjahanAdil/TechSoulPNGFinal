@@ -8,15 +8,32 @@ const uploadToFTP = require("../middlewares/ftp");
 
 const generateRandomID = () => Math.random().toString(32).slice(2)
 
-router.post("/upload-image", upload.single("image"), async (req, res) => {
-    if (!req.file) return res.status(400).json({ error: "No file uploaded." });
+router.post("/upload-image", upload.fields([
+    { name: 'originalImage', maxCount: 1 },
+    { name: 'editedImage', maxCount: 1 }
+]), async (req, res) => {
+    if (!req.files || !req.files.originalImage || !req.files.editedImage) {
+        return res.status(400).json({
+            error: "Both original and edited images are required."
+        });
+    }
 
-    const localPath = req.file.path;
-    const remoteFileName = req.file.filename;
+    const originalFile = req.files.originalImage[0];
+    const editedFile = req.files.editedImage[0];
+
+    const originalLocalPath = originalFile.path;
+    const editedLocalPath = editedFile.path;
+    const originalRemoteFileName = originalFile.filename;
+    const editedRemoteFileName = editedFile.filename;
 
     try {
-        const imageURL = await uploadToFTP(localPath, remoteFileName);
-        fs.unlinkSync(localPath);
+        const [originalImageURL, editedImageURL] = await Promise.all([
+            uploadToFTP(originalLocalPath, originalRemoteFileName),
+            uploadToFTP(editedLocalPath, editedRemoteFileName)
+        ]);
+
+        fs.unlinkSync(originalLocalPath);
+        fs.unlinkSync(editedLocalPath);
 
         const formData = req.body;
         const parsedTags = JSON.parse(formData.tags || '[]');
@@ -24,19 +41,59 @@ router.post("/upload-image", upload.single("image"), async (req, res) => {
         const imageData = {
             ...formData,
             imageID: generateRandomID(),
-            imageURL,
-            type: req.file.mimetype.split("/").pop(),
+            imageURL: originalImageURL,
+            originalImageURL,
+            editedImageURL,
+            type: originalFile.mimetype.split("/").pop(),
             tags: parsedTags,
             status: "published",
         };
 
         await imagesModel.create(imageData);
 
-        res.status(201).json({ message: "Image uploaded successfully", imageURL });
+        res.status(201).json({ message: "Image uploaded successfully" });
     } catch (error) {
+        try {
+            if (fs.existsSync(originalLocalPath)) fs.unlinkSync(originalLocalPath);
+            if (fs.existsSync(editedLocalPath)) fs.unlinkSync(editedLocalPath);
+        } catch (cleanupError) {
+            console.error("Cleanup error:", cleanupError);
+        }
+
         console.error("Upload Error:", error.message);
-        res.status(500).json({ error: "FTP upload failed" });
+        res.status(500).json({ error: "Image upload failed: " + error.message });
     }
 });
+
+// router.post("/upload-image", upload.single("image"), async (req, res) => {
+//     if (!req.file) return res.status(400).json({ error: "No file uploaded." });
+
+//     const localPath = req.file.path;
+//     const remoteFileName = req.file.filename;
+
+//     try {
+//         const imageURL = await uploadToFTP(localPath, remoteFileName);
+//         fs.unlinkSync(localPath);
+
+//         const formData = req.body;
+//         const parsedTags = JSON.parse(formData.tags || '[]');
+
+//         const imageData = {
+//             ...formData,
+//             imageID: generateRandomID(),
+//             imageURL,
+//             type: req.file.mimetype.split("/").pop(),
+//             tags: parsedTags,
+//             status: "published",
+//         };
+
+//         await imagesModel.create(imageData);
+
+//         res.status(201).json({ message: "Image uploaded successfully" });
+//     } catch (error) {
+//         console.error("Upload Error:", error.message);
+//         res.status(500).json({ error: "FTP upload failed" });
+//     }
+// });
 
 module.exports = router;

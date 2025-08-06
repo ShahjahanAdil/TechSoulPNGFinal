@@ -20,10 +20,14 @@ export default function Upload() {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
-    const fileInputRef = useRef(null)
-    const [preview, setPreview] = useState(null)
-    const [fileName, setFileName] = useState('')
-    const [selectedFile, setSelectedFile] = useState(null)
+    const originalFileInputRef = useRef(null)
+    const editedFileInputRef = useRef(null)
+    const [originalPreview, setOriginalPreview] = useState(null)
+    const [editedPreview, setEditedPreview] = useState(null)
+    const [originalFileName, setOriginalFileName] = useState('')
+    const [editedFileName, setEditedFileName] = useState('')
+    const [selectedOriginalFile, setSelectedOriginalFile] = useState(null)
+    const [selectedEditedFile, setSelectedEditedFile] = useState(null)
 
     useEffect(() => {
         if (userData?.userID) {
@@ -81,32 +85,42 @@ export default function Upload() {
         setState(prev => ({ ...prev, tags: state.tags.filter(tag => tag.toLowerCase() !== t.toLowerCase()) }))
     }
 
-    const handleClick = () => {
-        fileInputRef.current.click()
-    }
-
-    const handleFileChange = (e) => {
+    const handleOriginalFileChange = (e) => {
         const file = e.target.files[0]
         if (file) {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
             if (!allowedTypes.includes(file.type)) {
                 return window.toastify("Only PNG, JPG or WEBP files are allowed!", "error")
             }
-            setFileName(file.name)
-            setPreview(URL.createObjectURL(file))
-            setSelectedFile(file)
+            setOriginalFileName(file.name)
+            setOriginalPreview(URL.createObjectURL(file))
+            setSelectedOriginalFile(file)
+        }
+    }
+
+    const handleEditedFileChange = (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+            if (!allowedTypes.includes(file.type)) {
+                return window.toastify("Only PNG, JPG or WEBP files are allowed!", "error")
+            }
+            setEditedFileName(file.name)
+            setEditedPreview(URL.createObjectURL(file))
+            setSelectedEditedFile(file)
         }
     }
 
     const handleImageUpload = async () => {
         const { title, description, category, subcategory, tags, license } = state;
 
-        if (!title || !description || !categories || !tags, !license) {
-            return window.toastify("Please fill all fields!", "info")
-        }
+        if (!title || !description || !categories || !tags, !license) return window.toastify("Please fill all fields!", "info")
+
+        if (!selectedOriginalFile || !selectedEditedFile) return window.toastify("Both images are required!", "info")
 
         const formData = new FormData();
-        formData.append("image", selectedFile);
+        formData.append("originalImage", selectedOriginalFile);
+        formData.append("editedImage", selectedEditedFile);
         formData.append("title", title);
         formData.append("description", description);
         formData.append("category", category);
@@ -138,9 +152,9 @@ export default function Upload() {
             setLoading(false);
             setState(initialState);
             setSelectedCategory("");
-            setPreview(null);
-            setFileName("");
-            setSelectedFile(null);
+            setOriginalPreview(null);
+            setOriginalFileName("");
+            setSelectedOriginalFile(null);
         }
     }
 
@@ -228,25 +242,47 @@ export default function Upload() {
                     </div>
                 </div>
 
-                <div>
+                <div className='flex flex-col sm:flex-row gap-3'>
                     <div className='w-full'>
-                        <label className='mb-2 block font-bold text-[#333]'>Upload Image</label>
+                        <label className='mb-2 block font-bold text-[#333]'>Original Image</label>
 
                         <div
-                            onClick={handleClick}
+                            onClick={() => originalFileInputRef.current.click()}
                             className='w-full px-5 py-10 border-2 border-dashed border-[var(--dark)] rounded-[12px] text-center cursor-pointer hover:bg-[var(--x-light)] transition-all'
                         >
                             <FiUpload className='mx-auto text-[var(--dark)] bg-[var(--md-light)] p-3 w-[50px] h-[50px] mb-5 rounded-full' size={30} />
-                            <p className='text-sm mt-2 text-[#666]'>Click or drag to upload an image</p>
+                            <p className='text-sm mt-2 text-[#666]'>Click to upload an image</p>
                             <p className='text-sm mt-2 text-[#666]'>PNG, JPG or WEBP</p>
                         </div>
 
-                        <input type='file' name='image' id='image' ref={fileInputRef} className='hidden' accept='image/jpeg, image/png, image/webp' onChange={handleFileChange} />
+                        <input type='file' name='originalImage' id='originalImage' ref={originalFileInputRef} className='hidden' accept='image/jpeg, image/png, image/webp' onChange={handleOriginalFileChange} />
 
-                        {preview && (
+                        {originalPreview && (
                             <div className='mt-5'>
-                                <p className='text-sm font-medium !text-[#333]'>Selected: {fileName}</p>
-                                <img src={preview} alt='Preview' className='mt-2 max-w-[200px] rounded-lg border border-gray-200' />
+                                <p className='text-sm font-medium !text-[#333]'>Selected: {originalFileName}</p>
+                                <img src={originalPreview} alt='Preview' className='mt-2 max-w-[200px] rounded-lg border border-gray-200' />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className='w-full'>
+                        <label className='mb-2 block font-bold text-[#333]'>Edited Image</label>
+
+                        <div
+                            onClick={() => editedFileInputRef.current.click()}
+                            className='w-full px-5 py-10 border-2 border-dashed border-[var(--dark)] rounded-[12px] text-center cursor-pointer hover:bg-[var(--x-light)] transition-all'
+                        >
+                            <FiUpload className='mx-auto text-[var(--dark)] bg-[var(--md-light)] p-3 w-[50px] h-[50px] mb-5 rounded-full' size={30} />
+                            <p className='text-sm mt-2 text-[#666]'>Click to upload an image</p>
+                            <p className='text-sm mt-2 text-[#666]'>PNG, JPG or WEBP</p>
+                        </div>
+
+                        <input type='file' name='editedImage' id='editedImage' ref={editedFileInputRef} className='hidden' accept='image/jpeg, image/png, image/webp' onChange={handleEditedFileChange} />
+
+                        {editedPreview && (
+                            <div className='mt-5'>
+                                <p className='text-sm font-medium !text-[#333]'>Selected: {editedFileName}</p>
+                                <img src={editedPreview} alt='Preview' className='mt-2 max-w-[200px] rounded-lg border border-gray-200' />
                             </div>
                         )}
                     </div>

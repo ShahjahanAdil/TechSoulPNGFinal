@@ -4,6 +4,8 @@ const { Schema } = mongoose
 const imagesSchema = new Schema({
     imageID: { type: String, required: true, unique: true },
     imageURL: { type: String, required: true, unique: true },
+    originalImageURL: { type: String, required: true, unique: true },
+    editedImageURL: { type: String, required: true, unique: true },
     userEmail: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },

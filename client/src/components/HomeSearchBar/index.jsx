@@ -9,6 +9,7 @@ import { LuArrowRight } from 'react-icons/lu';
 export default function HomeSearchBar() {
 
     const [searchText, setSearchText] = useState("");
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
     const [searchCategory, setSearchCategory] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -117,20 +118,37 @@ export default function HomeSearchBar() {
 
                     {/* Category Dropdown */}
                     <div className="relative group inline-block">
-                        <button className="px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white flex gap-1 items-center rounded-l-md text-base">
+                        <button
+                            className="px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white flex gap-1 items-center rounded-l-md text-base"
+                            onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                        >
                             {!searchCategory ? 'Categories' : searchCategory}
-                            <IoIosArrowDown className="transition-transform duration-300 group-hover:rotate-180" />
+                            <IoIosArrowDown className={`transition-transform duration-300 ${isCategoryOpen ? 'rotate-180' : ''}`} />
                         </button>
-                        <div className="absolute top-[135%] z-[99999] opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 delay-150 bg-white border border-gray-200 w-45 rounded-[5px]">
+                        <div
+                            className={`absolute top-[135%] z-[99999] ${isCategoryOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} transition-all duration-300 bg-white border border-gray-200 w-45 rounded-[5px]`}
+                        >
                             <div className="flex flex-col items-start text-[12px] py-2">
                                 {["All", "PNG", "JPG", "WEBP", "Backgrounds", "Illustrations"].map((item, i) => (
                                     <div
                                         key={i}
                                         className="px-3 py-1 cursor-pointer flex items-center"
-                                        onClick={() => setSearchCategory(item.toLowerCase() === 'all' ? null : item)}
+                                        onClick={() => {
+                                            setSearchCategory(item.toLowerCase() === 'all' ? null : item);
+                                            setIsCategoryOpen(false);
+                                        }}
                                     >
-                                        <input type="radio" name="imageType" className="mr-2" id={`${item}`} />
-                                        <label htmlFor={`${item}`} className="!text-[14px] !text-[#333] transition-all duration-300 ease-linear hover:!text-[#71C194]">{item}</label>
+                                        <input
+                                            type="radio"
+                                            name="imageType"
+                                            className="mr-2"
+                                            id={`${item}`}
+                                            checked={searchCategory === item || (!searchCategory && item === 'All')}
+                                            onChange={() => { }}
+                                        />
+                                        <label htmlFor={`${item}`} className="!text-[14px] !text-[#333] transition-all duration-300 ease-linear hover:!text-[#71C194]">
+                                            {item}
+                                        </label>
                                     </div>
                                 ))}
                             </div>

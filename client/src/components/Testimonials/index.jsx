@@ -9,7 +9,7 @@ const Testimonials = () => {
   return (
     <div className="bg-green-50 p-8 ">
       <h2 className="!text-[20px] sm:!text-[32px] font-bold text-center mb-8">
-        Find out why pngtree is trusted by users
+        Find out why FlowerPNG is trusted by users
       </h2>
 
       <div className="flex flex-col lg:flex-row items-start gap-12 mainContainer">
@@ -54,10 +54,10 @@ const Testimonials = () => {
         {/* Right Panel */}
         <div className="w-full lg:w-1/2 mt-3">
           <blockquote className="!text-[20px] sm:!text-[32px] font-semibold mb-2">
-            “I recommend pngtree to anyone who…”
+            “I recommend FlowerPNG to anyone who…”
           </blockquote>
           <p className="text-gray-700 text-sm mb-4">
-            Pngtree is a PNG stock images market but also you can find lot of interesting Templates and Backgrounds.
+            FlowerPNG is a PNG stock images market but also you can find lot of interesting Templates and Backgrounds.
             I have been using the site for more than 3 years now. The staff are nice and reply in time.
             The Graphics are good enough and you can almost find anything you looking for.
             That said, I recommend PngTree For Anyone who's looking for Stock Graphics especially with transparent background.
