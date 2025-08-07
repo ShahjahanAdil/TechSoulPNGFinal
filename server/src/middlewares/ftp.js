@@ -1,27 +1,49 @@
 const ftp = require("basic-ftp");
 require("dotenv").config();
 
-async function uploadToFTP(localFilePath, remoteFileName) {
+async function uploadToFTP(localFilePath, remoteFileName, maxRetries = 3) {
     const client = new ftp.Client();
-    client.ftp.verbose = false;
+    client.ftp.verbose = process.env.NODE_ENV !== 'production'; // Debug in dev
 
-    try {
-        await client.access({
-            host: process.env.ASURA_HOST,
-            user: process.env.ASURA_USER,
-            password: process.env.ASURA_PASS,
-            secure: false,
-        });
+    let attempts = 0;
+    let lastError = null;
 
-        await client.cd(process.env.ASURA_DIR);
-        await client.uploadFrom(localFilePath, `${remoteFileName}`);
+    while (attempts < maxRetries) {
+        try {
+            attempts++;
+            console.log(`Upload attempt ${attempts}/${maxRetries}`);
 
-        return `/${remoteFileName}`;
-    } catch (err) {
-        throw new Error("FTP upload failed: " + err.message);
-    } finally {
-        client.close();
+            await client.access({
+                host: process.env.ASURA_HOST,
+                user: process.env.ASURA_USER,
+                password: process.env.ASURA_PASS,
+                secure: false,
+                port: parseInt(process.env.ASURA_PORT) || 21,
+                connectionTimeout: 10000
+            });
+
+            await client.cd(process.env.ASURA_DIR);
+            await client.uploadFrom(localFilePath, remoteFileName);
+
+            return `/${remoteFileName}`;
+
+        } catch (err) {
+            lastError = err;
+            console.error(`Attempt ${attempts} failed:`, err.message);
+
+            if (attempts < maxRetries) {
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
+            }
+        } finally {
+            try {
+                client.close();
+            } catch (closeErr) {
+                console.error('Error closing FTP connection:', closeErr.message);
+            }
+        }
     }
+
+    throw new Error(`FTP upload failed after ${maxRetries} attempts: ${lastError.message}`);
 }
 
 module.exports = uploadToFTP;

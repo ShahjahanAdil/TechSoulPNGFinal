@@ -1,14 +1,15 @@
 import React from 'react'
 import { useAuthContext } from '../../contexts/AuthContext';
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 
 export default function PrivateRoute({ Component, allowedRoles }) {
 
     const { userData, isAuthenticated } = useAuthContext()
+    const location = useLocation()
 
-    if (!isAuthenticated) return <Navigate to='/auth/login' />
+    if (!isAuthenticated) return <Navigate to='/auth/login' state={{ from: location }} replace />
 
     if (allowedRoles.includes(userData?.role)) return <Component />
 

@@ -107,9 +107,9 @@ export default function Contributors() {
           <p className="md:text-4xl ext-2xl font-bold text-gray-800">
             147,079 <span className="md:!text-2xl !font-medium">contributors</span>
           </p>
-          <button className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-600 transition">
+          {/* <button className="bg-[#5abc84] text-white font-semibold py-2 px-6 cursor-pointer rounded-lg">
             Join us →
-          </button>
+          </button> */}
         </div>
 
         {/* Right Side: Avatar Canvas */}
@@ -143,7 +143,6 @@ export default function Contributors() {
           <span className="absolute top-[5%] left-[55%] w-3 h-3 bg-orange-400 rounded-full"></span>
           <span className="absolute bottom-[5%] left-[45%] w-3 h-3 bg-purple-300 rounded-full"></span>
         </div>
-
       </div>
     </section>
   );

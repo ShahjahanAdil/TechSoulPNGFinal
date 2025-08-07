@@ -32,9 +32,9 @@ const CardsSec = () => {
     const fetchImages = () => {
         setLoading(true);
         axios.get(
-                `${import.meta.env.VITE_HOST
-                }/frontend/fetch-tab-images?category=${activeTab}`
-            )
+            `${import.meta.env.VITE_HOST
+            }/frontend/fetch-tab-images?category=${activeTab}`
+        )
             .then((res) => {
                 const { status, data } = res;
                 if (status === 200) {
@@ -51,9 +51,9 @@ const CardsSec = () => {
 
     const fetchFavourites = () => {
         axios.get(
-                `${import.meta.env.VITE_HOST}/frontend/favourites/get?userID=${userData.userID
-                }`
-            )
+            `${import.meta.env.VITE_HOST}/frontend/favourites/get?userID=${userData.userID
+            }`
+        )
             .then((res) => {
                 const { status, data } = res;
                 if (status === 200) {
@@ -108,6 +108,10 @@ const CardsSec = () => {
             setDownloadingImageID(img.imageID);
 
             if (isGuest) {
+                if (isGuest && img.license !== "free") {
+                    return window.toastify("Upgrade to premium to download this image.", "error");
+                }
+
                 let updatedGuestData = { ...guestData };
 
                 if (updatedGuestData.lastDownloadDate !== todayStr) {
@@ -139,7 +143,7 @@ const CardsSec = () => {
 
                 const res = await axios.post(
                     `${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${encodeURIComponent(img.imageURL)}`,
-                    { userID: userData.userID, downloadType: imageExtension}
+                    { userID: userData.userID, downloadType: imageExtension }
                 );
 
                 if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
@@ -210,20 +214,8 @@ const CardsSec = () => {
                 </div>
 
                 {/* Image Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mt-5 sm:mt-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 md:gap-6 mt-5 sm:mt-8">
                     {images.map((img, index) => (
-                        // <ImageCard
-                        //     key={img.imageID}
-                        //     img={img}
-                        //     pngBg={pngBg}
-                        //     crownIcon={crownIcon}
-                        //     favourites={favourites}
-                        //     handleAddToFavourites={handleAddToFavourites}
-                        //     shortDownloadLoading={shortDownloadLoading}
-                        //     downloadingImageID={downloadingImageID}
-                        //     navigate={navigate}
-                        //     handleShortDownload={handleShortDownload}
-                        // />
                         <div
                             key={img.imageID}
                             className={`relative group cursor-pointer rounded-lg shadow-sm overflow-hidden

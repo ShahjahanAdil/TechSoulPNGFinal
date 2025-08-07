@@ -6,7 +6,7 @@ const categoriesModel = require('../models/categories')
 
 router.get("/home/fetch-categories", async (req, res) => {
     try {
-        const cats = await categoriesModel.find().limit(7)
+        const cats = await categoriesModel.find().limit(8)
 
         return res.status(200).json({ message: "Categories fetched successfully!", cats })
     }

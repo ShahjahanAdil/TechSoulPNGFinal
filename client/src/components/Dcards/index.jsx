@@ -210,6 +210,10 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
             setDownloadingImageID(img.imageID);
 
             if (isGuest) {
+                if (isGuest && img.license !== "free") {
+                    return window.toastify("Upgrade to premium to download this image.", "error");
+                }
+
                 let updatedGuestData = { ...guestData };
 
                 if (updatedGuestData.lastDownloadDate !== todayStr) {

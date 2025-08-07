@@ -47,7 +47,7 @@ export default function SearchSection() {
                                 <span className='w-8 h-8 border-t-2 border-green-400 rounded-full animate-spin'></span>
                             </div>
                             :
-                            categories?.map(cat => {
+                            categories.slice(0, 7)?.map(cat => {
                                 return (
                                     <div key={cat._id} className='px-2 py-1 flex items-center gap-1 bg-[#d4f4ff4b] border border-[#9bc4d236] cursor-pointer rounded-full hover:bg-[#d4f4ffaa] hover:border-[#d4f4ff4b]'
                                         role='button' onClick={() => navigate(`images/${cat.category}`)}

@@ -215,6 +215,10 @@ export default function DownloadPage() {
 
         try {
             if (isGuest) {
+                if (isGuest && imageDets.license !== "free") {
+                    return window.toastify("Upgrade to premium to download this image.", "error");
+                }
+
                 const guestDataKey = "guestData";
                 const todayStr = dayjs().format("YYYY-MM-DD");
 

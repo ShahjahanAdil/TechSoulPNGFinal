@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const categoriesSchema = new Schema({
+    imageURL: { type: String },
     category: { type: String, required: true },
     subcategories: { type: [String] },
 }, { timestamps: true })
