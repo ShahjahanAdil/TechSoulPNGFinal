@@ -29,7 +29,7 @@ const testimonials = [
 ];
 
 const Testimonials = () => {
-    
+
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [transitioning, setTransitioning] = useState(false);
 
@@ -44,7 +44,7 @@ const Testimonials = () => {
     };
 
     return (
-        <div className="bg-green-50 p-8 mt-6">
+        <div className="bg-green-50 px-8 py-12 mt-8">
             <h2 className="!text-[20px] sm:!text-[32px] font-bold text-center mb-8">
                 Find out why FlowerPNG is trusted by users
             </h2>
@@ -54,7 +54,7 @@ const Testimonials = () => {
                     {testimonials.map((t, i) => (
                         <div
                             key={i}
-                            className="hover:bg-white rounded-xl hover:shadow cursor-pointer p-2 transition-all duration-200 ease-linear flex items-center gap-4"
+                            className={`hover:bg-white rounded-xl hover:shadow cursor-pointer p-2 transition-all duration-200 ease-linear flex items-center gap-4 ${selectedIndex === i && 'bg-white shadow'}`}
                             onClick={() => handleTestimonialChange(i)}
                         >
                             <div className="img">
@@ -72,7 +72,7 @@ const Testimonials = () => {
                     ))}
                 </div>
 
-                <div className="w-full lg:w-1/2 mt-3 relative min-h-[400px]">
+                <div className="w-full lg:w-1/2 mt-3 relative min-h-[350px]">
                     <div className={`absolute inset-0 transition-opacity duration-200 ${transitioning ? 'opacity-0' : 'opacity-100'
                         }`}>
                         <blockquote className="!text-[20px] sm:!text-[32px] font-semibold mb-2">

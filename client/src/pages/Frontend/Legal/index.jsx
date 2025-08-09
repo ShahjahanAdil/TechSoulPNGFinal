@@ -87,7 +87,7 @@ const sections = [
       <>
         <p className="mb-4">
           Your privacy is extremely important to us at{" "}
-          <strong>[Your Website Name]</strong>. This Privacy Policy explains how
+          <strong>FlowerPNG</strong>. This Privacy Policy explains how
           we collect, use, and protect your personal information when you visit
           our website or use our services.
         </p>
@@ -311,10 +311,10 @@ const sections = [
               <br />
               📧 Email:{" "}
               <a
-                href="mailto:your-email@example.com"
+                href="mailto:info@flowerpng.com"
                 className="text-blue-600 underline"
               >
-                your-email@example.com
+                info@flowerpng.com
               </a>
             </p>
           </section>
@@ -343,7 +343,7 @@ const sections = [
               1. Copyright Ownership
             </h6>
             <p>
-              All content displayed on <strong>[Your Website Name]</strong> —
+              All content displayed on <strong>FlowerPNG</strong> —
               including images, text, graphics, and logos — is protected by
               copyright laws and belongs to their respective owners.
             </p>
@@ -466,10 +466,10 @@ const sections = [
               <br />
               📧{" "}
               <a
-                href="mailto:info@yourwebsite.com"
+                href="mailto:info@flowerpng.com"
                 className="text-blue-600 underline"
               >
-                info@yourwebsite.com
+                info@flowerpng.com
               </a>
             </p>
           </section>
@@ -531,23 +531,10 @@ const sections = [
         </p>
 
         <p>
-          For more about behavioral advertising and opting out, visit{" "}
-          <a
-            href="http://www.youronlinechoices.eu/"
-            className="text-blue-600 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            youronlinechoices.eu
-          </a>
-          .
-        </p>
-
-        <p>
           For questions about our use of cookies or personalization
           technologies, contact us at{" "}
-          <a href="mailto:info@pngtree.com" className="text-blue-600 underline">
-            info@pngtree.com
+          <a href="mailto:info@flowerpng.com" className="text-blue-600 underline">
+            info@flowerpng.com
           </a>
           .
         </p>
@@ -661,7 +648,7 @@ const sections = [
       <>
         <h6 className="font-semibold mt-6 mb-2">1. Copyright Ownership</h6>
         <p>
-          All content on [Your Website Name], including images, text, graphics,
+          All content on FlowerPNG, including images, text, graphics,
           and logos, is protected by copyright laws and owned by their
           respective rights holders.
         </p>
@@ -760,8 +747,8 @@ const sections = [
         </h6>
         <p>
           Please send copyright infringement notifications to:{" "}
-          <a href="mailto:info@pngtree.com" className="text-blue-600 underline">
-            info@pngtree.com
+          <a href="mailto:info@flowerpng.com" className="text-blue-600 underline">
+            info@flowerpng.com
           </a>
         </p>
 
@@ -769,8 +756,8 @@ const sections = [
         <p>
           We have a zero-tolerance policy for abusive content or files. To
           report abuse, email{" "}
-          <a href="mailto:info@pngtree.com" className="text-blue-600 underline">
-            info@pngtree.com
+          <a href="mailto:info@flowerpng.com" className="text-blue-600 underline">
+            info@flowerpng.com
           </a>{" "}
           with a clear description of the issue.
         </p>
@@ -811,10 +798,10 @@ const sections = [
         <p>
           To request a refund, please email us at{" "}
           <a
-            href="mailto:support@[yourwebsite].com"
+            href="mailto:info@flowerpng.com"
             className="text-blue-600 underline"
           >
-            support@[yourwebsite].com
+            info@flowerpng.com
           </a>{" "}
           with your order details and reason for the request. We will review
           your case and respond within 5 business days.
@@ -841,7 +828,7 @@ const sections = [
             href="mailto:support@[yourwebsite].com"
             className="text-blue-600 underline"
           >
-            support@[yourwebsite].com
+            info@flowerpng.com
           </a>
           .
         </p>
@@ -855,9 +842,9 @@ const sections = [
       <>
         <h6 className="font-semibold mt-6 mb-2">1. Ownership of Content</h6>
         <p>
-          All content on [Your Website Name], including but not limited to text,
+          All content on FlowerPNG, including but not limited to text,
           images, graphics, logos, and software, is the intellectual property of
-          [Your Website Name] or its licensors and is protected by copyright,
+          FlowerPNG or its licensors and is protected by copyright,
           trademark, and other intellectual property laws.
         </p>
 
@@ -921,10 +908,10 @@ const sections = [
           Please send all intellectual property concerns and infringement
           notices to:{" "}
           <a
-            href="mailto:info@[yourwebsite].com"
+            href="mailto:info@flowerpng.com"
             className="text-blue-600 underline"
           >
-            info@[yourwebsite].com
+            info@flowerpng.com
           </a>
           .
         </p>

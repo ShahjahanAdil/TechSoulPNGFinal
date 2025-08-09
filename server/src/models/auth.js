@@ -16,6 +16,7 @@ const authSchema = new Schema({
     downloads: { type: Number },
     freeDownloads: { type: Number, default: 0 },
     premiumDownloads: { type: Number, default: 0 },
+    conversions: { type: Number, default: 0 },
     uploads: { type: Number },
     points: { type: Number },
     dailyDownloadCount: { type: Number, default: 0 },

@@ -24,15 +24,15 @@ app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
 })
 
-// const downloadsModel = require("./models/downloads")
+// const authModel = require("./models/auth")
 
 // async function update() {
 //     try {
-//         const updateResult = await downloadsModel.updateMany(
+//         const updateResult = await authModel.updateMany(
 //             {},
 //             {
 //                 $set: {
-//                     downloadType: 'png',
+//                     conversions: 0,
 //                 }
 //             }
 //         );
@@ -62,6 +62,7 @@ const myDownloadsRouter = require('./routes/myDownloads')
 const favouritesRouter = require('./routes/favourites')
 const similarSearchesRouter = require('./routes/similarSearches')
 const frontendBlogsRouter = require('./routes/blogs')
+const removeBgRouter = require('./routes/removebg')
 
 app.use('/auth', authRouter)
 app.use('/admin', adminDashboardRouter)
@@ -83,4 +84,6 @@ app.use('/frontend', contactRouter)
 app.use('/frontend', dmcaRouter)
 app.use('/frontend', similarSearchesRouter)
 app.use('/frontend', frontendBlogsRouter)
+app.use('/frontend', removeBgRouter)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));

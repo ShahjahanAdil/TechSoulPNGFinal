@@ -65,35 +65,4 @@ router.post("/upload-image", upload.fields([
     }
 });
 
-// router.post("/upload-image", upload.single("image"), async (req, res) => {
-//     if (!req.file) return res.status(400).json({ error: "No file uploaded." });
-
-//     const localPath = req.file.path;
-//     const remoteFileName = req.file.filename;
-
-//     try {
-//         const imageURL = await uploadToFTP(localPath, remoteFileName);
-//         fs.unlinkSync(localPath);
-
-//         const formData = req.body;
-//         const parsedTags = JSON.parse(formData.tags || '[]');
-
-//         const imageData = {
-//             ...formData,
-//             imageID: generateRandomID(),
-//             imageURL,
-//             type: req.file.mimetype.split("/").pop(),
-//             tags: parsedTags,
-//             status: "published",
-//         };
-
-//         await imagesModel.create(imageData);
-
-//         res.status(201).json({ message: "Image uploaded successfully" });
-//     } catch (error) {
-//         console.error("Upload Error:", error.message);
-//         res.status(500).json({ error: "FTP upload failed" });
-//     }
-// });
-
 module.exports = router;

@@ -15,6 +15,7 @@ import FAQs from "./FAQs";
 import Blogs from "./Blogs";
 import Blog from "./Blogs/Blog";
 import DMCA from "./DMCA";
+import BGRemover from "./BGRemover";
 
 export default function Frontend() {
   return (
@@ -36,6 +37,7 @@ export default function Frontend() {
         <Route path="/images/:category" element={<Main />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/blog/:id" element={<Blog />} />
+        <Route path="/bg-remover" element={<BGRemover />} />
       </Routes>
       <Footer />
     </>

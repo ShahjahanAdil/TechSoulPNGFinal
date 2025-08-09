@@ -28,7 +28,7 @@ export default function Home() {
       {/* <Section3 /> */}
       {/* <Background /> */}
       <Contributors />
-      <Slider2 />
+      {/* <Slider2 /> */}
       <Testimonials />
       <Stat />
     </div>

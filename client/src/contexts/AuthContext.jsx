@@ -51,17 +51,6 @@ export default function AuthContextProvider({ children }) {
             })
     }, [])
 
-    // useEffect(() => {
-    //     setLoading(true)
-    //     const token = localStorage.getItem("pngjwt")
-    //     if (!token) {
-    //         dispatch({ type: "SET_LOGGED_OUT" })
-    //         setLoading(false)
-    //         return
-    //     }
-    //     getUserProfile(token)
-    // }, [getUserProfile])
-
     useEffect(() => {
         setLoading(true)
         const token = localStorage.getItem("pngjwt")
@@ -78,7 +67,6 @@ export default function AuthContextProvider({ children }) {
                 try {
                     guestData = JSON.parse(guestDataRaw)
 
-                    // Reset dailyDownloadsCount if lastDownloadDate is not today
                     if (guestData.lastDownloadDate !== todayStr) {
                         guestData.dailyDownloadsCount = 0
                         guestData.lastDownloadDate = todayStr

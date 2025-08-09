@@ -117,7 +117,7 @@ export default function SearchBar() {
                 <div className="flex items-center justify-center border border-gray-200 transition-all duration-200 rounded-md ease-linear hover:ring-2 ring-[#71C194] hover:ring-offset-1 ring-offset-slate-50">
 
                     {/* Category Dropdown */}
-                    <div className="relative group inline-block">
+                    {/* <div className="relative group inline-block">
                         <button
                             className="px-2 sm:!text-[12px] text-[10px] text-[#666] bg-white flex gap-1 items-center rounded-l-md text-base"
                             onClick={() => setIsOpen(!isOpen)}
@@ -153,7 +153,7 @@ export default function SearchBar() {
                                 ))}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Search Input */}
                     <div className="relative w-full">

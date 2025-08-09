@@ -13,7 +13,7 @@ export default function AboutBanner() {
       {/* Description Text */}
       <div className=" md:px-[150px] px-[20px] py-5">
         <p className="w-full max-w-[800px] mx-auto text-center mb-10">
-          Pngtree has tens of millions of PNG images and other graphic resources for everyone to download.
+          FlowerPNG has tens of millions of PNG images and other graphic resources for everyone to download.
           Our aim is to build a largest free PNG image platform in the world, serve for all the professional
           designer and people who have design skills. Helping users save time and improving their projects
           efficiently is our duty.

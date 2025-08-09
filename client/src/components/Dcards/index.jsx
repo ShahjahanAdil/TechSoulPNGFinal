@@ -291,57 +291,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                         <p className="font-bold text-[24px] !text-[#333] !mb-4">
                             {imageDets.title}
                         </p>
-                        {/* <div
-                            className="relative bg-cover bg-center h-[300px] sm:h-[400px] md:h-[500px] rounded-xl !p-5 flex flex-col justify-end"
-                            style={{
-                                backgroundImage: `url(${pngImg})`,
-                                backgroundSize: "220%",
-                            }}
-                            onMouseMove={handleMouseMove}
-                            onMouseEnter={() => setIsZooming(true)}
-                            onMouseLeave={() => setIsZooming(false)}
-                        >
-                            <span
-                                className={`absolute top-1 left-1 sm:top-2 sm:left-2 ${imageDets.license === "free"
-                                    ? "bg-[#4EAA76]"
-                                    : "bg-transparent"
-                                    } !text-white !text-xs font-semibold !px-2 !py-1 rounded`}
-                            >
-                                {imageDets.license === "free" ? (
-                                    "FREE"
-                                ) : (
-                                    <img
-                                        src={crownIcon}
-                                        alt="crown"
-                                        className="w-[20px] md:w-[30px]"
-                                    />
-                                )}
-                            </span>
-                            <span className={`absolute top-1 right-1 sm:top-2 sm:right-3 ${favourites.some((fav) => fav.imageID === imageDets.imageID) ? "text-red-500" : "text-gray-500"} !text-[16px] sm:!text-[20px] cursor-pointer transition-all duration-150 ${favourites.some((fav) => fav.imageID === imageDets.imageID) ? 'hover:text-red-400' : 'hover:text-gray-400'}`}
-                                onClick={() => handleAddToFavourites({
-                                    imageID: imageDets.imageID,
-                                    imageURL: imageDets.imageURL,
-                                    favourite: imageDets.favourite,
-                                    license: imageDets.license
-                                })}
-                            >
-                                <FaHeart />
-                            </span>
-
-                            <div className="relative w-full h-full flex justify-center">
-                                <img
-                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
-                                    alt="PNG"
-                                    className="object-contain w-full h-full pointer-events-none"
-                                />
-                                <div
-                                    className="absolute inset-0 z-10"
-                                    onContextMenu={(e) => e.preventDefault()}
-                                    onDragStart={(e) => e.preventDefault()}
-                                    onMouseDown={(e) => e.preventDefault()}
-                                ></div>
-                            </div>
-                        </div> */}
 
                         <div
                             ref={containerRef}
@@ -418,7 +367,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                         </figcaption>
 
                         <div className="flex flex-wrap gap-2 !mt-5">
-                            {imageDets?.tags?.map((tag, i) => {
+                            {imageDets?.tags?.slice(0, 15).map((tag, i) => {
                                 return (
                                     <p
                                         key={i}

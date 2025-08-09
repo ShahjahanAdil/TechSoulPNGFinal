@@ -99,7 +99,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="#"
+                    to="/bg-remover"
                     className="text-sm text-gray-700 hover:text-green-600"
                   >
                     BG Remover
