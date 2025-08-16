@@ -294,7 +294,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
 
                         <div
                             ref={containerRef}
-                            className="relative !p-3 sm:!p-5 bg-cover bg-center h-[300px] sm:h-[400px] md:h-[500px] rounded-xl flex flex-col justify-end cursor-zoom-in overflow-hidden"
+                            className="relative !p-3 sm:!p-5 bg-cover bg-center h-[300px] sm:h-[400px] md:h-[500px] rounded-xl flex flex-col justify-end overflow-hidden"
                             style={{
                                 backgroundImage: `url(${pngImg})`,
                                 backgroundSize: "220%",
@@ -345,7 +345,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 ></div>
 
                                 {/* Zoom Lens */}
-                                {isZooming && (
+                                {/* {isZooming && (
                                     <div
                                         className="absolute w-[250px] h-[250px] border border-white rounded-full z-20 pointer-events-none"
                                         style={{
@@ -358,7 +358,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                                 }% ${(zoomPosition.y / containerRef.current.offsetHeight) * 100}%`,
                                         }}
                                     ></div>
-                                )}
+                                )} */}
                             </div>
                         </div>
 
