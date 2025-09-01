@@ -394,21 +394,21 @@ export default function Main() {
 
                 {/* Images */}
                 {images.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 px-2 sm:px-4 pb-10">
+                    <div className="columns-2 sm:columns-3 md:columns-4 gap-3 sm:gap-4 px-2 sm:px-4 pb-10">
                         {images.map((img) => (
                             <div
                                 key={img.imageID}
-                                className="relative w-full sm:h-[250px] h-[150px] cursor-pointer overflow-hidden rounded-lg shadow-sm group"
+                                className="relative mb-3 sm:mb-4 break-inside-avoid cursor-pointer rounded-lg shadow-md group"
                                 style={{
                                     backgroundImage: `url(${pngBg})`,
-                                    backgroundSize: "300%",
+                                    backgroundSize: "220%",
                                 }}
                                 onClick={() => navigate(`/image/${img.imageID}`)}
                             >
                                 <img
                                     src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`}
                                     alt={img.title}
-                                    className="w-full h-full object-contain rounded-lg"
+                                    className="w-full h-auto object-contain rounded-lg"
                                 />
                                 <div className="absolute inset-0 bg-[#0000004f] bg-opacity-150 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-between px-2 py-2">
                                     <div className="flex w-full justify-between z-10">
