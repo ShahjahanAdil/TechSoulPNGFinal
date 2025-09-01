@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import Search from "../../../components/Search";
 import { useNavigate, useParams } from "react-router-dom";
 
-// FAQs grouped by topic
 const faqs = {
   "account-and-technical-help": [
     {
@@ -100,11 +98,10 @@ export default function FAQs() {
                     setActiveIndex(null); // Reset expanded FAQ
                     navigate(`/faqs/${id}`); // Navigate to new route
                   }}
-                  className={`w-full text-left border-l-4 pl-3 py-1.5 cursor-pointer transition-colors ${
-                    activeSection === id
-                      ? "border-green-500 text-green-700 font-semibold bg-green-50"
-                      : "border-transparent hover:border-green-400 hover:text-green-600"
-                  }`}
+                  className={`w-full text-left border-l-4 pl-3 py-1.5 cursor-pointer transition-colors ${activeSection === id
+                    ? "border-green-500 text-green-700 font-semibold bg-green-50"
+                    : "border-transparent hover:border-green-400 hover:text-green-600"
+                    }`}
                 >
                   {title}
                 </button>
@@ -126,34 +123,30 @@ export default function FAQs() {
               return (
                 <div
                   key={index}
-                  className={`relative cursor-pointer my-3 rounded-[12px] transition-all duration-300 ${
-                    isActive
-                      ? "bg-[#5fb179] text-white"
-                      : "bg-white text-[#5fb179] shadow"
-                  }`}
+                  className={`relative cursor-pointer my-3 rounded-[12px] transition-all duration-300 ${isActive
+                    ? "bg-[#5fb179] text-white"
+                    : "bg-white text-[#5fb179] shadow"
+                    }`}
                   onClick={() => toggleIndex(index)}
                 >
                   <span
-                    className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-[12px] bg-[#5fb179] transition-opacity duration-300 ${
-                      isActive ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-[12px] bg-[#5fb179] transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"
+                      }`}
                   ></span>
 
                   <div className="flex justify-between items-center px-6 py-3 select-none">
                     <h6 className="!text-[14px] font-semibold">{item.q}</h6>
                     <span
-                      className={`text-2xl font-bold transform transition-transform duration-300 ${
-                        isActive ? "rotate-45" : "rotate-0"
-                      }`}
+                      className={`text-2xl font-bold transform transition-transform duration-300 ${isActive ? "rotate-45" : "rotate-0"
+                        }`}
                     >
                       +
                     </span>
                   </div>
 
                   <div
-                    className={`px-6 pb-2 text-base leading-relaxed transition-all duration-500 ease-in-out overflow-hidden ${
-                      isActive ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                    }`}
+                    className={`px-6 pb-2 text-base leading-relaxed transition-all duration-500 ease-in-out overflow-hidden ${isActive ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                      }`}
                   >
                     {item.a}
                   </div>

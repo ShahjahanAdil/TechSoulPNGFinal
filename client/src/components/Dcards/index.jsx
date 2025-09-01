@@ -629,8 +629,10 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 }}
                             >
                                 <img
-                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${similarImg.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${similarImg.imageURL}?w=200&format=webp`}
                                     alt={similarImg.title}
+                                    sizes="(max-width: 640px) 100px, (max-width: 1024px) 200px, 400px"
+                                    loading="lazy"
                                     className="object-contain w-full h-full"
                                 />
 

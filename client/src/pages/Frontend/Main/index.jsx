@@ -111,38 +111,6 @@ export default function Main() {
             });
     };
 
-    // const fetchImages = () => {
-    //     const apiURL = `${import.meta.env.VITE_HOST}/frontend/main/fetch-images?page=${page}` +
-    //         (category
-    //             ? `&category=${category}`
-    //             : searchText
-    //                 ? `&searchText=${searchText}`
-    //                 : "");
-
-    //     const apiFilterURL = `${import.meta.env.VITE_HOST}/frontend/main/fetch-images?page=${page}` +
-    //         (filter
-    //             ? `&filter=${filter}`
-    //             : filter && searchText
-    //                 ? `&filter=${filter}&searchText=${searchText}`
-    //                 : "");
-
-    //     setLoading(true);
-    //     axios.get(filter ? apiFilterURL : apiURL)
-    //         .then((res) => {
-    //             const { status, data } = res;
-    //             if (status === 200) {
-    //                 setImages(data.imgs);
-    //                 setTotalImagePages(Math.ceil(data?.totalImgs / 25));
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.error("Frontend POST error", err.message);
-    //         })
-    //         .finally(() => {
-    //             setLoading(false);
-    //         });
-    // };
-
     const handleAddToFavourites = ({ imageID, imageURL, favourite, license }) => {
         if (!userData.userID) {
             return window.toastify("Please login to continue", "warning")
@@ -406,8 +374,15 @@ export default function Main() {
                                 onClick={() => navigate(`/image/${img.imageID}`)}
                             >
                                 <img
-                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=300&format=webp`}
+                                    srcSet={`
+                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=300&format=webp 300w,
+                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=600&format=webp 600w,
+                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=900&format=webp 900w
+                                            `}
                                     alt={img.title}
+                                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 200px, 300px"
+                                    loading="lazy"
                                     className="w-full h-auto object-contain rounded-lg"
                                 />
                                 <div className="absolute inset-0 bg-[#0000004f] bg-opacity-150 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-between px-2 py-2">

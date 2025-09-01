@@ -939,11 +939,10 @@ const Legal = () => {
               <li key={id} className="mb-2">
                 <button
                   onClick={() => navigate(`/legal/${id}`)}
-                  className={`w-full text-left border-l-4 pl-3 py-1.5 cursor-pointer transition-colors ${
-                    active === id
+                  className={`w-full text-left border-l-4 pl-3 py-1.5 cursor-pointer transition-colors ${active === id
                       ? "border-green-500 text-green-700 font-semibold bg-green-50"
                       : "border-transparent hover:border-green-400 hover:text-green-600"
-                  }`}
+                    }`}
                   aria-current={active === id ? "true" : undefined}
                 >
                   {title}

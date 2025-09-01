@@ -16,10 +16,8 @@ export default function DownloadPage() {
     const [imageDets, setImageDets] = useState({});
     const [similarImages, setSimilarImages] = useState([]);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-    const [resizeType, setResizeType] = useState("width")
     const [resizeWidth, setResizeWidth] = useState(null);
     const [resizeHeight, setResizeHeight] = useState(null);
-    // const [resizeVal, setResizeVal] = useState(null)
     const [downloadFormat, setDownloadFormat] = useState("");
     const [withBackground, setWithBackground] = useState(true);
     const [loading, setLoading] = useState(true);
@@ -80,128 +78,6 @@ export default function DownloadPage() {
                 console.error("Frontend GET error", err.message);
             })
     };
-
-    // const handleDownload = async (isResized = false, webpWithBackground = false) => {
-    //     if (isResized && (!resizeVal || Number(resizeVal) < 50)) {
-    //         return window.toastify("Enter a resize value of 50 or above.", "warning");
-    //     }
-
-    //     try {
-    //         if (isGuest) {
-    //             const guestDataKey = "guestData";
-    //             const todayStr = dayjs().format("YYYY-MM-DD");
-
-    //             const updatedGuestData = { ...guestData };
-
-    //             if (updatedGuestData.lastDownloadDate !== todayStr) {
-    //                 updatedGuestData.dailyDownloadsCount = 0;
-    //                 updatedGuestData.lastDownloadDate = todayStr;
-    //             }
-
-    //             if (updatedGuestData.dailyDownloadsCount >= 10) {
-    //                 return window.toastify("Guest daily download limit (10) reached. Please login for more.", "error");
-    //             }
-
-    //             updatedGuestData.dailyDownloadsCount += 1;
-
-    //             localStorage.setItem(guestDataKey, JSON.stringify(updatedGuestData));
-    //             dispatch({ type: "SET_GUEST", payload: { guestData: updatedGuestData } });
-
-    //             window.toastify("Image Downloaded!", "success");
-    //         } else {
-    //             if (userData.plan === "free" && imageDets.license !== "free") {
-    //                 return window.toastify("Upgrade to premium to download this image.", "error");
-    //             }
-
-    //             setDownloadLoading(true);
-
-    //             const res = await axios.post(
-    //                 `${import.meta.env.VITE_HOST}/frontend/image/download/${imageID}?imageURL=${encodeURIComponent(imageDets.imageURL)}`,
-    //                 { userID: userData.userID }
-    //             );
-
-    //             if (res.status !== 200) throw new Error(res.data?.message || "Download failed");
-
-    //             dispatch({
-    //                 type: "SET_PROFILE",
-    //                 payload: {
-    //                     user: {
-    //                         ...userData,
-    //                         dailyDownloadCount: res.data.dailyDownloadCount,
-    //                     },
-    //                 },
-    //             });
-
-    //             window.toastify(res.data.message, "success");
-    //         }
-
-    //         const img = new Image();
-    //         img.crossOrigin = "anonymous";
-    //         img.src = `${import.meta.env.VITE_HOST}${imageDets.imageURL}`;
-
-    //         img.onload = async () => {
-    //             let width = img.naturalWidth;
-    //             let height = img.naturalHeight;
-
-    //             if (downloadFormat === "webp") {
-    //                 width = Math.round(width * 0.9);
-    //                 height = Math.round(height * 0.9);
-    //             }
-
-    //             if (isResized) {
-    //                 if (resizeType === "width") {
-    //                     width = Number(resizeVal);
-    //                     height = Math.round((img.naturalHeight / img.naturalWidth) * width);
-    //                 } else {
-    //                     height = Number(resizeVal);
-    //                     width = Math.round((img.naturalWidth / img.naturalHeight) * height);
-    //                 }
-    //             }
-
-    //             const canvas = document.createElement("canvas");
-    //             canvas.width = width;
-    //             canvas.height = height;
-
-    //             const picaInstance = pica();
-    //             const tempCanvas = document.createElement("canvas");
-    //             tempCanvas.width = img.naturalWidth;
-    //             tempCanvas.height = img.naturalHeight;
-    //             const tempCtx = tempCanvas.getContext("2d");
-
-    //             if (downloadFormat === "jpg" || downloadFormat === "jpeg" || (downloadFormat === "webp" && webpWithBackground)) {
-    //                 tempCtx.fillStyle = "#ffffff";
-    //                 tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-    //             }
-
-    //             tempCtx.drawImage(img, 0, 0);
-
-    //             await picaInstance.resize(tempCanvas, canvas);
-
-    //             canvas.toBlob(blob => {
-    //                 if (!blob) {
-    //                     return window.toastify("Failed to generate image.", "error");
-    //                 }
-    //                 const url = URL.createObjectURL(blob);
-    //                 const link = document.createElement("a");
-    //                 link.href = url;
-    //                 link.download = `${imageDets.title || "download"}.${downloadFormat}`;
-    //                 document.body.appendChild(link);
-    //                 link.click();
-    //                 link.remove();
-    //                 URL.revokeObjectURL(url);
-    //                 setDownloadLoading(false);
-    //             }, `image/${downloadFormat}`, 0.9);
-    //         };
-
-    //         img.onerror = () => {
-    //             window.toastify("Failed to load image.", "error");
-    //             setDownloadLoading(false);
-    //         };
-    //     } catch (err) {
-    //         window.toastify(err.response?.data?.message || err.message || "Download failed", "error");
-    //         setDownloadLoading(false);
-    //     }
-    // };
 
     const handleDownload = async (isResized = false, webpWithBackground = false) => {
         if (
@@ -349,7 +225,6 @@ export default function DownloadPage() {
 
     return (
         <>
-            {/* resizeType={resizeType} setResizeType={setResizeType} resizeVal={resizeVal} setResizeVal={setResizeVal} */}
             <Dcards imageDets={imageDets} setImageDets={setImageDets} similarImages={similarImages} setSimilarImages={setSimilarImages} dimensions={dimensions} resizeWidth={resizeWidth} setResizeWidth={setResizeWidth} resizeHeight={resizeHeight} setResizeHeight={setResizeHeight} downloadFormat={downloadFormat} setDownloadFormat={setDownloadFormat} withBackground={withBackground} setWithBackground={setWithBackground} handleDownload={handleDownload} downloadLoading={downloadLoading} />
         </>
     );

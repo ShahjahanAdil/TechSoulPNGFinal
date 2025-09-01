@@ -222,8 +222,10 @@ const CardsSec = () => {
                             ${index % 3 !== 0 ? index % 2 !== 0 ? "bg-[#ddf5d7]" : "bg-[#F5E9D7]" : "bg-[#F5F6F5]"}`}
                         >
                             <img
-                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}`}
+                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=200&format=webp`}
                                 alt={img.title}
+                                sizes="(max-width: 640px) 100px, (max-width: 1024px) 200px, 400px"
+                                loading="lazy"
                                 className="w-full h-[150px] sm:h-[200px] object-contain p-2 transition-transform duration-300 group-hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-[#0000004f] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex flex-col justify-between px-2 py-2"

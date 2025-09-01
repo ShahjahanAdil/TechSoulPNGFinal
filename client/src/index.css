@@ -10,8 +10,9 @@
 }
 
 @font-face {
-    font-family: Poppins;
-    src: url("../src/assets/fonts/Poppins.ttf");
+    font-family: 'Poppins';
+    src: url("../src/assets/fonts/Poppins.woff2") format(woff2);
+    font-display: swap;
 }
 
 * {

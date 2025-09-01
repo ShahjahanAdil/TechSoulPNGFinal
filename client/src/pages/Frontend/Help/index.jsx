@@ -1,8 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import Search from "../../../components/Search";
 import { IoMdArrowForward } from "react-icons/io";
-// import helpBg from "../../../assets/images/help-center.jpg";
 
 const Help = () => {
   const navigate = useNavigate();

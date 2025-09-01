@@ -61,8 +61,10 @@ export default function Section2() {
                                     >
                                         <div>
                                             <img
-                                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${cat.imageURL}`}
+                                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${cat.imageURL}?w=200&format=webp`}
                                                 alt={cat.category}
+                                                sizes="(max-width: 640px) 100px, (max-width: 1024px) 200px, 400px"
+                                                loading="lazy"
                                                 className="w-full h-[100px] sm:h-44 object-contain"
                                             />
                                         </div>
