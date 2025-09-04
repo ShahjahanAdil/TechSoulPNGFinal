@@ -195,11 +195,11 @@ export default function RecentImages() {
                                         onClick={() => navigate(`/image/${img.imageID}`)}
                                     >
                                         <img
-                                            src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=300&format=webp`}
+                                            src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.editedImageURL}?w=300&format=webp`}
                                             srcSet={`
-                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=300&format=webp 300w,
-                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=600&format=webp 600w,
-                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=900&format=webp 900w
+                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.editedImageURL}?w=300&format=webp 300w,
+                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.editedImageURL}?w=600&format=webp 600w,
+                                                ${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.editedImageURL}?w=900&format=webp 900w
                                             `}
                                             alt={img.title}
                                             loading="lazy"

@@ -1,9 +1,9 @@
 const ftp = require("basic-ftp");
 require("dotenv").config();
 
-async function uploadToFTP(localFilePath, remoteFileName, maxRetries = 3) {
+async function uploadToFTP(localFilePath, remoteFileName, remoteDir = "", maxRetries = 3) {
     const client = new ftp.Client();
-    client.ftp.verbose = process.env.NODE_ENV !== 'production'; // Debug in dev
+    client.ftp.verbose = process.env.NODE_ENV !== 'production';
 
     let attempts = 0;
     let lastError = null;
@@ -22,10 +22,18 @@ async function uploadToFTP(localFilePath, remoteFileName, maxRetries = 3) {
                 connectionTimeout: 10000
             });
 
+            // Base directory from .env (e.g. /domains/flowerpng.com/public_html/cdn)
             await client.cd(process.env.ASURA_DIR);
+
+            // Navigate into target folder (cdn OR private)
+            if (remoteDir) {
+                await client.ensureDir(remoteDir);
+            }
+
             await client.uploadFrom(localFilePath, remoteFileName);
 
-            return `/${remoteFileName}`;
+            // return `/${remoteFileName}`;
+            return `/${remoteDir}/${remoteFileName}`.replace("//", "/");
 
         } catch (err) {
             lastError = err;

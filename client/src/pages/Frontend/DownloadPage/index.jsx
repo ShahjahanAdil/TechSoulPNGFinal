@@ -39,7 +39,7 @@ export default function DownloadPage() {
 
         const img = new Image();
         img.crossOrigin = "anonymous";
-        img.src = `${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`;
+        img.src = `${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.editedImageURL}`;
 
         img.onload = () => {
             setDimensions({

@@ -1,9 +1,9 @@
 const ftp = require("basic-ftp");
 require("dotenv").config();
 
-async function delFromFtp(remoteFileName, maxRetries = 3) {
+async function delFromFtp(remoteFileName, remoteDir = "", maxRetries = 3) {
     const client = new ftp.Client();
-    client.ftp.verbose = process.env.NODE_ENV !== 'production'; // Debug in dev
+    client.ftp.verbose = process.env.NODE_ENV !== 'production';
 
     let attempts = 0;
     let lastError = null;
@@ -23,16 +23,20 @@ async function delFromFtp(remoteFileName, maxRetries = 3) {
             });
 
             await client.cd(process.env.ASURA_DIR);
+
+            if (remoteDir) {
+                await client.cd(remoteDir);
+            }
+
             await client.remove(remoteFileName);
 
             return true;
-
         } catch (err) {
             lastError = err;
             console.error(`Attempt ${attempts} failed:`, err.message);
 
             if (attempts < maxRetries) {
-                await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
             }
         } finally {
             try {

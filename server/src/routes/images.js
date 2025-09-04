@@ -78,8 +78,16 @@ router.delete("/delete-image/:imageID", async (req, res) => {
             return res.status(404).json({ message: "Image not found" });
         }
 
-        const fileName = image.imageURL?.split("/").pop();
-        await delFromFtp(fileName);
+        const originalFileName = image.originalImageURL?.split("/").pop();
+        const editedFileName = image.editedImageURL?.split("/").pop();
+
+        if (originalFileName) {
+            await delFromFtp(originalFileName, "private");
+        }
+
+        if (editedFileName) {
+            await delFromFtp(editedFileName, "");
+        }
 
         await imagesModel.findOneAndDelete({ imageID });
 

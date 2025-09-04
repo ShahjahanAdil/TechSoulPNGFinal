@@ -27,7 +27,7 @@ import Contact from './Contact'
 export default function Admin() {
 
     const { user, logout } = useAuth0()
-    const { handleLogout } = useAuthContext()
+    const { userData, handleLogout } = useAuthContext()
     const [open, setOpen] = useState(false)
     const navigate = useNavigate()
 
@@ -68,8 +68,8 @@ export default function Admin() {
                             <div className='flex gap-2 items-center p-2'>
                                 <CiUser className='bg-[#e8e8e8] p-2 w-8 h-8 rounded-full' />
                                 <div className={`${open && '!hidden'}`}>
-                                    <div>Admin</div>
-                                    <div className='text-[#666] text-[12px]'>admin@gmail.com</div>
+                                    <div>{userData?.username}</div>
+                                    <div className='text-[#666] text-[12px]'>{userData?.email}</div>
                                 </div>
                             </div>
 

@@ -222,7 +222,7 @@ const CardsSec = () => {
                             ${index % 3 !== 0 ? index % 2 !== 0 ? "bg-[#ddf5d7]" : "bg-[#F5E9D7]" : "bg-[#F5F6F5]"}`}
                         >
                             <img
-                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.imageURL}?w=200&format=webp`}
+                                src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${img.editedImageURL}?w=200&format=webp`}
                                 alt={img.title}
                                 sizes="(max-width: 640px) 100px, (max-width: 1024px) 200px, 400px"
                                 loading="lazy"

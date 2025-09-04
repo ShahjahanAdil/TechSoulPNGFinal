@@ -28,8 +28,8 @@ router.post("/upload-image", upload.fields([
 
     try {
         const [originalImageURL, editedImageURL] = await Promise.all([
-            uploadToFTP(originalLocalPath, originalRemoteFileName),
-            uploadToFTP(editedLocalPath, editedRemoteFileName)
+            uploadToFTP(originalLocalPath, originalRemoteFileName, "private"),
+            uploadToFTP(editedLocalPath, editedRemoteFileName, "")
         ]);
 
         fs.unlinkSync(originalLocalPath);

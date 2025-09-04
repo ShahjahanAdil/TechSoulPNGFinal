@@ -13,7 +13,6 @@ import { useAuthContext } from "../../contexts/AuthContext";
 import dayjs from "dayjs";
 import axios from "axios";
 
-// resizeType, setResizeType, resizeVal, setResizeVal,
 const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeight, setResizeWidth, setResizeHeight, downloadFormat, setDownloadFormat, withBackground, setWithBackground, handleDownload, downloadLoading, }) => {
 
     const { userData, dispatch, guestData, isGuest } = useAuthContext()
@@ -141,62 +140,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
             setPreviewSizeKB(null);
         };
     };
-
-    // const handleShortDownload = async (img) => {
-    //     try {
-    //         if (!userData.userID) {
-    //             return window.toastify("Please login to continue downloading!", "info")
-    //         }
-
-    //         const isFreeUser = userData.plan === "free";
-    //         const isFreeImage = img.license === "free";
-
-    //         if (isFreeUser && !isFreeImage) {
-    //             return window.toastify("Upgrade to premium to download this image!", "error");
-    //         }
-
-    //         setShortDownloadLoading(true)
-    //         setDownloadingImageID(img.imageID)
-
-    //         const res = await axios.post(`${import.meta.env.VITE_HOST}/frontend/image/download/${img.imageID}?imageURL=${img.imageURL}`, {
-    //             userID: userData.userID,
-    //         });
-
-    //         const { status, data } = res;
-
-    //         if (status === 200) {
-    //             window.toastify(data.message, "success");
-
-    //             dispatch({
-    //                 type: "SET_PROFILE",
-    //                 payload: { user: { ...userData, dailyDownloadCount: data.dailyDownloadCount, } },
-    //             });
-
-    //             const response = await fetch(
-    //                 `${import.meta.env.VITE_HOST}${img.imageURL}`,
-    //                 { mode: "cors" }
-    //             );
-
-    //             const blob = await response.blob();
-    //             const blobUrl = URL.createObjectURL(blob);
-
-    //             const link = document.createElement("a");
-    //             link.href = blobUrl;
-    //             link.download = img.title || "download.png";
-    //             document.body.appendChild(link);
-    //             link.click();
-    //             link.remove();
-
-    //             URL.revokeObjectURL(blobUrl);
-    //         }
-    //     } catch (err) {
-    //         window.toastify(err.response?.data?.message || "Download failed", "error");
-    //         console.error("Download failed:", err);
-    //     } finally {
-    //         setShortDownloadLoading(false)
-    //         setDownloadingImageID("")
-    //     }
-    // };
 
     const handleShortDownload = async (img) => {
         try {
@@ -333,7 +276,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                             {/* Image & Zoom */}
                             <div className="relative w-full h-full flex justify-center pointer-events-none">
                                 <img
-                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.editedImageURL}`}
                                     alt="PNG"
                                     className="object-contain w-full h-full pointer-events-none"
                                 />
@@ -351,7 +294,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                         style={{
                                             top: `${zoomPosition.y - 130}px`,
                                             left: `${zoomPosition.x - 130}px`,
-                                            backgroundImage: `url(${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL})`,
+                                            backgroundImage: `url(${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.editedImageURL})`,
                                             backgroundRepeat: "no-repeat",
                                             backgroundSize: "320%",
                                             backgroundPosition: `${(zoomPosition.x / containerRef.current.offsetWidth) * 100
@@ -382,14 +325,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
 
                     {/* Right Column */}
                     <div className="bg-white !p-1 sm:!p-6 flex flex-col gap-4 h-full">
-                        {/* <p className="text-[#666] !mb-3">
-                            This image has copyright license and available for commercial use.{" "}
-                            <span className="text-[#4e76aa]">
-                                Upgrade to Individual Premium
-                            </span>{" "}
-                            to get license authorization.
-                        </p> */}
-
                         <div className="flex justify-between items-start gap-5 !mb-4">
                             <div className="flex-1">
                                 <h6 className="flex gap-2 items-center font-bold !mb-2">
@@ -421,7 +356,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 onMouseDown={(e) => e.preventDefault()}
                             >
                                 <img
-                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.imageURL}`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${imageDets.editedImageURL}`}
                                     alt="preview"
                                     className="w-[150px] h-[150px] p-2 object-contain rounded-[8px]"
                                     style={downloadFormat === 'png' ? {
@@ -436,45 +371,6 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                         </div>
 
                         <div className="flex justify-between gap-2 sm:gap-5 md:gap-0 lg:gap-8 flex-col sm:flex-row md:flex-col lg:flex-row">
-                            {/* <div className="flex-1 mb-2 sm:mb-4">
-                                <p className="flex gap-2 items-center font-bold !text-[#333]"><BsTextareaResize /> Resize Image</p>
-
-                                <div className="flex mt-2">
-                                    {['width', 'height'].map((type, i) => {
-                                        return (
-                                            <button key={i} className={`flex-1 !py-1 sm:!py-2 capitalize !text-[14px]
-                                            ${resizeType === type ? 'bg-[#4EAA76] !text-white' : 'bg-gray-200 !text-[#333]'}
-                                            ${type === 'width' ? 'rounded-tl-[8px] rounded-bl-[8px]' : 'rounded-tr-[8px] rounded-br-[8px]'}
-                                            `}
-                                                onClick={() => setResizeType(type)}
-                                            >
-                                                {type}
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-
-                                <div className="relative mt-4">
-                                    <input
-                                        type="number" name="resize" id="resize" min="50" value={resizeVal ? resizeVal : ''} placeholder="Min value is 50"
-                                        className="w-full !p-2 sm:!p-3 rounded-[8px] !text-[12px]"
-                                        onChange={e => setResizeVal(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (['e', 'E', '+', '-'].includes(e.key)) {
-                                                e.preventDefault();
-                                            }
-                                        }}
-                                    />
-                                    <button
-                                        className="absolute right-0 top-0 h-full px-3 bg-[#4EAA76] !text-white !text-[12px] sm:!text-[14px] rounded-tr-[8px] rounded-br-[8px] hover:bg-[#7EC19B]"
-                                        disabled={downloadLoading}
-                                        onClick={() => handleDownload(true)}
-                                    >
-                                        Resize
-                                    </button>
-                                </div>
-                            </div> */}
-
                             <div className="flex-1 mb-2 sm:mb-4">
                                 <p className="flex gap-2 items-center font-bold !text-[#333]">
                                     <BsTextareaResize /> Resize Image
@@ -629,7 +525,7 @@ const Dcards = ({ imageDets, similarImages, dimensions, resizeWidth, resizeHeigh
                                 }}
                             >
                                 <img
-                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${similarImg.imageURL}?w=200&format=webp`}
+                                    src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${similarImg.editedImageURL}?w=200&format=webp`}
                                     alt={similarImg.title}
                                     sizes="(max-width: 640px) 100px, (max-width: 1024px) 200px, 400px"
                                     loading="lazy"
