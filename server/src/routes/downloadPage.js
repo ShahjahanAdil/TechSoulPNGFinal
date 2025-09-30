@@ -10,7 +10,7 @@ router.get("/image", async (req, res) => {
     try {
         const imageID = req.query.imageID
 
-        const img = await imagesModel.findOne({ imageID })
+        const img = await imagesModel.findOne({ imageID, status: "published" })
 
         return res.status(200).json({ message: "Image fetched successfully!", img })
     }
@@ -34,7 +34,18 @@ router.get("/similar-images", async (req, res) => {
             ]
         }
 
-        const similarImgs = await imagesModel.find(searchQuery).sort({ createdAt: -1 }).limit(10)
+        const finalQuery = {
+            $and: [
+                { status: "published" },
+                searchQuery
+            ]
+        };
+
+        if (imageID) {
+            finalQuery.$and.push({ imageID: { $ne: imageID } });
+        }
+
+        const similarImgs = await imagesModel.find(finalQuery).sort({ createdAt: -1 }).limit(10)
 
         return res.status(200).json({ message: "Similar Images fetched successfully!", similarImgs })
     }

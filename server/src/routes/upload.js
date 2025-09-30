@@ -38,15 +38,24 @@ router.post("/upload-image", upload.fields([
         const formData = req.body;
         const parsedTags = JSON.parse(formData.tags || '[]');
 
+        let baseSlug = formData.title.toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        let slug = baseSlug;
+        let counter = 1;
+
+        while (await imagesModel.findOne({ slug })) {
+            slug = `${baseSlug}-${counter++}`;
+        }
+
         const imageData = {
             ...formData,
             imageID: generateRandomID(),
             imageURL: originalImageURL,
+            slug,
             originalImageURL,
             editedImageURL,
             type: originalFile.mimetype.split("/").pop(),
             tags: parsedTags,
-            status: "published",
+            status: "pending",
         };
 
         await imagesModel.create(imageData);

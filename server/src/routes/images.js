@@ -54,10 +54,41 @@ router.get("/search-images", async (req, res) => {
     }
 })
 
+router.patch("/update-image/status/:imageID", async (req, res) => {
+    try {
+        const { imageID } = req.params
+        const image = await imagesModel.findOne({ imageID })
+        if (!image) {
+            return res.status(404).json({ message: "Image not found" });
+        }
+
+        const newStatus = image.status === 'pending' ? 'published' : 'pending';
+
+        const updatedImage = await imagesModel.findOneAndUpdate({ imageID }, { status: newStatus }, { new: true });
+
+        return res.status(202).json({ message: "Changes saved!", updatedImage })
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Internal server error" })
+    }
+})
+
 router.patch("/update-image/:imageID", async (req, res) => {
     try {
         const { imageID } = req.params
         const updatingImage = req.body
+
+        if (updatingImage.slug) {
+            const existing = await imagesModel.findOne({
+                slug: updatingImage.slug,
+                imageID: { $ne: imageID }
+            });
+
+            if (existing) {
+                return res.status(400).json({ message: "Slug already exists!" });
+            }
+        }
 
         await imagesModel.findOneAndUpdate({ imageID }, updatingImage, { new: true });
 

@@ -72,10 +72,15 @@ router.get("/main/fetch-images", async (req, res) => {
             });
         }
 
-        const searchQuery = searchConditions.length > 0 ? { $and: searchConditions } : {};
+        const finalQuery = {
+            $and: [
+                { status: "published" },
+                ...(searchConditions.length > 0 ? searchConditions : [])
+            ]
+        };
 
-        const imgs = await imagesModel.find(searchQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
-        const totalImgs = await imagesModel.countDocuments(searchQuery);
+        const imgs = await imagesModel.find(finalQuery).sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const totalImgs = await imagesModel.countDocuments(finalQuery);
 
         return res.status(200).json({ message: "Images fetched successfully!", imgs, totalImgs });
     } catch (error) {
@@ -83,51 +88,5 @@ router.get("/main/fetch-images", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
-// router.get("/main/fetch-images", async (req, res) => {
-//     try {
-//         const category = req.query.category;
-//         const filter = req.query.filter;
-//         const searchText = req.query.searchText;
-//         const page = parseInt(req.query.page) || 1;
-//         const limit = 25;
-//         const skip = (page - 1) * limit;
-
-//         let searchQuery = {};
-//         if (category) {
-//             searchQuery = {
-//                 $or: [
-//                     { title: { $regex: category, $options: "i" } },
-//                     { description: { $regex: category, $options: "i" } },
-//                     { category: { $regex: category, $options: "i" } },
-//                     { subcategory: { $regex: category, $options: "i" } },
-//                     { tags: { $elemMatch: { $regex: category, $options: "i" } } }
-//                 ]
-//             };
-//         } else if (searchText) {
-//             searchQuery = {
-//                 $or: [
-//                     { title: { $regex: searchText, $options: "i" } },
-//                     { description: { $regex: searchText, $options: "i" } },
-//                     { category: { $regex: searchText, $options: "i" } },
-//                     { subcategory: { $regex: searchText, $options: "i" } },
-//                     { tags: { $elemMatch: { $regex: searchText, $options: "i" } } }
-//                 ]
-//             };
-//         }
-
-//         const imgs = await imagesModel.find(searchQuery)
-//             .sort({ createdAt: -1 })
-//             .skip(skip)
-//             .limit(limit);
-
-//         const totalImgs = await imagesModel.countDocuments(searchQuery);
-
-//         return res.status(200).json({ message: "Images fetched successfully!", imgs, totalImgs });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Internal server error" });
-//     }
-// })
 
 module.exports = router

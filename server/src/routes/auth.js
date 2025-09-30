@@ -2,25 +2,75 @@ const express = require("express")
 const router = express.Router()
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const nodemailer = require("nodemailer")
+require("dotenv").config();
 
+const verifyEmailModel = require('../models/verifyemail')
 const authModel = require('../models/auth')
-
 const verfiyToken = require('../middlewares/auth')
+
+const transporter = nodemailer.createTransport({
+    host: "mail.flowerpng.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.NODEMAILER_VERIFICATION_EMAIL,
+        pass: process.env.NODEMAILER_PASS
+    }
+});
+
+router.post("/create-email-verification", async (req, res) => {
+    try {
+        const { email } = req.body
+
+        await verifyEmailModel.deleteOne({ email });
+
+        const code = Math.floor(100000 + Math.random() * 900000);
+        await verifyEmailModel.create({ email, code })
+
+        await transporter.sendMail({
+            from: `"Email Verification - FlowerPNG" <${process.env.NODEMAILER_VERIFICATION_EMAIL}>`,
+            to: email,
+            subject: "Code for email verification - FlowerPNG",
+            html: `
+                <h2>Email Verification</h2>
+                <p>Your verification code is:</p>
+                <h1 style="color:#4CAF50">${code}</h1>
+            `
+        });
+
+        res.status(201).json({ message: "Verification code sent to your email!" })
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Failed to send verification email. Please try again." });
+    }
+})
 
 router.post("/signup", async (req, res) => {
     try {
         const newUserData = req.body
-        const { email, password } = newUserData
+        const { email, password, code } = newUserData
+
+        const record = await verifyEmailModel.findOne({ email });
+        if (!record) {
+            return res.status(400).json({ message: "No verification request found for this email." });
+        }
+
+        if (record.code !== code) {
+            return res.status(400).json({ message: "Invalid verification code." });
+        }
 
         const userFound = await authModel.findOne({ email })
         if (userFound) {
-            return res.status(403).json({ message: "User already exists!" })
+            return res.status(403).json({ message: "User account already exists!" })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-
         const user = { ...newUserData, password: hashedPassword }
+
         await authModel.create(user)
+        await verifyEmailModel.deleteOne({ email });
 
         res.status(201).json({ message: "User registered succesfully!" })
     }

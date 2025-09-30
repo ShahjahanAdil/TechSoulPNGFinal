@@ -17,6 +17,7 @@ export default function Upload() {
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("")
     const [tagInput, setTagInput] = useState("")
+    const [slug, setSlug] = useState("")
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
 
@@ -34,6 +35,11 @@ export default function Upload() {
             fetchCategories()
         }
     }, [userData])
+
+    useEffect(() => {
+        let slug = state.title.toString().toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        setSlug(slug)
+    }, [state.title])
 
     const fetchCategories = () => {
         setLoading(true)
@@ -65,15 +71,19 @@ export default function Upload() {
         }))
     }
 
-    const handleAddTag = e => {
-        if (e.key === 'Enter') {
+    const handleAddTag = (e) => {
+        if (e.key === "Enter") {
             e.preventDefault()
-            const newTag = tagInput.trim().toLowerCase()
 
-            if (newTag && !state.tags.includes(newTag)) {
+            const rawTags = tagInput
+                .split(",")
+                .map(tag => tag.trim().toLowerCase())
+                .filter(tag => tag.length > 0)
+
+            if (rawTags.length > 0) {
                 setState(prev => ({
                     ...prev,
-                    tags: [...prev.tags, newTag]
+                    tags: [...prev.tags, ...rawTags.filter(tag => !prev.tags.includes(tag))]
                 }))
             }
 
@@ -173,6 +183,8 @@ export default function Upload() {
                         <label className='mb-2 font-bold !text-[#333]'>Image Title</label>
                         <input type="text" name="title" id="title" value={state.title} placeholder='Enter a descriptive title' className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleOnChange} />
                     </div>
+
+                    {state.title && <p className='!text-sm cursor-not-allowed'>{import.meta.env.VITE_ASURA_DOMAIN}/image/{slug}</p>}
 
                     <div>
                         <label className='mb-2 font-bold !text-[#333]'>Description</label>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./navbar.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { IoIosArrowDown } from "react-icons/io";
 import { FaHeart, FaSearch, FaUser } from "react-icons/fa";
 import { PiHeadphonesFill } from "react-icons/pi";
 import { LuArrowRight, LuDownload, LuLogOut } from "react-icons/lu";
 import { GrLanguage } from "react-icons/gr";
 import { FaUserPlus, FaX } from "react-icons/fa6";
-import { MdKeyboardVoice, MdOutlineExplore } from "react-icons/md";
+import { MdOutlineExplore } from "react-icons/md";
 import logooo from "../../assets/images/logo.png";
 import crown from "../../assets/images/crown.png";
 import userIcon from "../../assets/images/user.png";
@@ -135,7 +134,7 @@ export default function Navbar() {
                 <div className="nav-buttons flex items-center gap-4">
                     <div className="flex items-center pl-4">
                         {
-                            userData?.role?.includes("admin") &&
+                            (userData?.role?.includes("admin") || userData?.role?.includes("designer")) &&
                             <button className="!text-[12px] hover:!text-[#71C194] mr-4" onClick={() => navigate("/admin/dashboard")}>
                                 Admin
                             </button>
@@ -632,30 +631,6 @@ export default function Navbar() {
                         </div>
                     )}
 
-                    {/* {
-                        userData.userID &&
-                        <div className="relative">
-                            <div
-                                className="text-[18px] text-red-500 ml-1 cursor-pointer hover:text-red-400"
-                                onMouseEnter={() => setShowPopup(true)}
-                                onMouseLeave={() => setShowPopup(false)}
-                            >
-                                <LuLogOut onClick={logoutFunction} />
-                            </div>
-
-                            <div
-                                className={`absolute top-[115%] right-0 mt-1 bg-white shadow-md rounded-md px-2 py-1 z-10 border border-gray-200
-                transform transition-all duration-200 ease-out
-                ${showPopup ?
-                                        'opacity-100 scale-100 translate-y-0' :
-                                        'opacity-0 scale-95 translate-y-1'
-                                    }`}
-                            >
-                                <p className="!text-[12px] font-bold !text-red-400">Logout</p>
-                            </div>
-                        </div>
-                    } */}
-
                     <div
                         className="menu-icon flex flex-col items-center cursor-pointer border border-gray-300 p-2 rounded-[8px]"
                         onClick={() => setMenuOpen(true)}
@@ -668,40 +643,6 @@ export default function Navbar() {
             <section className="nav-bottom px-5 py-0 bg-[#fefefe] flex justify-between items-center ">
                 <div className="menu">
                     <div className="!flex gap-3 sm:!gap-5 justify-start items-center">
-                        {/* <div className="relative group">
-                            <span className="cursor-pointer !text-[14px]">PNG</span>
-                            <div className="absolute top-3 left-0 hidden rounded-[10px] z-50  group-hover:block w-[500px] p-6 mt-3 bg-white shadow-lg ">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 rounded-10px text-sm !rounded-4xl  text-gray-700">
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li className="gap-2 hover:text-green-400 cursor-pointer py-2">
-                                            nswqh
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div> */}
-
                         <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/contact")}>Contact Us</button>
                         <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/about")}>About Us</button>
                         <button className="text-[14px] text-[#333] hover:text-[#4EAA76]" onClick={() => navigate("/legal/privacy")}>Privacy Policy</button>

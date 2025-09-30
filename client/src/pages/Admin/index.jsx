@@ -51,31 +51,36 @@ export default function Admin() {
                 <div className={`sider ${open ? 'sider-open' : 'sider-closed'}`}>
                     <h6 className={`border-b-2 border-gray-100 !text-[var(--dark)] px-5 py-4 cursor-pointer ${open && '!hidden'}`} onClick={() => navigate('/')}>FlowerPNG</h6>
 
-                    <div className={`flex flex-col flex-1 justify-between p-2 ${open && 'items-center'}`}>
+                    <div className={`flex flex-col flex-1 justify-between p-2 overflow-auto ${open && 'items-center'}`}>
                         <div className={`flex flex-col gap-2 mt-5 ${open && 'mt-15'}`}>
                             <NavLink to="/admin/dashboard" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><GrAnalytics /> <span className={`sider-text ${open && '!hidden'}`}>Dashboard</span></NavLink>
                             <NavLink to="/admin/images" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><IoImages /> <span className={`sider-text ${open && '!hidden'}`}>Images</span></NavLink>
                             <NavLink to="/admin/categories" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><TbCategory2 /> <span className={`sider-text ${open && '!hidden'}`}>Categories</span></NavLink>
-                            <NavLink to="/admin/menu" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><BiSend /> <span className={`sider-text ${open && '!hidden'}`}>Menu</span></NavLink>
-                            <NavLink to="/admin/users" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaUsers /> <span className={`sider-text ${open && '!hidden'}`}>Users</span></NavLink>
-                            <NavLink to="/admin/subscriptions" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><IoWallet /> <span className={`sider-text ${open && '!hidden'}`}>Subscriptions</span></NavLink>
-                            <NavLink to="/admin/blogs" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaSheetPlastic /> <span className={`sider-text ${open && '!hidden'}`}>Blogs</span></NavLink>
-                            <NavLink to="/admin/contact" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaAddressCard /> <span className={`sider-text ${open && '!hidden'}`}>Contact</span></NavLink>
-                            <NavLink to="/admin/dmca" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaAddressCard /> <span className={`sider-text ${open && '!hidden'}`}>DMCA</span></NavLink>
+                            {
+                                userData?.role === 'admin' &&
+                                <>
+                                    <NavLink to="/admin/menu" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><BiSend /> <span className={`sider-text ${open && '!hidden'}`}>Menu</span></NavLink>
+                                    <NavLink to="/admin/users" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaUsers /> <span className={`sider-text ${open && '!hidden'}`}>Users</span></NavLink>
+                                    <NavLink to="/admin/subscriptions" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><IoWallet /> <span className={`sider-text ${open && '!hidden'}`}>Subscriptions</span></NavLink>
+                                    <NavLink to="/admin/blogs" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaSheetPlastic /> <span className={`sider-text ${open && '!hidden'}`}>Blogs</span></NavLink>
+                                    <NavLink to="/admin/contact" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaAddressCard /> <span className={`sider-text ${open && '!hidden'}`}>Contact</span></NavLink>
+                                    <NavLink to="/admin/dmca" className={({ isActive }) => `sider-link hover:bg-[var(--md-light)] ${open && '!p-[12px] w-fit'} ${isActive && 'sider-link-active'}`}><FaAddressCard /> <span className={`sider-text ${open && '!hidden'}`}>DMCA</span></NavLink>
+                                </>
+                            }
+                        </div>
+                    </div>
+
+                    <div className='border-t-2 border-gray-100 pt-5'>
+                        <div className='flex gap-2 items-center p-2'>
+                            <CiUser className='bg-[#e8e8e8] p-2 w-8 h-8 rounded-full' />
+                            <div className={`${open && '!hidden'}`}>
+                                <div>{userData?.username}</div>
+                                <div className='text-[#666] text-[12px]'>{userData?.email}</div>
+                            </div>
                         </div>
 
-                        <div className='border-t-2 border-gray-100 pt-5'>
-                            <div className='flex gap-2 items-center p-2'>
-                                <CiUser className='bg-[#e8e8e8] p-2 w-8 h-8 rounded-full' />
-                                <div className={`${open && '!hidden'}`}>
-                                    <div>{userData?.username}</div>
-                                    <div className='text-[#666] text-[12px]'>{userData?.email}</div>
-                                </div>
-                            </div>
-
-                            <div className='flex justify-center py-5'>
-                                <button className='flex gap-2 items-center !text-red-500 hover:!text-red-400' onClick={logoutFunctions}><FiLogOut /> <span className={`sider-text ${open && '!hidden'}`}>Logout</span></button>
-                            </div>
+                        <div className='flex justify-center py-5'>
+                            <button className='flex gap-2 items-center !text-red-500 hover:!text-red-400' onClick={logoutFunctions}><FiLogOut /> <span className={`sider-text ${open && '!hidden'}`}>Logout</span></button>
                         </div>
                     </div>
 

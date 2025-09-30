@@ -3,6 +3,7 @@ const { Schema } = mongoose
 
 const imagesSchema = new Schema({
     imageID: { type: String, required: true, unique: true },
+    slug: { type: String, required: true, unique: true },
     imageURL: { type: String, required: true, unique: true },
     originalImageURL: { type: String, required: true, unique: true },
     editedImageURL: { type: String, required: true, unique: true },

@@ -18,7 +18,7 @@ router.get("/home/fetch-categories", async (req, res) => {
 
 router.get("/fetch-recent-images", async (req, res) => {
     try {
-        const imgs = await imagesModel.find().sort({ createdAt: -1 }).limit(30)
+        const imgs = await imagesModel.find({ status: 'published' }).sort({ createdAt: -1 }).limit(30)
 
         return res.status(200).json({ message: "Images fetched successfully!", imgs })
     }
@@ -33,7 +33,7 @@ router.get("/fetch-tab-images", async (req, res) => {
         const category = req.query.category
         const limit = 6
 
-        const imgs = await imagesModel.find({ category }).sort({ createdAt: -1 }).limit(limit)
+        const imgs = await imagesModel.find({ category, status: "published" }).sort({ createdAt: -1 }).limit(limit)
 
         return res.status(200).json({ message: "Images fetched successfully!", imgs })
     }
@@ -72,9 +72,13 @@ router.get("/home/search-suggestions", async (req, res) => {
             }
         }
 
-        const finalQuery = filterConditions.length > 0
-            ? { $and: [{ $or: baseConditions }, ...filterConditions] }
-            : { $or: baseConditions };
+        const finalQuery = {
+            $and: [
+                { status: "published" },
+                { $or: baseConditions },
+                ...filterConditions
+            ]
+        };
 
         const results = await imagesModel.find(finalQuery).limit(3);
 
@@ -84,32 +88,5 @@ router.get("/home/search-suggestions", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 })
-
-// router.get("/home/search-suggestions", async (req, res) => {
-//     try {
-//         const query = req.query.q;
-
-//         if (!query) {
-//             return res.status(200).json({ results: [] });
-//         }
-
-//         const searchQuery = {
-//             $or: [
-//                 { title: { $regex: query, $options: "i" } },
-//                 { description: { $regex: query, $options: "i" } },
-//                 { category: { $regex: query, $options: "i" } },
-//                 { subcategory: { $regex: query, $options: "i" } },
-//                 { tags: { $elemMatch: { $regex: query, $options: "i" } } }
-//             ]
-//         }
-
-//         const results = await imagesModel.find(searchQuery).limit(3);
-
-//         res.status(200).json({ results });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({ message: "Internal server error" });
-//     }
-// });
 
 module.exports = router

@@ -50,6 +50,19 @@ router.patch("/make-admin/:makeAdminID", async (req, res) => {
     }
 })
 
+router.patch("/make-designer/:makeDesignerID", async (req, res) => {
+    try {
+        const { makeDesignerID } = req.params
+        await authModel.findOneAndUpdate({ userID: makeDesignerID }, { role: "designer" }, { new: true })
+
+        return res.status(202).json({ message: "Designer role assigned!" })
+    }
+    catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "Internal server error" })
+    }
+})
+
 router.patch("/make-regular-user/:makeRegUserID", async (req, res) => {
     try {
         const { makeRegUserID } = req.params

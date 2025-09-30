@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './images.css'
+import { Image } from 'antd'
 import { IoImages } from 'react-icons/io5'
 import { FiUpload } from 'react-icons/fi'
 import { GrFilter } from 'react-icons/gr'
@@ -9,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { BiSearch, BiX } from 'react-icons/bi'
 import Loader from '../../../components/Loader'
 import { useAuthContext } from '../../../contexts/AuthContext'
+import dayjs from 'dayjs'
 import axios from 'axios'
 
 export default function Images() {
@@ -153,7 +155,7 @@ export default function Images() {
             })
             .catch(err => {
                 console.error("Error deleting image:", err.message)
-                window.toastify("An unexpected error occurred. Please try again.", "error")
+                window.toastify(err?.response?.data?.message || "An unexpected error occurred. Please try again.", "error")
             })
             .finally(() => {
                 setLoading(false)
@@ -165,12 +167,16 @@ export default function Images() {
     const handleAddTag = e => {
         if (e.key === 'Enter') {
             e.preventDefault()
-            const newTag = tagInput.trim().toLowerCase()
 
-            if (newTag && !updatingImage?.tags?.includes(newTag)) {
+            const rawTags = tagInput
+                .split(",")
+                .map(tag => tag.trim().toLowerCase())
+                .filter(tag => tag.length > 0)
+
+            if (rawTags.length > 0) {
                 setUpdatingImage(prev => ({
                     ...prev,
-                    tags: [...prev.tags, newTag]
+                    tags: [...prev.tags, ...rawTags.filter(tag => !prev.tags.includes(tag))]
                 }))
             }
 
@@ -182,7 +188,41 @@ export default function Images() {
         setUpdatingImage(prev => ({ ...prev, tags: updatingImage?.tags?.filter(tag => tag.toLowerCase() !== t.toLowerCase()) }))
     }
 
+    const handleUpdateStatus = (imageID) => {
+        setLoading(true)
+        axios.patch(`${import.meta.env.VITE_HOST}/admin/update-image/status/${imageID}`)
+            .then(res => {
+                const { status, data } = res
+                if (status === 202) {
+                    const updatedList = (isSearching ? searchedImages : images).map(image => image.imageID === imageID ? {
+                        ...image,
+                        status: data.updatedImage.status
+                    } : image)
+
+                    setTimeout(() => {
+                        if (isSearching) {
+                            setSearchedImages(updatedList)
+                        } else {
+                            setImages(updatedList)
+                        }
+                    }, 100);
+
+                    window.toastify(data.message, "success")
+                }
+            })
+            .catch(err => {
+                console.error("Error deleting image:", err.message)
+                window.toastify("An unexpected error occurred. Please try again.", "error")
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
     const handleImageDelete = (img) => {
+        const confirmed = window.confirm("Are you sure you want to delete this image?")
+        if (!confirmed) return
+
         const { imageID } = img
 
         setLoading(true)
@@ -261,7 +301,7 @@ export default function Images() {
                             <th className="p-4 whitespace-nowrap">Category</th>
                             <th className="p-4 whitespace-nowrap">Type</th>
                             <th className="p-4 whitespace-nowrap">Licensing</th>
-                            <th className="p-4 whitespace-nowrap">Status</th>
+                            {userData?.role === 'admin' && <th className="p-4 whitespace-nowrap">Status</th>}
                             <th className="p-4 whitespace-nowrap">Upload Date</th>
                             <th className="p-4 whitespace-nowrap">Actions</th>
                         </tr>
@@ -274,7 +314,7 @@ export default function Images() {
                                     return (
                                         <tr key={imageID} className="border-b border-gray-200 hover:bg-gray-50">
                                             <td className="p-4 text-[#333]">
-                                                <img src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${editedImageURL}`} alt={title} className='w-[40px] h-[40px] rounded-full' />
+                                                <Image src={`${import.meta.env.VITE_ASURA_SUBDOMAIN}${editedImageURL}`} alt={title} width={'40px'} height={'40px'} className='object-contain rounded-full' />
                                             </td>
                                             <td className="p-4 text-[#333] capitalize">{title}</td>
                                             <td className="p-4 text-[#333] capitalize">{category}</td>
@@ -282,12 +322,15 @@ export default function Images() {
                                             <td className="p-4 text-[#333] capitalize">
                                                 <span className={`px-2 rounded-full ${license === 'premium' && 'bg-[#e6d737] text-[#fff] !text-[14px]'}`}>{license}</span>
                                             </td>
-                                            <td className="p-4 text-[#333] capitalize">
-                                                <span className={`px-2 rounded-full ${status === 'published' && 'bg-[#1fcd2bd8] text-[#fff] !text-[14px]'}
-                                            ${status === 'pending' && 'bg-[#daec14] text-[#fff] !text-[14px]'}
-                                            ${status === 'rejected' && 'bg-[#f05735] text-[#fff] !text-[14px]'}`}>{status}</span>
-                                            </td>
-                                            <td className="p-4 text-[#333]">{new Date(createdAt).toLocaleDateString()}</td>
+                                            {
+                                                userData?.role === 'admin' &&
+                                                <td className="p-4 text-[#333] capitalize">
+                                                    <span className={`relative flex items-center w-10 h-5 rounded-2xl cursor-pointer transition-all duration-300 ease-linear ${status === 'published' ? 'bg-[#09e626b7]' : 'bg-gray-200'}`} onClick={() => handleUpdateStatus(imageID)}>
+                                                        <span className={`absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white cursor-pointer transition-all duration-300 ease-linear ${status === 'published' ? 'left-[calc(100%-18px)]' : 'left-0.5'}`}></span>
+                                                    </span>
+                                                </td>
+                                            }
+                                            <td className="p-4 text-[#333]">{dayjs(createdAt).format('DD-MM-YYYY')}</td>
                                             <td className="p-4 text-[#333]">
                                                 <div className='flex gap-3 items-center'>
                                                     <MdEdit className='text-[16px] text-blue-500 cursor-pointer hover:text-blue-300' onClick={() => handleImageUpdate(img)} />
@@ -320,79 +363,90 @@ export default function Images() {
             }
 
             {/* Update Model */}
-            <div className={`fixed top-0 left-0 flex justify-center items-center w-full min-h-[100vh] bg-[#9393931c] px-5 py-10 z-[99] transition-all duration-200 ease-linear ${openUpdateModel ? 'update-model-open opacity-100' : 'update-model-close opacity-50'}`}>
-                <div className={`bg-white p-5 rounded-[12px] w-full max-w-[600px] max-h-[90vh] overflow-auto shadow-lg transition-all duration-200 ease-linear ${openUpdateModel ? 'scale-100' : 'scale-75'}`}>
+            <div className={`fixed top-0 left-0 flex justify-center items-center w-full min-h-[100vh] bg-[#38383869] px-2 sm:px-5 py-10 z-[99] transition-all duration-500 ease-linear ${openUpdateModel ? 'update-model-open opacity-100' : 'update-model-close opacity-0'}`}
+                onClick={() => setOpenUpdateModel(false)}
+            >
+                <div className={`bg-white p-5 w-full max-w-[600px] rounded-[12px] shadow-lg transition-all duration-500 ease-[cubic-bezier(0.7,0,0.3,1)] ${openUpdateModel ? 'scale-100 translate-x-0' : 'scale-0 translate-x-full'}`}
+                    onClick={e => e.stopPropagation()}
+                >
                     <div className='flex justify-between mb-3'>
                         <p className='font-bold !text-[18px] !text-[var(--dark)]'>Image Details</p>
                         <BiX className='text-[20px] text-red-500 cursor-pointer transition-all duration-200 ease-linear hover:text-[#888]' onClick={() => setOpenUpdateModel(false)} />
                     </div>
-                    <div>
-                        <label className='mb-2 font-bold'>Title</label>
-                        <input type="text" name="title" id="title" value={updatingImage?.title} className='w-full px-3 py-2 mb-4 bg-white rounded-[12px]' onChange={handleOnChange} />
-                    </div>
-                    <div>
-                        <label className='mb-2 font-bold'>Description</label>
-                        <textarea name="description" id="description" rows={5} value={updatingImage?.description} className='w-full px-3 py-2 mb-4 bg-white rounded-[12px] resize-none overflow-y-auto' onChange={handleOnChange}></textarea>
-                    </div>
-                    <div className='flex gap-5 flex-1 mb-4'>
-                        <div className='w-full'>
-                            <label className='mb-2 font-bold !text-[#333]'>Category</label>
-                            <select name="category" id="category" value={updatingImage?.category} className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleCategoryChange}>
-                                <option value="" disabled>Select a category</option>
+
+                    <div className='max-h-[calc(100vh-150px)] overflow-y-auto'>
+                        <div>
+                            <label className='mb-2 font-bold'>Title</label>
+                            <input type="text" name="title" id="title" value={updatingImage?.title} className='w-full px-3 py-2 mb-4 bg-white rounded-[12px]' onChange={handleOnChange} />
+                        </div>
+                        <div>
+                            <label className='mb-2 font-bold'>Slug</label>
+                            <input type="text" name="slug" id="slug" value={updatingImage?.slug} className='w-full px-3 py-2 mb-4 bg-white rounded-[12px]' onChange={handleOnChange} />
+                        </div>
+                        <div>
+                            <label className='mb-2 font-bold'>Description</label>
+                            <textarea name="description" id="description" rows={5} value={updatingImage?.description} className='w-full px-3 py-2 mb-4 bg-white rounded-[12px] resize-none overflow-y-auto' onChange={handleOnChange}></textarea>
+                        </div>
+                        <div className='flex gap-5 flex-1 mb-4'>
+                            <div className='w-full'>
+                                <label className='mb-2 font-bold !text-[#333]'>Category</label>
+                                <select name="category" id="category" value={updatingImage?.category} className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleCategoryChange}>
+                                    <option value="" disabled>Select a category</option>
+                                    {
+                                        categories.map((cat, i) => {
+                                            return (
+                                                <option key={i} value={cat.category} className='capitalize'>{cat.category}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+
+                            <div className='w-full'>
+                                <label className='mb-2 font-bold !text-[#333]'>License</label>
+                                <select name="license" id="license" value={updatingImage?.license} className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleOnChange}>
+                                    <option value="" disabled>Select a license</option>
+                                    <option value="free">Free</option>
+                                    <option value="premium">Premium</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className='w-full mb-4'>
+                            <label className='mb-2 font-bold !text-[#333]'>Subcategory</label>
+                            <select name="subcategory" id="subcategory" value={updatingImage?.subcategory} className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleOnChange}>
+                                <option value="" disabled>Select a subcategory</option>
                                 {
-                                    categories.map((cat, i) => {
+                                    categories.find(cat => cat.category === updatingImage?.category)?.subcategories?.map((sub, i) => {
                                         return (
-                                            <option key={i} value={cat.category} className='capitalize'>{cat.category}</option>
+                                            <option key={i} value={sub} className='capitalize'>{sub}</option>
                                         )
                                     })
                                 }
                             </select>
                         </div>
 
-                        <div className='w-full'>
-                            <label className='mb-2 font-bold !text-[#333]'>License</label>
-                            <select name="license" id="license" value={updatingImage?.license} className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleOnChange}>
-                                <option value="" disabled>Select a license</option>
-                                <option value="free">Free</option>
-                                <option value="premium">Premium</option>
-                            </select>
+                        <div>
+                            <label className='mb-2 font-bold !text-[#333]'>Tags</label>
+                            <div className='flex flex-wrap gap-2 mb-3'>
+                                {
+                                    updatingImage?.tags?.map((t, i) => {
+                                        return (
+                                            <div key={i} className='flex gap-2 items-center bg-[var(--dark)] text-[#faf5ff] !text-[12px] rounded-full px-3 py-1'>
+                                                {t}
+                                                <BiX className='rounded-full p-[2px] cursor-pointer hover:bg-[#fff] hover:text-[#333]' size={12} onClick={() => handleRemoveTag(t)} />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <input type="text" name="tags" id="tags" value={tagInput} placeholder='Press Enter to add each tag' className='w-full px-3 py-2 bg-white rounded-[12px]' onKeyDown={handleAddTag} onChange={(e) => setTagInput(e.target.value)} />
+                            <p className='mt-3'>Press Enter to add each tag</p>
                         </div>
-                    </div>
 
-                    <div className='w-full mb-4'>
-                        <label className='mb-2 font-bold !text-[#333]'>Subcategory</label>
-                        <select name="subcategory" id="subcategory" value={updatingImage?.subcategory} className='w-full px-3 py-2 bg-white rounded-[12px]' onChange={handleOnChange}>
-                            <option value="" disabled>Select a subcategory</option>
-                            {
-                                categories.find(cat => cat.category === updatingImage?.category)?.subcategories?.map((sub, i) => {
-                                    return (
-                                        <option key={i} value={sub} className='capitalize'>{sub}</option>
-                                    )
-                                })
-                            }
-                        </select>
-                    </div>
-
-                    <div>
-                        <label className='mb-2 font-bold !text-[#333]'>Tags</label>
-                        <div className='flex flex-wrap gap-2 mb-3'>
-                            {
-                                updatingImage?.tags?.map((t, i) => {
-                                    return (
-                                        <div key={i} className='flex gap-2 items-center bg-[var(--dark)] text-[#faf5ff] !text-[12px] rounded-full px-3 py-1'>
-                                            {t}
-                                            <BiX className='rounded-full p-[2px] cursor-pointer hover:bg-[#fff] hover:text-[#333]' size={12} onClick={() => handleRemoveTag(t)} />
-                                        </div>
-                                    )
-                                })
-                            }
+                        <div className='flex justify-end'>
+                            <button className='mt-5 bg-[var(--dark)] text-[#fff] px-[20px] py-[8px] rounded-[12px] transition-all duration-200 ease-linear hover:bg-[var(--md-dark)]' onClick={handleUpdate}>Save Changes</button>
                         </div>
-                        <input type="text" name="tags" id="tags" value={tagInput} placeholder='Press Enter to add each tag' className='w-full px-3 py-2 bg-white rounded-[12px]' onKeyDown={handleAddTag} onChange={(e) => setTagInput(e.target.value)} />
-                        <p className='mt-3'>Press Enter to add each tag</p>
-                    </div>
-
-                    <div className='flex justify-end'>
-                        <button className='mt-5 bg-[var(--dark)] text-[#fff] px-[20px] py-[8px] rounded-[12px] transition-all duration-200 ease-linear hover:bg-[var(--md-dark)]' onClick={handleUpdate}>Save Changes</button>
                     </div>
                 </div>
             </div>

@@ -9,31 +9,17 @@ import ScrollToTop from "../components/ScrollToTop";
 import Dashboard from "./Dashboard";
 
 export default function Index() {
-  const { isAuthenticated } = useAuthContext()
+    const { isAuthenticated } = useAuthContext()
 
-  return (
-    <>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/*" element={<Frontend />} />
-        <Route
-          path="/auth/*"
-          element={!isAuthenticated ? <Auth /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/dashboard/*"
-          element={
-            <PrivateRoute
-              Component={Dashboard}
-              allowedRoles={["user", "admin"]}
-            />
-          }
-        />
-        <Route
-          path="/admin/*"
-          element={<PrivateRoute Component={Admin} allowedRoles={["admin"]} />}
-        />
-      </Routes>
-    </>
-  );
+    return (
+        <>
+            <ScrollToTop />
+            <Routes>
+                <Route path="/*" element={<Frontend />} />
+                <Route path="/auth/*" element={!isAuthenticated ? <Auth /> : <Navigate to="/" />} />
+                <Route path="/dashboard/*" element={<PrivateRoute Component={Dashboard} allowedRoles={["user", "admin", "designer"]} />} />
+                <Route path="/admin/*" element={<PrivateRoute Component={Admin} allowedRoles={["admin", "designer"]} />} />
+            </Routes>
+        </>
+    );
 }

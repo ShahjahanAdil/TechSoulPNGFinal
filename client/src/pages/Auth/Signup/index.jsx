@@ -15,7 +15,10 @@ export default function Signup() {
     const { user, isAuthenticated, loginWithPopup } = useAuth0();
     const { dispatch } = useAuthContext();
     const [state, setState] = useState(initialState);
+    const [code, setCode] = useState("")
     const [loading, setLoading] = useState(false);
+    const [triggerVerification, setTriggerVerification] = useState(false);
+    const [verificationLoading, setVerificationLoading] = useState(false);
     const [triggerGoogleLogin, setTriggerGoogleLogin] = useState(false);
     const navigate = useNavigate();
 
@@ -30,27 +33,45 @@ export default function Signup() {
             return window.toastify("Please fill all fields", "warning");
         }
 
-        if (username.trim().length < 3) {
-            return window.toastify(
-                "Username must be atleast 3 characters long",
-                "error"
-            );
-        }
-        if (!window.isEmail(email)) {
-            return window.toastify("Please enter a valid email address", "error");
-        }
-        if (password.trim().length < 6) {
-            return window.toastify(
-                "Password must be atleast 6 characters long",
-                "error"
-            );
-        }
+        if (username.trim().length < 3) return window.toastify("Username must be atleast 3 characters long", "error");
+        if (!window.isEmail(email)) return window.toastify("Please enter a valid email address", "error");
+        if (password.trim().length < 6) return window.toastify("Password must be atleast 6 characters long", "error");
+
+        setVerificationLoading(true);
+        await axios.post(`${import.meta.env.VITE_HOST}/auth/create-email-verification`, { email })
+            .then((res) => {
+                const { status, data } = res;
+                if (status === 201) {
+                    setTriggerVerification(true)
+                    window.toastify(data.message, "success");
+                }
+            })
+            .catch((err) => {
+                console.error("Frontend POST error", err.message);
+                window.toastify(err?.response?.data?.message || "Something went wrong while creating email verification code", "error");
+            })
+            .finally(() => {
+                setVerificationLoading(false);
+            });
+    };
+
+    const handleVerifyCode = async (e) => {
+        e.preventDefault();
+
+        const { username, email, password } = state;
+        if (!username || !email || !password) return window.toastify("Please fill all fields", "warning");
+        if (!code) return window.toastify("Enter your email verification code", "warning");
+
+        if (username.trim().length < 3) return window.toastify("Username must be atleast 3 characters long", "error");
+        if (!window.isEmail(email)) return window.toastify("Please enter a valid email address", "error");
+        if (password.trim().length < 6) return window.toastify("Password must be atleast 6 characters long", "error");
 
         const newUserData = {
             userID: generateRandomID(),
             username,
             email,
             password,
+            code,
             status: "active",
             role: "user",
             plan: "free",
@@ -62,8 +83,7 @@ export default function Signup() {
         };
 
         setLoading(true);
-        await axios
-            .post(`${import.meta.env.VITE_HOST}/auth/signup`, newUserData)
+        await axios.post(`${import.meta.env.VITE_HOST}/auth/signup`, newUserData)
             .then((res) => {
                 const { status, data } = res;
                 if (status === 201) {
@@ -77,12 +97,14 @@ export default function Signup() {
                 if (status === 403) {
                     return window.toastify(data.message, "info");
                 }
-                window.toastify("Something went wrong while creating user", "error");
+                window.toastify(err?.response?.data?.message || "Something went wrong while creating user", "error");
             })
             .finally(() => {
                 setLoading(false);
             });
-    };
+    }
+
+    // Google Login
 
     const handleLoginWithGoogle = async () => {
         try {
@@ -117,10 +139,7 @@ export default function Signup() {
             };
 
             try {
-                const res = await axios.post(
-                    `${import.meta.env.VITE_HOST}/auth/google`,
-                    googleUserData
-                );
+                const res = await axios.post(`${import.meta.env.VITE_HOST}/auth/google`, googleUserData);
                 const { status, data } = res;
                 if (status === 200 || status === 201) {
                     localStorage.setItem("pngjwt", data.token);
@@ -146,45 +165,6 @@ export default function Signup() {
 
     return (
         <>
-            {/* <div className="auth-container w-full h-screen p-5 flex flex-col justify-center items-center bg-[#f8f8f8]">
-            <div className="auth-box w-full max-w-[450px] min-h-[300px] rounded-[5px] p-5 sm:p-8 bg-white">
-                <form onSubmit={handleSignup}>
-
-                    <h2 className='!text-[22px] sm:!text-[26px] font-bold'>Register Account</h2>
-                    <p className='mb-5'>Create user to continue</p>
-
-                    <div>
-                        <label className='font-bold mb-2 inline-block'>Username:</label>
-                        <input type="text" name="username" id="username" placeholder='john_paul' className='w-full px-[10px] py-[8px] rounded-[5px] mb-4'
-                            value={state.username} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <label className='font-bold mb-2 inline-block'>Email:</label>
-                        <input type="text" name="email" id="email" placeholder='johnpaul@gmail.com' className='w-full px-[10px] py-[8px] rounded-[5px] mb-4'
-                            value={state.email} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <label className='font-bold mb-2 inline-block'>Password:</label>
-                        <input type="password" name="password" id="password" placeholder='Enter password' className='w-full px-[10px] py-[8px] rounded-[5px] mb-4'
-                            value={state.password} onChange={handleChange} />
-                    </div>
-
-                    <button className='bg-[var(--md-dark)] text-[#fff] cursor-pointer w-full px-[10px] py-[8px] rounded-[5px] mt-5 hover:bg-[var(--dark)]' onClick={handleSignup}>SIGNUP</button>
-
-                    <p className='text-center my-5'>- OR -</p>
-
-                    <button type="button" className='!text-[#333] w-full flex gap-3 items-center justify-center px-[10px] py-[8px] border-2 rounded-[5px] border-gray-200 hover:!bg-[#efefefa8]' onClick={() => handleLoginWithGoogle()}>
-                        <FcGoogle className='text-[18px]' /> Continue With Google
-                    </button>
-
-                    <p className='mt-4 flex items-center gap-1'><MdOutlinePrivacyTip className='text-green-600' /> Your information is secure</p>
-
-                    <p className='mt-5'>Already have an account? <Link to='/auth/login' className='text-[var(--primary)] font-bold hover:underline'>Login now</Link></p>
-                </form>
-            </div>
-        </div> */}
-
-            {/* Changed */}
             <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
                 {/* Mint Background Side */}
                 <div className="w-full relative h-full  md:min-h-screen bg-[#e9f7f0] flex flex-col justify-center items-center px-4 py-8">
@@ -223,68 +203,115 @@ export default function Signup() {
                         </h2>
 
                         <form onSubmit={handleSignup}>
-                            <div className="mb-3">
-                                <label className="block !text-[12px] font-medium text-gray-700 mb-1">
-                                    Username
-                                </label>
-                                <input
-                                    type="text"
-                                    name="username"
-                                    id="username"
-                                    value={state.username}
-                                    placeholder="Enter your username"
-                                    className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="block !text-[12px] font-medium text-gray-700 mb-1">
-                                    Email
-                                </label>
-                                <input
-                                    type="text"
-                                    name="email"
-                                    id="email"
-                                    value={state.email}
-                                    placeholder="Enter your email"
-                                    className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
-                                    onChange={handleChange}
-                                />
-                            </div>
+                            {
+                                !triggerVerification ?
+                                    <>
+                                        <div className="mb-3">
+                                            <label className="block !text-[12px] font-medium text-gray-700 mb-1">
+                                                Username
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="username"
+                                                id="username"
+                                                value={state.username}
+                                                placeholder="Enter your username"
+                                                className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="block !text-[12px] font-medium text-gray-700 mb-1">
+                                                Email
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                id="email"
+                                                value={state.email}
+                                                placeholder="Enter your email"
+                                                className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
 
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="password"
-                                    className="block !text-[12px] font-medium text-gray-700 mb-1"
-                                >
-                                    Password
-                                </label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    value={state.password}
-                                    className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
-                                    onChange={handleChange}
-                                />
-                            </div>
+                                        <div className="mb-3">
+                                            <label
+                                                htmlFor="password"
+                                                className="block !text-[12px] font-medium text-gray-700 mb-1"
+                                            >
+                                                Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                id="password"
+                                                placeholder="Enter your password"
+                                                value={state.password}
+                                                className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </>
+                                    :
+                                    <div className="my-3">
+                                        <label
+                                            htmlFor="code"
+                                            className="block !text-[12px] font-medium text-gray-700 mb-1"
+                                        >
+                                            Enter code
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="code"
+                                            id="code"
+                                            placeholder="Enter your verification code"
+                                            value={code}
+                                            className="w-full px-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#71C194]"
+                                            onChange={e => setCode(e.target.value)}
+                                        />
+                                    </div>
+                            }
 
-                            <button
-                                type="submit"
-                                className="w-full bg-[#71C194] my-2 hover:bg-[#5fab84] text-white py-1.5 rounded-lg font-semibold transition duration-300"
-                                onClick={handleSignup}
-                            >
-                                SignUp
-                            </button>
-                            <p className="text-center my-2">- OR -</p>
-                            <button
-                                type="button"
-                                className="!text-[#333] w-full flex gap-3 items-center justify-center px-[10px] py-1.5 border-2 rounded-[12px] border-gray-200 hover:!bg-[#efefefa8]"
-                                onClick={() => handleLoginWithGoogle()}
-                            >
-                                <FcGoogle className="text-[18px]" /> Continue With Google
-                            </button>
+                            {
+                                triggerVerification ?
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-[#71C194] my-2 hover:bg-[#5fab84] text-white py-1.5 rounded-lg font-semibold transition duration-300"
+                                        disabled={loading}
+                                        onClick={handleVerifyCode}
+                                    >
+                                        Verify Code
+                                    </button>
+                                    :
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-[#71C194] my-2 hover:bg-[#5fab84] text-white py-1.5 rounded-lg font-semibold transition duration-300"
+                                        disabled={verificationLoading}
+                                        onClick={handleSignup}
+                                    >
+                                        {
+                                            !verificationLoading ?
+                                                'SignUp' :
+                                                'Please wait...'
+                                        }
+                                    </button>
+                            }
+
+                            {
+                                !triggerVerification &&
+                                <>
+                                    <p className="text-center my-2">- OR -</p>
+
+                                    <button
+                                        type="button"
+                                        className="!text-[#333] w-full flex gap-3 items-center justify-center px-[10px] py-1.5 border-2 rounded-[12px] border-gray-200 hover:!bg-[#efefefa8]"
+                                        onClick={() => handleLoginWithGoogle()}
+                                    >
+                                        <FcGoogle className="text-[18px]" /> Continue With Google
+                                    </button>
+                                </>
+                            }
 
                             <p className="mt-5 text-center">
                                 Already have an account?{" "}
